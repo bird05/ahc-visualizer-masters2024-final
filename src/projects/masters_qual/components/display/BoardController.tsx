@@ -4,10 +4,10 @@ import { useState,useEffect } from "react";
 // Redux関連
 import { useSelector } from '../../store/store';
 // 型
-import { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
+// import { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
 
-import { Stage, Layer, Rect, Line, Text, Circle } from 'react-konva';
-import Konva from 'konva'
+// import { Stage, Layer, Rect, Line, Text, Circle } from 'react-konva';
+// import Konva from 'konva'
 
 import { BoardDisplay } from './BoardDisplay';
 

@@ -1,6 +1,6 @@
-import React from "react";
-import { Stage, Layer, Rect, Line, Text, Circle } from 'react-konva';
-import Konva from 'konva'
+// import React from "react";
+// import { Stage, Layer, Rect, Line, Text, Circle } from 'react-konva';
+// import Konva from 'konva'
 
 // 値を色に変換する関数
 const val_to_hue = (val:number) => {

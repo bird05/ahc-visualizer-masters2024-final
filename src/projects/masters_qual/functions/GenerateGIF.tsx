@@ -68,8 +68,8 @@ function GenerateGIF() {
       gifWidth: 500,
       gifHeight: 500,
       frameDuration: 1,
-      sampleInterval: 1,
-      progressCallback: (e) => setProgress(parseInt(e * 100)),
+      sampleInterval: 10,
+      progressCallback: (e) => setProgress(Math.trunc(e*100)),
     };
 
     createGIF(options, (obj) => {
@@ -92,8 +92,8 @@ function GenerateGIF() {
       :
       <input type="button" onClick={handleClick} value={"Save as Animation GIF"} disabled/>
       // <button onClick={handleClick} disabled>Click to create a GIF</button>
-    }
-      {progress !== 0 && <label>Creating GIF... {progress}%</label>}
+      }
+      {progress !== 0 && <label> Creating GIF... {progress}%</label>}
     </div>
   )
 }

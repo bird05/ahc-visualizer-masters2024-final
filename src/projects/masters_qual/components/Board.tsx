@@ -21,19 +21,19 @@ export const Board = () => {
   const [y2, setY2] = useState(0); // x,y
 
   // Redux==============================
-  const t = useSelector((state) => state.input.t);
-  const N = useSelector((state) => state.input.N);
-  const v = useSelector((state) => state.input.v);
-  const h = useSelector((state) => state.input.h);
-  const a = useSelector((state) => state.input.a);
+  const t = useSelector((state) => state.input.b.t);
+  const N = useSelector((state) => state.input.b.N);
+  const v = useSelector((state) => state.input.b.v);
+  const h = useSelector((state) => state.input.b.h);
+  const a = useSelector((state) => state.input.b.a);
 
-  const pi = useSelector((state) => state.output.pi);
-  const pj = useSelector((state) => state.output.pj);
-  const qi = useSelector((state) => state.output.qi);
-  const qj = useSelector((state) => state.output.qj);
-  const s = useSelector((state) => state.output.s);
-  const d = useSelector((state) => state.output.d);
-  const e = useSelector((state) => state.output.e);
+  const pi = useSelector((state) => state.output.b.pi);
+  const pj = useSelector((state) => state.output.b.pj);
+  const qi = useSelector((state) => state.output.b.qi);
+  const qj = useSelector((state) => state.output.b.qj);
+  const s = useSelector((state) => state.output.b.s);
+  const d = useSelector((state) => state.output.b.d);
+  const e = useSelector((state) => state.output.b.e);
 
   const tarTurn = useSelector((state) => state.tarTurn.tarTurn);
 

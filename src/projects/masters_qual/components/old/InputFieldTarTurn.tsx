@@ -21,7 +21,7 @@ export const InputFieldTarTurn = () => {
   let intervalID=0;
   const refIntervalID = useRef(intervalID);
   // Redux==============================
-  const s = useSelector((state) => state.output.s);
+  const s = useSelector((state) => state.output.b.s);
   const tarTurn = useSelector((state) => state.tarTurn.tarTurn);
   const playingFlag = useSelector((state) => state.playingFlag.playingFlag);
   const dispatch = useDispatch();

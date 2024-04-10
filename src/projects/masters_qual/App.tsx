@@ -10,7 +10,7 @@ import styled from "@emotion/styled";
 import { SideBar } from './components/SideBar';
 // import { Gacha } from './components/Gacha';
 // import { GachaContentAll } from './components/GachaContentAll';
-import { Main } from './components/old/Main';
+// import { Main } from './components/old/Main';
 import { Main1 } from './components/Main1';
 
 // // Redux
@@ -52,9 +52,9 @@ const App = () => {
   return(
     <>
       <SDivAll>
-        {/* <SDivSide>
+        <SDivSide>
           <SideBar/>
-        </SDivSide> */}
+        </SDivSide>
         <SDivMain>
           <Main1/>
         </SDivMain>
