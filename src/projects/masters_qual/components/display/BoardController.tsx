@@ -5,10 +5,8 @@ import { useState,useEffect } from "react";
 import { useSelector } from '../../store/store';
 // 型
 // import { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
-
-// import { Stage, Layer, Rect, Line, Text, Circle } from 'react-konva';
-// import Konva from 'konva'
-
+// 外部コンポーネント
+import { CalcScore } from './CalcScore';
 import { BoardDisplay } from './BoardDisplay';
 
 // let N:number=10;
@@ -140,8 +138,11 @@ export const BoardController = () => {
   }
 
   // DOM==============================
-  // console.log("Board");
+  // console.log("Board Controller");
   return(
+    <>
+      Score:{CalcScore(input_body.is_valid && output_body.is_valid,input_body.N,input_body.v,input_body.h,input_body.a,board)}
       <div id="board"></div>
+    </>
   )
 };
