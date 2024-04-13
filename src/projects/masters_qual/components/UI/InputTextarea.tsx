@@ -36,7 +36,8 @@ export const InputTextarea = () => {
     // const response = await fetch(`/src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt?raw`);
     // const response = await fetch(`${location.href}src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt?raw`);
     // githubからの読み込み
-    const response = await fetch(`https://raw.githubusercontent.com/bird05/ahc-visualizer/main/src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
+    // const response = await fetch(`https://raw.githubusercontent.com/bird05/ahc-visualizer/main/src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt`); // こちらはプライベートにした
+    const response = await fetch(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
     const text=await response.text();
     dispatch(setInput(text));
     setInputText(text);
