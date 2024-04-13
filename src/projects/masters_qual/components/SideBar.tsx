@@ -66,15 +66,13 @@ export const SideBar = () => {
           </label>
 
           <label>
-            パスワード：<input type="text" placeholder="password" value={inputPass} onChange={(e) => setInputPass(e.target.value)}/>
+            パスワード：<input type="password" placeholder="password" value={inputPass} onChange={(e) => setInputPass(e.target.value)}/>
           </label>
         </form>
 
         <p>
           <input type="button" onClick={onClickAuth} value={"権限切り替え"}/>
           <input type="button" onClick={onClickLogOff} value={"ログオフ"}/>
-          {/* <button onClick={onClickAuth}>権限切り替え</button> */}
-          {/* <button onClick={onClickLogOff}>ログオフ</button> */}
         </p>
       </div>
     </>
