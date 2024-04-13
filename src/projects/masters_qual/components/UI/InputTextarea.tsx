@@ -32,7 +32,11 @@ export const InputTextarea = () => {
   // 関数==============================
   // ファイルからの読み込み
   const readInput_from_File = async (seed_l:number) => {
-    const response = await fetch(`/src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt?raw`);
+    // ローカルからの読み込み
+    // const response = await fetch(`/src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt?raw`);
+    // const response = await fetch(`${location.href}src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt?raw`);
+    // githubからの読み込み
+    const response = await fetch(`https://raw.githubusercontent.com/bird05/ahc-visualizer/main/src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
     const text=await response.text();
     dispatch(setInput(text));
     setInputText(text);
