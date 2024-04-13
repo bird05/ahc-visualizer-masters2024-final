@@ -26,7 +26,7 @@ function GenerateGIF() {
     // 最初の数フレーム
     const initial_flame_cnt=20;
     for(var turn=0; turn<initial_flame_cnt; ++turn){
-      const canvas=BoardDisplay(input_body.is_valid,N,v,h,board,x1,y1,x2,y2);
+      const canvas=BoardDisplay(500,500,input_body.is_valid,N,v,h,board,x1,y1,x2,y2);
       const url=canvas.toDataURL();
       images[turn]=url;
     }
@@ -51,14 +51,14 @@ function GenerateGIF() {
       if(e[turn]=='D') x2++;
       
       // 画像追加
-      const canvas=BoardDisplay(input_body.is_valid,N,v,h,board,x1,y1,x2,y2);
+      const canvas=BoardDisplay(500,500,input_body.is_valid,N,v,h,board,x1,y1,x2,y2);
       const url=canvas.toDataURL();
       images[turn+initial_flame_cnt]=url;
     }
     // 最後の数フレーム
     const end_flame_cnt=20;
     for(var turn=0; turn<end_flame_cnt; ++turn){
-      const canvas=BoardDisplay(input_body.is_valid,N,v,h,board,x1,y1,x2,y2);
+      const canvas=BoardDisplay(500,500,input_body.is_valid,N,v,h,board,x1,y1,x2,y2);
       const url=canvas.toDataURL();
       images[turn+output_body.s.length+initial_flame_cnt]=url;
     }

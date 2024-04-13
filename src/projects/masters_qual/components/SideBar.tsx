@@ -41,8 +41,8 @@ export const SideBar = () => {
   };
   // ログオフ
   const onClickLogOff = () => {
-    // dispatch(setAuth(0));
-    // dispatch(setName("ゲスト"));
+    dispatch(setAuth(-1));
+    dispatch(setName("ゲスト"));
   };
   return(
     <>
