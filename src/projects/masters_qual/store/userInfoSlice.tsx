@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 export const userInfoSlice = createSlice({
   name: 'user',
   initialState: {
-    authnum: 0,
+    authnum: -1,
+    // authnum: 0,
     name: "ゲスト",
   },
   reducers: {

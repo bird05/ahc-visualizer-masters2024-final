@@ -9,8 +9,6 @@ import { useSelector } from '../../store/store';
 import { CalcScore } from './CalcScore';
 import { BoardDisplay } from './BoardDisplay';
 
-// let N:number=10;
-
 export const BoardController = () => {
   // useState==============================
   const [board, setBoard] = useState<number[][]>([]); // 盤面
@@ -131,7 +129,7 @@ export const BoardController = () => {
   }
   
   function updateBoard(board_l:number[][], x1:number ,y1:number ,x2:number ,y2:number ){
-    const canvas=BoardDisplay(input_body.is_valid,input_body.N,input_body.v,input_body.h,board_l,x1,y1,x2,y2);
+    const canvas=BoardDisplay(500,500,input_body.is_valid,input_body.N,input_body.v,input_body.h,board_l,x1,y1,x2,y2);
     const pa=document.getElementById("board");
     // console.log("disp");
     if(pa) pa.replaceChildren(canvas);

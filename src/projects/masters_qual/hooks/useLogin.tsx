@@ -10,14 +10,35 @@ export const useLogin = () => {
     h_pass: string;
     auth: number;
   };
-
+  type registeredUser_type = {
+    name: string;
+    h_pass: string;
+    auth_num: number;
+  }
   // data==========
-  const UserData: User[] = [
-    {
-      name: "管理者",
-      h_pass: "6c995df83843f2c5cdc17b404d44fa8dc27fc34f97fa625ee8c6de7f171578037c0e79dc929b19dc612c91b1002d2a9da77fcb962f464fcff80c78490b6beb0e",
-      auth: 1
-    }
+  const UserList: {[key:string]:registeredUser_type} = {
+    "cat":{
+      name: "cat",
+      h_pass:"6c995df83843f2c5cdc17b404d44fa8dc27fc34f97fa625ee8c6de7f171578037c0e79dc929b19dc612c91b1002d2a9da77fcb962f464fcff80c78490b6beb0e",
+      auth_num:0
+    },
+    "lion":{
+      name: "lion",
+      h_pass:"6c995df83843f2c5cdc17b404d44fa8dc27fc34f97fa625ee8c6de7f171578037c0e79dc929b19dc612c91b1002d2a9da77fcb962f464fcff80c78490b6beb0e",
+      auth_num:0
+    },
+    "bird":{
+      name: "bird",
+      h_pass:"6c995df83843f2c5cdc17b404d44fa8dc27fc34f97fa625ee8c6de7f171578037c0e79dc929b19dc612c91b1002d2a9da77fcb962f464fcff80c78490b6beb0e",
+      auth_num:0
+    },
+  };
+  // [
+    // {
+    //   name: "管理者",
+    //   h_pass: "6c995df83843f2c5cdc17b404d44fa8dc27fc34f97fa625ee8c6de7f171578037c0e79dc929b19dc612c91b1002d2a9da77fcb962f464fcff80c78490b6beb0e",
+    //   auth: 1
+    // }
     // {
     //   name: "閲覧さん",
     //   h_pass: "aaa",
@@ -33,7 +54,7 @@ export const useLogin = () => {
     //   h_pass: "aaa",
     //   auth: 2
     // }
-  ]
+  // ]
 
   const callback = (name: string, pass: string) => {
     alert(name);
@@ -46,9 +67,9 @@ export const useLogin = () => {
     const hashPass = sha512(pass);
     // console.log(hashPass);
     // alert(hashPass);
-    if(UserData[id]){
-      if(UserData[id].h_pass === hashPass){
-        authNum = UserData[id].auth_num;
+    if(UserList[id]){
+      if(UserList[id].h_pass === hashPass){
+        authNum = UserList[id].auth_num;
       }
     }
     return authNum;

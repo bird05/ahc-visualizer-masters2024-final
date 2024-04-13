@@ -1,8 +1,8 @@
 import React from "react";
 // Redux関連
 import { useSelector } from '../store/store';
+import { setAuth, setName } from '../store/userInfoSlice';
 import { useDispatch, shallowEqual } from 'react-redux';
-import { setAuth } from '../store/userInfoSlice';
 // CSS
 import styled from "@emotion/styled";
 // //import * as wasm from "atcoder-gacha01";
@@ -20,10 +20,10 @@ export const SideBar = () => {
   // Redux==============================
   const authnum = useSelector((state) => state.user.authnum);
   const name = useSelector((state) => state.user.name);
+  const dispatch = useDispatch();
   // useState==============================
   const [inputName, setInputName] = useState(""); // 名前をリアルタイムに受け取るState
   const [inputPass, setInputPass] = useState(""); // パスをリアルタイムに受け取るState
-
   // Styled CSS==============================
   const SButtonMenu = styled.button`
   font-size: 20px;
@@ -33,7 +33,11 @@ export const SideBar = () => {
     console.log(inputName);
     console.log(inputPass);
     const newAuth = loginCheck(inputName,inputPass);
-    alert(newAuth);
+    if(newAuth!==-1){
+      dispatch(setAuth(newAuth));
+      dispatch(setName(inputName));
+      alert("ログイン成功");
+    }
   };
   // ログオフ
   const onClickLogOff = () => {
@@ -51,7 +55,7 @@ export const SideBar = () => {
         <h3>権限設定</h3>
         <p>
           名前：{name}<br></br>
-          権限：{authnum===0
+          権限：{authnum===-1
                   ?"実行不可"
                   :"実行可"}
         </p>

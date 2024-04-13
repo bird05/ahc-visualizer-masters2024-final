@@ -12,37 +12,13 @@ export const inputSlice = createSlice({
       v:new Array(),
       h:new Array(),
       a:new Array(),
-    } as Input_type
-    // is_valid:false,
-    // t:0,
-    // N:0,
-    // v:new Array(),
-    // h:new Array(),
-    // a:new Array(),
+    } as Input_type,
+    // text:{
+    //   text:"",
+    // }
+    seed:0,
   },
   reducers: {
-    /*
-    setT: (state, action) => {
-      if (Number.isNaN(action.payload)) return;
-      state.b.t = action.payload;
-    },
-    setN: (state, action) => {
-      if (Number.isNaN(action.payload)) return;
-      state.b.N = action.payload;
-    },
-    setV: (state, action) => {
-      if (Number.isNaN(action.payload)) return;
-      state.b.v = action.payload;
-    },
-    setH: (state, action) => {
-      if (Number.isNaN(action.payload)) return;
-      state.b.h = action.payload;
-    },
-    setA: (state, action) => {
-      if (Number.isNaN(action.payload)) return;
-      state.b.a = action.payload;
-    },
-    */
     setInput: (state, action) => {
       // 不正値の場合初期値にする
       if (Number.isNaN(action.payload)){
@@ -61,8 +37,18 @@ export const inputSlice = createSlice({
         state.b.is_valid=false;
         return;
       }
+      // Nが数値ではない
+      if(isNaN(one_data[1])){
+        state.b.is_valid=false;
+        return;
+      }
       t=one_data[0];
-      N=one_data[1]
+      N=one_data[1];
+      // Nが0以下
+      if(N<=0){
+        state.b.is_valid=false;
+        return;
+      }
       if(arr.length<N*3){
         state.b.is_valid=false;
         return;
@@ -99,9 +85,19 @@ export const inputSlice = createSlice({
       // state.b.h=h;
       // state.b.a=a;
     },
+    // setText: (state, action) => {
+    //   // 不正値の場合初期値にする
+    //   if (Number.isNaN(action.payload)){
+    //     state.b.is_valid=false;
+    //     return;
+    //   }
+    // },
+    setSeed: (state, action) => {
+      if (Number.isNaN(action.payload)) return;
+      state.seed = action.payload;
+    },
   },
 });
 
-// export const { setT, setN, setV, setH, setA, setInput } = inputSlice.actions;
-export const { setInput } = inputSlice.actions;
+export const { setInput, setSeed } = inputSlice.actions;
 export default inputSlice.reducer;

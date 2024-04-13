@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 // ビルトインフック
 import { useState, memo} from 'react';
 // 外部コンポーネント
+import { SeedSelector } from './UI/SeedSelector';
 import { InputTextarea } from './UI/InputTextarea';
 import { OutputTextarea } from './UI/OutputTextarea';
 import { PlayStopButton } from './UI/PlayStopButton';
@@ -26,6 +27,9 @@ export const Main1 = () => {
   console.log("Main1");
   return(
     <>
+    {}
+      <SeedSelector/>
+      <br></br>
       <InputTextarea/>
       <br></br>
       <OutputTextarea/>

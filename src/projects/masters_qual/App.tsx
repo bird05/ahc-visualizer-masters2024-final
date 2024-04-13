@@ -1,6 +1,9 @@
 import React from "react";
+// Redux関連
+import { useSelector } from './store/store';
 // CSS
 import styled from "@emotion/styled";
+
 // //import * as wasm from "atcoder-gacha01";
 // import useMedia from "use-media";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -19,6 +22,9 @@ import { Main1 } from './components/Main1';
 
 
 const App = () => {
+  // Redux==============================
+  const authnum = useSelector((state) => state.user.authnum);
+
   const isWide: boolean = true;
   const mainElemHeight = 500;
 
@@ -56,7 +62,12 @@ const App = () => {
           <SideBar/>
         </SDivSide>
         <SDivMain>
+          {authnum!==-1
+          ?
           <Main1/>
+          :
+          <div>ID、パスワードを入力してください。</div>
+          }
         </SDivMain>
       </SDivAll>
     </>

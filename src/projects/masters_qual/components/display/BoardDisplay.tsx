@@ -1,53 +1,51 @@
-// import React from "react";
 // import { Stage, Layer, Rect, Line, Text, Circle } from 'react-konva';
 // import Konva from 'konva'
-
-// 値を色に変換する関数
-const val_to_hue = (val:number) => {
-  const N:number=10;
-  return 205-val/(N*N-1)*205;
-}
+// 関数インポート
+import { val_to_hue } from '../../functions/CommonFunctions'
 
 export function BoardDisplay(
-  is_valid:boolean,N:number,v:string[],h:string[],board:number[][],
-  x1:number,y1:number,x2:number,y2:number){
+  canv_w:number, canv_h:number,
+  is_valid:boolean, N:number, v:string[], h:string[], board:number[][],
+  x1:number, y1:number, x2:number, y2:number){
 
   const canvas=document.createElement("canvas");
-  canvas.width=500;
-  canvas.height=500;
+  canvas.width=canv_w;
+  canvas.height=canv_h;
+  const CANV_SIZ=canv_w;
   const ctx=canvas.getContext('2d');
   if(ctx){
     if(is_valid){
+      const LEN=500/N;
       // 背景
       // ctx.fillStyle = 'rgb(255,255,255)';
       // ctx.fillRect(0,0,500,500);
       // 四角形
       for(var i=0; i<N; ++i){
         for(var j=0; j<N; ++j){
-          ctx.fillStyle = 'hsla('+val_to_hue(board[i][j])+',100%,50%,.8)';
-          ctx.fillRect(j*500/N, i*500/N,500/N, 500/N);
+          ctx.fillStyle = 'hsla('+val_to_hue(N,board[i][j])+',100%,50%,.8)';
+          ctx.fillRect(j*LEN, i*LEN, LEN, LEN);
         }
       }
       // テキスト
       ctx.fillStyle = 'black';
-      ctx.font = '10pt Arial';
+      ctx.font = `${100/N}pt Arial`; // '10pt Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = "middle";
       for(var i=0; i<N; ++i){
         for(var j=0; j<N; ++j){
-          ctx.fillText(board[i][j].toString(),(j+0.5)*500/N,(i+0.5)*500/N);
+          ctx.fillText(board[i][j].toString(), (j+0.5)*LEN,(i+0.5)*LEN);
         }
       }
       // ライン
       ctx.lineWidth=0.5;
       ctx.beginPath();
       for(var i=1; i<N; ++i){ // 縦
-        ctx.moveTo(50*i,0);
-        ctx.lineTo(50*i,500);
+        ctx.moveTo(i*LEN, 0);
+        ctx.lineTo(i*LEN, CANV_SIZ);
       }
       for(var i=1; i<N; ++i){ // 横
-        ctx.moveTo(0,50*i);
-        ctx.lineTo(500,50*i);
+        ctx.moveTo(0, i*LEN);
+        ctx.lineTo(CANV_SIZ, i*LEN);
       }
       ctx.closePath();
       ctx.stroke();
@@ -57,15 +55,15 @@ export function BoardDisplay(
       for(var i=0; i<N; ++i){ // 縦
         for(var j=0; j<N-1; ++j){
           if(v[i][j]=='0') continue;
-          ctx.moveTo(j*50+50,50*i);
-          ctx.lineTo(j*50+50,50*i+50);
+          ctx.moveTo((j+1)*LEN,i*LEN);
+          ctx.lineTo((j+1)*LEN,(i+1)*LEN);
         }
       }
       for(var i=0; i<N-1; ++i){ // 横
         for(var j=0; j<N; ++j){
           if(h[i][j]=='0') continue;
-          ctx.moveTo(j*50,50*i+50);
-          ctx.lineTo(j*50+50,50*i+50);
+          ctx.moveTo(j*LEN,(i+1)*LEN);
+          ctx.lineTo((j+1)*LEN,(i+1)*LEN);
         }
       }
       ctx.closePath();
@@ -73,16 +71,16 @@ export function BoardDisplay(
       // プレイヤー
       ctx.fillStyle = 'hsla(0,100%,50%,.5)';
       ctx.beginPath();
-      ctx.arc((y1+0.5)*(500/N), (x1+0.5)*(500/N), 125/N, 0, Math.PI * 2, true);
+      ctx.arc((y1+0.5)*LEN, (x1+0.5)*LEN, (CANV_SIZ/4)/N, 0, Math.PI * 2, true);
       ctx.fill();
       ctx.fillStyle = 'hsla(205,100%,50%,.5)';
       ctx.beginPath();
-      ctx.arc((y2+0.5)*(500/N), (x2+0.5)*(500/N), 125/N, 0, Math.PI * 2, true);
+      ctx.arc((y2+0.5)*LEN, (x2+0.5)*LEN, (CANV_SIZ/4)/N, 0, Math.PI * 2, true);
       ctx.fill();
     }
     // 枠線
     ctx.lineWidth=1;
-    ctx.strokeRect(0,0,500,500);
+    ctx.strokeRect(0,0,canv_w,canv_h);
   }
   // console.log(typeof(canvas));
   return canvas;
