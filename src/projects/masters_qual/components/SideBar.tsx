@@ -31,6 +31,12 @@ export const SideBar = () => {
   const SButtonMenu = styled.button`
   font-size: 20px;
   `
+  const SInput = styled.input`
+  color:#000000; // 黒
+  // background-color:#efefef; // ライトグレー
+  // border-color:#767676; // ライトグレー
+  // border-radius:3px;
+  `
   const onClickAuth = () => {
     // 名前、パスを照会
     console.log(inputName);
@@ -76,7 +82,7 @@ export const SideBar = () => {
         </form>
 
         <p>
-          <input type="button" onClick={onClickAuth} value={"権限切り替え"}/>
+          <SInput type="button" onClick={onClickAuth} value={"権限切り替え"}/>
           <input type="button" onClick={onClickLogOff} value={"ログオフ"}/>
         </p>
       </div>

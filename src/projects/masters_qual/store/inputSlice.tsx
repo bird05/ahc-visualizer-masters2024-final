@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 // 型
 import type { Input_type, Output_type, Ope_type } from "../types/typeFormat"
+// 関数インポート
+import { text_to_Input } from '../functions/CommonFunctions'
 
 export const inputSlice = createSlice({
   name: 'input',
@@ -13,9 +15,6 @@ export const inputSlice = createSlice({
       h:new Array(),
       a:new Array(),
     } as Input_type,
-    // text:{
-    //   text:"",
-    // }
     seed:0,
   },
   reducers: {
@@ -25,6 +24,8 @@ export const inputSlice = createSlice({
         state.b.is_valid=false;
         return;
       }
+      state.b=text_to_Input(action.payload);
+      /*
       const arr = action.payload.split('\n');
       let t:number;
       let N:number;
@@ -84,14 +85,8 @@ export const inputSlice = createSlice({
       // state.b.v=v;
       // state.b.h=h;
       // state.b.a=a;
+      */
     },
-    // setText: (state, action) => {
-    //   // 不正値の場合初期値にする
-    //   if (Number.isNaN(action.payload)){
-    //     state.b.is_valid=false;
-    //     return;
-    //   }
-    // },
     setSeed: (state, action) => {
       if (Number.isNaN(action.payload)) return;
       state.seed = action.payload;

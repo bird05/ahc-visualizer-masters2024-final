@@ -29,6 +29,12 @@ export const InputTextarea = () => {
   const SLabel = styled.label`
   color:red;
   `
+  const STextarea = styled.textarea`
+  color:#000000; // 黒
+  background-color:#ffffff; // 白
+  border-color:#767676; // ライトグレー
+  border-radius:3px;
+  `
   // 関数==============================
   // ファイルからの読み込み
   const readInput_from_File = async (seed_l:number) => {
@@ -56,8 +62,7 @@ export const InputTextarea = () => {
       <label>Input:</label>
       <SLabel>{input_body.is_valid?"":" invalid"}</SLabel>
       <br></br>
-      <textarea id="input" rows={3} cols={35} value={inputText} onChange={ readInput }></textarea>
-      {/* <textarea id="input" value={} rows={3} cols={35} onChange={ readInput }></textarea> */}
+      <STextarea id="input" rows={3} cols={35} value={inputText} onChange={ readInput }></STextarea>
     </>
   )
 };

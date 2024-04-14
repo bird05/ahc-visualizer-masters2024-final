@@ -57,9 +57,7 @@ const App = () => {
     background-color: #ffffff;//green;
     border-left: 1px solid #333;
   `
-  const SDivBlack = styled.div`
-  color:black;
-  `
+
   return(
     <>
       <BrowserRouter>
@@ -79,7 +77,7 @@ const App = () => {
             // <Main_Single/>
             // <Main_InputSurvey/>
             :
-            <SDivBlack>ID、パスワードを入力してください。</SDivBlack>
+            <div>ID、パスワードを入力してください。</div>
             }
           </SDivMain>
         </SDivAll>

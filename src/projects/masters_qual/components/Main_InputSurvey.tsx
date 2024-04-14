@@ -6,88 +6,27 @@ import styled from "@emotion/styled";
 // MUI
 import Stack from '@mui/material/Stack';
 // ビルトインフック
-import { useState, memo} from 'react';
+import { useState, useEffect, memo} from 'react';
 // 外部コンポーネント
-import { FolderSelector } from './UI/FolderSelector';
-import { SeedSelector } from './UI/SeedSelector';
-import { InputTextarea } from './UI/InputTextarea';
-import { OutputTextarea } from './UI/OutputTextarea';
-import { PlayStopButton } from './UI/PlayStopButton';
-import { SpeedBar } from './UI/SpeedBar';
-import { TarTurnInput } from './UI/TarTurnInput';
-import { SeekBar } from './UI/SeekBar';
-// import { Board } from './Board';
-import { BoardController } from './display/BoardController';
-import GenerateGIF from '../functions/GenerateGIF';
+import { BoardDisplay } from './display/BoardDisplay';
 // 型
 import type { Input_type, Output_type } from "../types/typeFormat"
-import { BoardDisplay } from './display/BoardDisplay';
 
 // 関数インポート
-import { zeroPadding, read_text_from_url } from '../functions/CommonFunctions'
+import { zeroPadding, read_text_from_url, text_to_Input } from '../functions/CommonFunctions'
 
 export const Main_InputSurvey = () => {
   // useState==============================
 
+  // useEffect==============================
+  useEffect(() => {
+    for(let i=0; i<100; ++i){
+      byoga(i);
+    }
+  },[])
+
   // 関数==============================
-  // textをInputに変換する
-  function text_to_Input(text){
-    const arr = text.split('\n');
-    let is_valid:boolean=false;
-    let t:number=-1;
-    let N:number=0;
-    let v:string[]=new Array();
-    let h:string[]=new Array();
-    let a:number[][]=new Array();
-    const one_data=arr[0].split(' ');
-    // 1行目の要素数が2でない
-    if(one_data.length!=2){
-      is_valid=false;
-      return;
-    }
-    // Nが数値ではない
-    if(isNaN(one_data[1])){
-      is_valid=false;
-      return;
-    }
-    t=one_data[0];
-    N=one_data[1];
-    // Nが0以下
-    if(N<=0){
-      is_valid=false;
-      return;
-    }
-    if(arr.length<N*3){
-      is_valid=false;
-      return;
-    }
-    for(let i=1; i<N*3; ++i){
-      if(i<=N){
-        v[i-1]=arr[i];
-      }else if(i<=N*2-1){
-        h[i-N-1]=arr[i];
-      }else{
-        a[i-N*2]=arr[i].split(' ');
-        // aの要素数がNでない
-        if(a[i-N*2].length!=N){
-          is_valid=false;
-          return;
-        }
-      }
-    }
-    // const res:Input_type = [];
-    // let res:Input_type=[];
-    const res:Input_type={
-      is_valid: true,
-      t: t,
-      N: N,
-      v: v,
-      h: h,
-      a: a
-    }
-    return res;
-  }
-  // 0000.txtの内容を描画する関数
+  // seedを指定して描画する関数
   async function byoga(seed_l:number){
     const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
     const input_body=text_to_Input(text);
@@ -98,25 +37,16 @@ export const Main_InputSurvey = () => {
         false,-1,-1,-1,-1
       );
       const pa=document.getElementById(`board${seed_l}`);
-      // console.log("disp");
       if(pa) pa.replaceChildren(canvas);
     }
   }
-  for(let i=0; i<100; ++i){
-    byoga(i);
-  }
+  
   const num_g=[0,1,2,3,4,5,6,7,8,9];
   const num_e1=[0,1,2,3,4];
   const num_e2=[5,6,7,8,9];
   console.log("Main_InputSurvey");
   return(
     <>
-      {/* {num_e1.map((e1) => {
-        <SDiv>
-          Seed:{e1}
-          <div id={`board${e1}`}></div>
-        </SDiv>
-      })} */}
       {num_g.map((g) => (
         <>
         <Stack direction={'row'}>
