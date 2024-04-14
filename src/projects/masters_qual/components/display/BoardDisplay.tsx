@@ -5,8 +5,8 @@ import { val_to_hue } from '../../functions/CommonFunctions'
 
 export function BoardDisplay(
   canv_w:number, canv_h:number,
-  is_valid:boolean, N:number, v:string[], h:string[], board:number[][],
-  x1:number, y1:number, x2:number, y2:number){
+  input_is_valid:boolean, N:number, v:string[], h:string[], board:number[][],
+  output_is_valid:boolean, x1:number, y1:number, x2:number, y2:number){
 
   const canvas=document.createElement("canvas");
   canvas.width=canv_w;
@@ -14,7 +14,7 @@ export function BoardDisplay(
   const CANV_SIZ=canv_w;
   const ctx=canvas.getContext('2d');
   if(ctx){
-    if(is_valid){
+    if(input_is_valid){
       const LEN=500/N;
       // 背景
       // ctx.fillStyle = 'rgb(255,255,255)';
@@ -68,15 +68,17 @@ export function BoardDisplay(
       }
       ctx.closePath();
       ctx.stroke();
-      // プレイヤー
-      ctx.fillStyle = 'hsla(0,100%,50%,.5)';
-      ctx.beginPath();
-      ctx.arc((y1+0.5)*LEN, (x1+0.5)*LEN, (CANV_SIZ/4)/N, 0, Math.PI * 2, true);
-      ctx.fill();
-      ctx.fillStyle = 'hsla(205,100%,50%,.5)';
-      ctx.beginPath();
-      ctx.arc((y2+0.5)*LEN, (x2+0.5)*LEN, (CANV_SIZ/4)/N, 0, Math.PI * 2, true);
-      ctx.fill();
+      if(output_is_valid){
+        // プレイヤー
+        ctx.fillStyle = 'hsla(0,100%,50%,.5)';
+        ctx.beginPath();
+        ctx.arc((y1+0.5)*LEN, (x1+0.5)*LEN, (CANV_SIZ/4)/N, 0, Math.PI * 2, true);
+        ctx.fill();
+        ctx.fillStyle = 'hsla(205,100%,50%,.5)';
+        ctx.beginPath();
+        ctx.arc((y2+0.5)*LEN, (x2+0.5)*LEN, (CANV_SIZ/4)/N, 0, Math.PI * 2, true);
+        ctx.fill();
+      }
     }
     // 枠線
     ctx.lineWidth=1;

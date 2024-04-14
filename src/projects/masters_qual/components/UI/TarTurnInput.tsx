@@ -23,6 +23,7 @@ export const TarTurnInput = () => {
   // Redux==============================
   const s = useSelector((state) => state.output.b.s);
   const tarTurn = useSelector((state) => state.tarTurn.tarTurn);
+  const seed = useSelector((state) => state.input.seed);
   const playingFlag = useSelector((state) => state.playingFlag.playingFlag);
   const dispatch = useDispatch();
   // useEffect==============================
@@ -35,6 +36,10 @@ export const TarTurnInput = () => {
     if(playingFlag) playBoard();
     else stopBoard();
   },[playingFlag]);
+  // Seed変更時にターンを0に戻す
+  useEffect(() => {
+    dispatch(setTarTurn(0));
+  },[seed]);
   // Styled CSS==============================
   const InputTrunSelect = styled.input`
   width:70px;
@@ -49,18 +54,14 @@ export const TarTurnInput = () => {
   const readTarTurn = () => {
 
   }
-  // フォームからの入力によりtarTurnを更新
-  // const f = () => {
-    
-  // }
   // 定期実行
   const advanceTarTurn = () => {
     dispatch(setTarTurn(Number(refTarTurn.current)+1));
-    console.log(refTarTurn.current);
+    // console.log(refTarTurn.current);
   }
   // 再生開始
   function playBoard(){
-    console.log("start");
+    // console.log("start");
     clearInterval(refIntervalID.current);
     refIntervalID.current = setInterval(() => {
       // ターン上限で停止
@@ -74,7 +75,7 @@ export const TarTurnInput = () => {
   }
   // 再生停止
   const stopBoard = () => {
-    console.log("stop");
+    // console.log("stop");
     clearInterval(refIntervalID.current);
     refIntervalID.current=0;
     dispatch(setPlayingFlag(false))

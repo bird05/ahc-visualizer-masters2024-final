@@ -129,7 +129,11 @@ export const BoardController = () => {
   }
   
   function updateBoard(board_l:number[][], x1:number ,y1:number ,x2:number ,y2:number ){
-    const canvas=BoardDisplay(500,500,input_body.is_valid,input_body.N,input_body.v,input_body.h,board_l,x1,y1,x2,y2);
+    const canvas=BoardDisplay(
+      500,500,
+      input_body.is_valid,input_body.N,input_body.v,input_body.h,board_l,
+      output_body.is_valid,x1,y1,x2,y2
+    );
     const pa=document.getElementById("board");
     // console.log("disp");
     if(pa) pa.replaceChildren(canvas);

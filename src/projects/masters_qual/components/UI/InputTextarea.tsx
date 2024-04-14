@@ -10,9 +10,9 @@ import styled from "@emotion/styled";
 // MUI
 import Stack from '@mui/material/Stack';
 // 型
-import type { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
+
 // 関数インポート
-import { zeroPadding } from '../../functions/CommonFunctions'
+import { zeroPadding, read_text_from_url } from '../../functions/CommonFunctions'
 
 export const InputTextarea = () => {
   // useState==============================
@@ -37,8 +37,8 @@ export const InputTextarea = () => {
     // const response = await fetch(`${location.href}src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt?raw`);
     // githubからの読み込み
     // const response = await fetch(`https://raw.githubusercontent.com/bird05/ahc-visualizer/main/src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt`); // こちらはプライベートにした
-    const response = await fetch(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
-    const text=await response.text();
+    // const response = await fetch(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
+    const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
     dispatch(setInput(text));
     setInputText(text);
   }

@@ -2,6 +2,7 @@
 
 export function CalcScore(is_valid:boolean,N:number,v:string[],h:string[],a:number[][],board:number[][]){
   if(!is_valid) return 1;
+  if(Number(N) != board.length) return 1;
   const D_d=calc_sum_of_squares(N,v,h,a);
   const D = calc_sum_of_squares(N,v,h,board);
   return Math.max(1,Math.round(1000000*getBaseLog(2,D_d/D)));

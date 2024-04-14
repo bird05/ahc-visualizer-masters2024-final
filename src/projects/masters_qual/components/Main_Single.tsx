@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 // ビルトインフック
 import { useState, memo} from 'react';
 // 外部コンポーネント
+import { FolderSelector } from './UI/FolderSelector';
 import { SeedSelector } from './UI/SeedSelector';
 import { InputTextarea } from './UI/InputTextarea';
 import { OutputTextarea } from './UI/OutputTextarea';
@@ -21,18 +22,19 @@ import GenerateGIF from '../functions/GenerateGIF';
 // 型
 import type { Input_type, Output_type } from "../types/typeFormat"
 
-export const Main1 = () => {
+export const Main_Single = () => {
   // useState==============================
 
-  console.log("Main1");
+  console.log("Main_Single");
   return(
     <>
-    {}
       <SeedSelector/>
       <br></br>
       <InputTextarea/>
       <br></br>
       <OutputTextarea/>
+      <br></br>
+      <FolderSelector/>
       <br></br>
       <GenerateGIF/>
       <SDiv>

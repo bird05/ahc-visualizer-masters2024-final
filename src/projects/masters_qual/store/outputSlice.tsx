@@ -14,14 +14,8 @@ export const outputSlice = createSlice({
       s:new Array(),
       d:new Array(),
       e:new Array(),
-    } as Output_type
-    // pi:-1,
-    // pj:-1,
-    // qi:-1,
-    // qj:-1,
-    // s:new Array(),
-    // d:new Array(),
-    // e:new Array(),
+    } as Output_type,
+    urls:new Array()
   },
   reducers: {
     setOutput: (state, action) => {
@@ -65,17 +59,14 @@ export const outputSlice = createSlice({
         d: d,
         e: e
       }
-      state.b=res;;
-      // state.b.pi=pi;
-      // state.b.pj=pj;
-      // state.b.qi=qi;
-      // state.b.qj=qj;
-      // state.b.s=s;
-      // state.b.d=d;
-      // state.b.e=e;
+      state.b=res;
+    },
+    setUrls: (state, action) => {
+      if (Number.isNaN(action.payload)) return;
+      state.urls = action.payload;
     },
   },
 });
 
-export const { setOutput } = outputSlice.actions;
+export const { setOutput, setUrls } = outputSlice.actions;
 export default outputSlice.reducer;

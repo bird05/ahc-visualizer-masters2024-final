@@ -14,7 +14,8 @@ import { SideBar } from './components/SideBar';
 // import { Gacha } from './components/Gacha';
 // import { GachaContentAll } from './components/GachaContentAll';
 // import { Main } from './components/old/Main';
-import { Main1 } from './components/Main1';
+import { Main_Single } from './components/Main_Single';
+import { Main_InputSurvey } from './components/Main_InputSurvey';
 
 // // Redux
 // import { useSelector } from './store/store';
@@ -64,7 +65,8 @@ const App = () => {
         <SDivMain>
           {authnum!==-1
           ?
-          <Main1/>
+          <Main_Single/>
+          // <Main_InputSurvey/>
           :
           <div>ID、パスワードを入力してください。</div>
           }

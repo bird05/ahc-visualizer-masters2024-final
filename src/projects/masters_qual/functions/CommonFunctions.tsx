@@ -10,3 +10,9 @@ export const val_to_hue = function(N:number, val:number){
 export const zeroPadding = function(num, len){
   return ( Array(len).join('0') + num ).slice( -len );
 }
+// urlからtextを取得する
+export const read_text_from_url = async (url) => {
+  const response = await fetch(url);
+  const text=await response.text();
+  return text;
+}
