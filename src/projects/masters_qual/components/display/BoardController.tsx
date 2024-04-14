@@ -64,6 +64,10 @@ export const BoardController = () => {
     while(turn_buf<tarTurn){
       // 入替
       if(output_body.s[turn_buf]){
+        if(x1_buf<0 || board_buf.length<=x1_buf) return;
+        if(y1_buf<0 || board_buf.length<=y1_buf) return;
+        if(x2_buf<0 || board_buf.length<=x2_buf) return;
+        if(y2_buf<0 || board_buf.length<=y2_buf) return;
         [board_buf[x1_buf][y1_buf],board_buf[x2_buf][y2_buf]]=[board_buf[x2_buf][y2_buf],board_buf[x1_buf][y1_buf]]; // swap
       }
       // 移動
@@ -113,6 +117,10 @@ export const BoardController = () => {
       if(output_body.e[turn_buf-1]=='D') x2_buf--;
       // 入替
       if(output_body.s[turn_buf-1]){
+        if(x1_buf<0 || board_buf.length<=x1_buf) return;
+        if(y1_buf<0 || board_buf.length<=y1_buf) return;
+        if(x2_buf<0 || board_buf.length<=x2_buf) return;
+        if(y2_buf<0 || board_buf.length<=y2_buf) return;
         [board_buf[x1_buf][y1_buf],board_buf[x2_buf][y2_buf]]=[board_buf[x2_buf][y2_buf],board_buf[x1_buf][y1_buf]]; // swap
       }
 

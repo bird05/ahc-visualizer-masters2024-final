@@ -14,8 +14,8 @@ export function BoardDisplay(
   const CANV_SIZ=canv_w;
   const ctx=canvas.getContext('2d');
   if(ctx){
-    if(input_is_valid){
-      const LEN=500/N;
+    if(input_is_valid && Number(N)===board.length){
+      const LEN=canv_w/N;
       // 背景
       // ctx.fillStyle = 'rgb(255,255,255)';
       // ctx.fillRect(0,0,500,500);
@@ -28,7 +28,8 @@ export function BoardDisplay(
       }
       // テキスト
       ctx.fillStyle = 'black';
-      ctx.font = `${100/N}pt Arial`; // '10pt Arial';
+      // ctx.font = `${canv_w/5/N}pt Arial`; // '10pt Arial';
+      ctx.font = `${LEN/5}pt Arial`; // '10pt Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = "middle";
       for(var i=0; i<N; ++i){

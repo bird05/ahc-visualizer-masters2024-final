@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Redux関連
 import { useSelector } from './store/store';
 // CSS
@@ -23,6 +24,7 @@ import { Main_InputSurvey } from './components/Main_InputSurvey';
 
 
 const App = () => {
+  const root:string = "https://ahc-visualizer.onrender.com/";
   // Redux==============================
   const authnum = useSelector((state) => state.user.authnum);
 
@@ -58,20 +60,28 @@ const App = () => {
 
   return(
     <>
-      <SDivAll>
-        <SDivSide>
-          <SideBar/>
-        </SDivSide>
-        <SDivMain>
-          {authnum!==-1
-          ?
-          <Main_Single/>
-          // <Main_InputSurvey/>
-          :
-          <div>ID、パスワードを入力してください。</div>
-          }
-        </SDivMain>
-      </SDivAll>
+      <BrowserRouter>
+        <SDivAll>
+          <SDivSide>
+            <SideBar/>
+          </SDivSide>
+          <SDivMain>
+            {authnum!==-1
+            ?
+            <Routes>
+              <Route path={'/'} element={<Main_Single/>} />
+              <Route path={'/*'} element={<Main_Single/>} />
+              <Route path={'/single'} element={<Main_Single/>} />
+              <Route path={'/input_survey'} element={<Main_InputSurvey/>} />
+            </Routes>
+            // <Main_Single/>
+            // <Main_InputSurvey/>
+            :
+            <div>ID、パスワードを入力してください。</div>
+            }
+          </SDivMain>
+        </SDivAll>
+      </BrowserRouter>
     </>
   );
 };

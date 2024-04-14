@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 // Redux関連
 import { useSelector } from '../store/store';
 import { setAuth, setName } from '../store/userInfoSlice';
@@ -17,6 +18,8 @@ import { useLogin } from '../hooks/useLogin';
 export const SideBar = () => {
   // カスタムフック==============================
   const { loginCheck } = useLogin();
+  // Navigate==============================
+  const navigate=useNavigate();
   // Redux==============================
   const authnum = useSelector((state) => state.user.authnum);
   const name = useSelector((state) => state.user.name);
@@ -46,11 +49,13 @@ export const SideBar = () => {
   };
   return(
     <>
-      Menu
-      <br></br>
-      <input type="button" onClick={onClickAuth} value={"Single"}/>
+      <h3>Menu</h3>
+      {/* <input type="button" onClick={onClickAuth} value={"Single"}/> */}
+      <p><input type="button" onClick={() => navigate('single')} value={"Single"}/></p>
+      <p><input type="button" onClick={() => navigate('input_survey')} value={"Input Survey"}/></p>
       {/* <SButtonMenu>Single</SButtonMenu> */}
 
+      <hr></hr>
       <div>
         <h3>権限設定</h3>
         <p>

@@ -93,7 +93,7 @@ export const Main_InputSurvey = () => {
     const input_body=text_to_Input(text);
     if(input_body){
       const canvas=BoardDisplay(
-        500,500,
+        200,200,
         input_body.is_valid,input_body.N,input_body.v,input_body.h,input_body.a,
         false,-1,-1,-1,-1
       );
@@ -102,8 +102,9 @@ export const Main_InputSurvey = () => {
       if(pa) pa.replaceChildren(canvas);
     }
   }
-  byoga(0);
-  byoga(1);
+  for(let i=0; i<5; ++i){
+    byoga(i);
+  }
   console.log("Main_InputSurvey");
   return(
     <>
@@ -111,6 +112,12 @@ export const Main_InputSurvey = () => {
       <div id="board0"></div>
       Seed:1
       <div id="board1"></div>
+      Seed:2
+      <div id="board2"></div>
+      Seed:3
+      <div id="board3"></div>
+      Seed:4
+      <div id="board4"></div>
     </>
   );
 };
