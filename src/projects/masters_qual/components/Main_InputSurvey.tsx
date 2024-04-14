@@ -102,109 +102,58 @@ export const Main_InputSurvey = () => {
       if(pa) pa.replaceChildren(canvas);
     }
   }
-  for(let i=0; i<10; ++i){
+  for(let i=0; i<100; ++i){
     byoga(i);
   }
-  // const num_g=[0,1,2,3,4,5,6,7,8,9];
-  // const num_e1=[0,1,2,3,4];
-  // const num_e2=[5,6,7,8,9];
+  const num_g=[0,1,2,3,4,5,6,7,8,9];
+  const num_e1=[0,1,2,3,4];
+  const num_e2=[5,6,7,8,9];
   console.log("Main_InputSurvey");
   return(
     <>
-      {/* {num_g.map((g) => {
-        <>
-          <Stack direction={'row'}>
-          return(
-            <>
-              {num_e1.map((e1) => {
-                <SDiv>
-                  Seed:{g*10 + e1}
-                  <div id={`board${g*10 + e1}`}></div>
-                </SDiv>
-              })}
-            </>
-            )
-          </Stack>
-          <Stack direction={'row'}>
-          return(
-            <>
-              {num_e2.map((e2) => {
-                <SDiv>
-                  Seed:{g*10 + e2}
-                  <div id={`board${g*10 + e2}`}></div>
-                </SDiv>
-              })}
-            </>
-            )
-          </Stack>
-        </>
+      {/* {num_e1.map((e1) => {
+        <SDiv>
+          Seed:{e1}
+          <div id={`board${e1}`}></div>
+        </SDiv>
       })} */}
-
-        {/* {num_e1.map((e1) => {
-          <SDiv>
-            Seed:{e1}
-            <div id={`board${e1}`}></div>
-          </SDiv>
-        })} */}
+      {num_g.map((g) => (
+        <>
+        <Stack direction={'row'}>
+          {num_e1.map((e1) => (
+            <SDiv>
+              Seed:{g*10+e1}
+              <div id={`board${g*10+e1}`}></div>
+            </SDiv>
+          ))}
+        </Stack>
+        <Stack direction={'row'}>
+          {num_e2.map((e2) => (
+            <SDiv>
+              Seed:{g*10+e2}
+              <div id={`board${g*10+e2}`}></div>
+            </SDiv>
+          ))}
+        </Stack>
+        </>
+      ))}
 
       {/* <Stack direction={'row'}>
-        {num_e1.map((e1) => {
+        {num_e1.map((e1) => (
           <SDiv>
             Seed:{e1}
             <div id={`board${e1}`}></div>
           </SDiv>
-        })}
+        ))}
+      </Stack>
+      <Stack direction={'row'}>
+        {num_e2.map((e2) => (
+          <SDiv>
+            Seed:{e2}
+            <div id={`board${e2}`}></div>
+          </SDiv>
+        ))}
       </Stack> */}
-      
-      {/* <Stack direction={'row'}> */}
-
-      <Stack direction={'row'}>
-        <SDiv>
-          Seed:0
-          <div id="board0"></div>
-        </SDiv>
-        <SDiv>
-          Seed:1
-          <div id="board1"></div>
-        </SDiv>
-        <SDiv>
-          Seed:2
-          <div id="board2"></div>
-        </SDiv>
-        <SDiv>
-          Seed:3
-          <div id="board3"></div>
-        </SDiv>
-        <SDiv>
-          Seed:4
-          <div id="board4"></div>
-        </SDiv>
-      </Stack>
-
-      <Stack direction={'row'}>
-        <SDiv>
-          Seed:5
-          <div id="board5"></div>
-        </SDiv>
-        <SDiv>
-          Seed:6
-          <div id="board6"></div>
-        </SDiv>
-        <SDiv>
-          Seed:7
-          <div id="board7"></div>
-        </SDiv>
-        <SDiv>
-          Seed:8
-          <div id="board8"></div>
-        </SDiv>
-        <SDiv>
-          Seed:9
-          <div id="board9"></div>
-        </SDiv>
-      </Stack>
-      
-      
     </>
   );
 };
