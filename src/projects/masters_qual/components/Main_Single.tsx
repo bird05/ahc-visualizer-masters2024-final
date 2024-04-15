@@ -49,7 +49,7 @@ export const Main_Single = () => {
       <hr></hr>
       <Stack direction="row">
         <div><BoardController/></div>
-        <ScoreChartController chartNum={2}/>
+        <ScoreChartController chartNum={1}/>
       </Stack>
     </>
   );

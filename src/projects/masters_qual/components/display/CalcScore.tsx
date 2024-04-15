@@ -1,4 +1,6 @@
 // import React from "react";
+// Redux
+import { useSelector } from '../../store/store';
 
 export function CalcScore(is_valid:boolean,N:number,v:string[],h:string[],a:number[][],board:number[][]){
   if(!is_valid) return 1;
@@ -35,4 +37,15 @@ function calc_sum_of_squares(N:number,v:string[],h:string[], board:number[][]){
 
 function getBaseLog(x, y) {
   return Math.log(y) / Math.log(x);
+}
+
+export function CalcScoreSequence(seed:number, ){
+  // Redux==============================
+  const input_body=useSelector((state) => state.input.b);
+  let board_buf: number[][] = JSON.parse(JSON.stringify(input_body.a)); // 多次元配列のディープコピー
+  // 次ここから
+
+  const res=new Array();
+
+  return res;
 }

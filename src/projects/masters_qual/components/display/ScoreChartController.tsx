@@ -4,6 +4,7 @@ import { useState,useEffect } from "react";
 // Redux
 import { useSelector } from '../../store/store';
 // 外部コンポーネント
+import { CalcScoreSequence } from './CalcScore';
 import { ScoreChart } from './ScoreChart';
 
 export const ScoreChartController = (props) => {
@@ -17,7 +18,7 @@ export const ScoreChartController = (props) => {
     // データを作る
     const dataAll_l = new Array();
     if(chartNum===1){
-      dataAll_l[0]=data1;
+      dataAll_l[0]=CalcScoreSequence(seed);
     }else if(chartNum===2){
       dataAll_l[0]=data1;
       dataAll_l[1]=data2;
