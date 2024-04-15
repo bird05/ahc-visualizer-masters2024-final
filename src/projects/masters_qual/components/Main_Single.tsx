@@ -18,6 +18,7 @@ import { TarTurnInput } from './UI/TarTurnInput';
 import { SeekBar } from './UI/SeekBar';
 // import { Board } from './Board';
 import { BoardController } from './display/BoardController';
+import { ScoreChartController } from './display/ScoreChartController';
 import GenerateGIF from '../functions/GenerateGIF';
 // 型
 import type { Input_type, Output_type } from "../types/typeFormat"
@@ -46,7 +47,10 @@ export const Main_Single = () => {
       {/* <hr></hr> */}
       {/* <Board/> */}
       <hr></hr>
-      <BoardController/>
+      <Stack direction="row">
+        <div><BoardController/></div>
+        <ScoreChartController chartNum={2}/>
+      </Stack>
     </>
   );
 };

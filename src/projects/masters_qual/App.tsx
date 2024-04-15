@@ -10,7 +10,7 @@ import styled from "@emotion/styled";
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 // // ビルトインフック
 // import { useState, memo} from 'react';
-// // 外部コンポーネント
+// 外部コンポーネント
 import { SideBar } from './components/SideBar';
 // import { Gacha } from './components/Gacha';
 // import { GachaContentAll } from './components/GachaContentAll';
