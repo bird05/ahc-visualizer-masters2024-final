@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 // 型
 import type { Input_type, Output_type, Ope_type } from "../types/typeFormat"
+// 関数インポート
+import { text_to_Output } from '../functions/CommonFunctions';
 
 export const outputSlice = createSlice({
   name: 'output',
@@ -23,6 +25,8 @@ export const outputSlice = createSlice({
         state.b.is_valid=false;
         return;
       }
+      state.b=text_to_Output(action.payload);
+      /*
       const arr = action.payload.split('\n');
       let pi:number;
       let pj:number;
@@ -60,6 +64,7 @@ export const outputSlice = createSlice({
         e: e
       }
       state.b=res;
+      */
     },
     setUrls: (state, action) => {
       if (Number.isNaN(action.payload)) return;

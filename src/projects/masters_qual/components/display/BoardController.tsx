@@ -6,8 +6,10 @@ import { useSelector } from '../../store/store';
 // 型
 // import { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
 // 外部コンポーネント
-import { CalcScore } from './CalcScore';
+import { CalcScore, move_player, move_player_rev } from './CalcScore';
 import { BoardDisplay } from './BoardDisplay';
+// 関数インポート
+import { is_outer_range } from '../../functions/CommonFunctions';
 
 export const BoardController = () => {
   // useState==============================
@@ -64,22 +66,26 @@ export const BoardController = () => {
     while(turn_buf<tarTurn){
       // 入替
       if(output_body.s[turn_buf]){
-        if(x1_buf<0 || board_buf.length<=x1_buf) return;
-        if(y1_buf<0 || board_buf.length<=y1_buf) return;
-        if(x2_buf<0 || board_buf.length<=x2_buf) return;
-        if(y2_buf<0 || board_buf.length<=y2_buf) return;
+        if(is_outer_range(x1_buf,y1_buf,board_buf.length,board_buf.length)) return;
+        if(is_outer_range(x2_buf,y2_buf,board_buf.length,board_buf.length)) return;
+        // if(x1_buf<0 || board_buf.length<=x1_buf) return;
+        // if(y1_buf<0 || board_buf.length<=y1_buf) return;
+        // if(x2_buf<0 || board_buf.length<=x2_buf) return;
+        // if(y2_buf<0 || board_buf.length<=y2_buf) return;
         [board_buf[x1_buf][y1_buf],board_buf[x2_buf][y2_buf]]=[board_buf[x2_buf][y2_buf],board_buf[x1_buf][y1_buf]]; // swap
       }
       // 移動
-      if(output_body.d[turn_buf]=='L') y1_buf--;
-      if(output_body.d[turn_buf]=='R') y1_buf++;
-      if(output_body.d[turn_buf]=='U') x1_buf--;
-      if(output_body.d[turn_buf]=='D') x1_buf++;
-      // 移動
-      if(output_body.e[turn_buf]=='L') y2_buf--;
-      if(output_body.e[turn_buf]=='R') y2_buf++;
-      if(output_body.e[turn_buf]=='U') x2_buf--;
-      if(output_body.e[turn_buf]=='D') x2_buf++;
+      [x1_buf,y1_buf] = move_player(output_body.d[turn_buf],x1_buf,y1_buf);
+      [x2_buf,y2_buf] = move_player(output_body.e[turn_buf],x2_buf,y2_buf);
+      // if(output_body.d[turn_buf]=='L') y1_buf--;
+      // if(output_body.d[turn_buf]=='R') y1_buf++;
+      // if(output_body.d[turn_buf]=='U') x1_buf--;
+      // if(output_body.d[turn_buf]=='D') x1_buf++;
+      // // 移動
+      // if(output_body.e[turn_buf]=='L') y2_buf--;
+      // if(output_body.e[turn_buf]=='R') y2_buf++;
+      // if(output_body.e[turn_buf]=='U') x2_buf--;
+      // if(output_body.e[turn_buf]=='D') x2_buf++;
 
       turn_buf++; // ターンインクリメント
     }
@@ -106,21 +112,25 @@ export const BoardController = () => {
     // 逆操作
     while(turn_buf>tarTurn){
       // 移動
-      if(output_body.d[turn_buf-1]=='L') y1_buf++;
-      if(output_body.d[turn_buf-1]=='R') y1_buf--;
-      if(output_body.d[turn_buf-1]=='U') x1_buf++;
-      if(output_body.d[turn_buf-1]=='D') x1_buf--;
-      // 移動
-      if(output_body.e[turn_buf-1]=='L') y2_buf++;
-      if(output_body.e[turn_buf-1]=='R') y2_buf--;
-      if(output_body.e[turn_buf-1]=='U') x2_buf++;
-      if(output_body.e[turn_buf-1]=='D') x2_buf--;
+      [x1_buf,y1_buf] = move_player(output_body.d[turn_buf-1],x1_buf,y1_buf);
+      [x2_buf,y2_buf] = move_player(output_body.e[turn_buf-1],x2_buf,y2_buf);
+      // if(output_body.d[turn_buf-1]=='L') y1_buf++;
+      // if(output_body.d[turn_buf-1]=='R') y1_buf--;
+      // if(output_body.d[turn_buf-1]=='U') x1_buf++;
+      // if(output_body.d[turn_buf-1]=='D') x1_buf--;
+      // // 移動
+      // if(output_body.e[turn_buf-1]=='L') y2_buf++;
+      // if(output_body.e[turn_buf-1]=='R') y2_buf--;
+      // if(output_body.e[turn_buf-1]=='U') x2_buf++;
+      // if(output_body.e[turn_buf-1]=='D') x2_buf--;
       // 入替
       if(output_body.s[turn_buf-1]){
-        if(x1_buf<0 || board_buf.length<=x1_buf) return;
-        if(y1_buf<0 || board_buf.length<=y1_buf) return;
-        if(x2_buf<0 || board_buf.length<=x2_buf) return;
-        if(y2_buf<0 || board_buf.length<=y2_buf) return;
+        if(is_outer_range(x1_buf,y1_buf,board_buf.length,board_buf.length)) return;
+        if(is_outer_range(x2_buf,y2_buf,board_buf.length,board_buf.length)) return;
+        // if(x1_buf<0 || board_buf.length<=x1_buf) return;
+        // if(y1_buf<0 || board_buf.length<=y1_buf) return;
+        // if(x2_buf<0 || board_buf.length<=x2_buf) return;
+        // if(y2_buf<0 || board_buf.length<=y2_buf) return;
         [board_buf[x1_buf][y1_buf],board_buf[x2_buf][y2_buf]]=[board_buf[x2_buf][y2_buf],board_buf[x1_buf][y1_buf]]; // swap
       }
 

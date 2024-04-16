@@ -42,6 +42,7 @@ export const ScoreChart = (props) => {
     for(let i=0; i<lim; ++i) labels_l[i]=i;
     setLabels(labels_l);
     // データセット作成
+    // https://tr.you84815.space/chartjs/charts/line.html
     const datasets_l = new Array();
     for(let i=0; i<dataAll.length; ++i){
       const one_dataset = {
@@ -49,6 +50,9 @@ export const ScoreChart = (props) => {
         data: dataAll[i],
         borderColor: `rgb(${colors[i]})`,
         backgroundColor: `rgba(${colors[i]}, 0.5)`,
+        borderWidth: 3, // 線の太さ
+        pointRadius: 0, // マーカーの大きさ
+        // pointBarderWidth: 0, // マーカーの枠線の太さ
       }
       datasets_l[i]=one_dataset;
     }

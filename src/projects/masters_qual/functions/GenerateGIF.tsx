@@ -2,9 +2,11 @@ import React, {useState} from 'react'
 // import { ReactDOM } from 'react-dom';
 // Redux関連
 import { useSelector } from '../store/store';
+// 外部コンポーネント
+import { BoardDisplay } from '../components/display/BoardDisplay';
+import { move_player } from '../components/display/CalcScore';
 
 import { createGIF } from 'gifshot';
-import { BoardDisplay } from '../components/display/BoardDisplay';
 
 function GenerateGIF() {
   // useState==============================
@@ -44,15 +46,8 @@ function GenerateGIF() {
         [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
       }
       // 移動
-      if(d[turn]=='L') y1--;
-      if(d[turn]=='R') y1++;
-      if(d[turn]=='U') x1--;
-      if(d[turn]=='D') x1++;
-      // 移動
-      if(e[turn]=='L') y2--;
-      if(e[turn]=='R') y2++;
-      if(e[turn]=='U') x2--;
-      if(e[turn]=='D') x2++;
+      [x1,y1]=move_player(d[turn],x1,y1);
+      [x2,y2]=move_player(e[turn],x2,y2);
       
       // 画像追加
       const canvas=BoardDisplay(

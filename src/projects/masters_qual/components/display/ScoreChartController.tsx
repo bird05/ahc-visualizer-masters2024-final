@@ -12,14 +12,22 @@ export const ScoreChartController = (props) => {
   // useState==============================
   const [dataAll, setDataAll] = useState<any[]>([]); // 全てのデータセット
   // Redux==============================
+  const input_body=useSelector((state) => state.input.b);
+  const output_body=useSelector((state) => state.output.b);
   const seed = useSelector((state) => state.input.seed);
   // useEffect==============================
   useEffect(() => {
     // データを作る
     const dataAll_l = new Array();
     if(chartNum===1){
-      dataAll_l[0]=CalcScoreSequence(seed);
-    }else if(chartNum===2){
+      dataAll_l[0]=CalcScoreSequence(input_body,output_body);
+    }
+    setDataAll(dataAll_l);
+  },[input_body,output_body]);
+  useEffect(() => {
+    // データを作る
+    const dataAll_l = new Array();
+    if(chartNum===2){
       dataAll_l[0]=data1;
       dataAll_l[1]=data2;
     }else if(chartNum===3){
@@ -35,8 +43,8 @@ export const ScoreChartController = (props) => {
   const data1 = [1,1,1,1,1,1,1];
   const data2 = [2,2,2,2,2,2,2];
   const data3 = [3,3,3,3,3,3,3];
-  console.log("ScoreChartConroller");
 
+  console.log("ScoreChartConroller");
   return(
     <ScoreChart dataAll={dataAll}/>
   );
