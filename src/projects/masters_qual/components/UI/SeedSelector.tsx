@@ -5,6 +5,7 @@ import { useState,useEffect,useRef } from "react";
 import { useSelector } from '../../store/store';
 import { useDispatch, shallowEqual } from 'react-redux';
 import { setSeed } from '../../store/inputSlice';
+import { setIsCompleteSet } from '../../store/outputSlice';
 // CSS
 import styled from "@emotion/styled";
 // MUI
@@ -38,7 +39,7 @@ export const SeedSelector = () => {
     <>
       <label>Seed: </label>
       {/* <SInput type="number" defaultValue={0} value={seed} min={0} max={99} onChange={(e) => dispatch(setSeed(e.target.value))}/> */}
-      <input type="number" value={seed} min={0} max={99} onChange={(e) => dispatch(setSeed(e.target.value))}/>
+      <input type="number" value={seed} min={0} max={99} onChange={(e) => {dispatch(setIsCompleteSet(false)), dispatch(setSeed(e.target.value))}}/>
     </>
   )
 };
