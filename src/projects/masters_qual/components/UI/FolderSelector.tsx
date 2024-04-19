@@ -26,12 +26,24 @@ export const FolderSelector = () => {
   `
   // 関数==============================
   const onFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
     if(e.target.files){
+      const buf=new Array();
+      for(let i=0; i<e.target.files.length; ++i){
+        buf[i]={
+          id: Number(e.target.files[i].name.substring(0,4)),
+          blob: URL.createObjectURL(e.target.files[i])
+        };
+      }
+      console.log(buf);
+      buf.sort((a, b) => a.id-b.id);
+      console.log(buf);
       const blobs=new Array();
       for(let i=0; i<e.target.files.length; ++i){
-        blobs[i]=URL.createObjectURL(e.target.files[i]);
+        blobs[i]=buf[i].blob;
       }
       dispatch(setUrls(blobs));
+      console.log(blobs);
     }
     // console.log(e.target.files);
     // console.log(e.target.files[0]);
