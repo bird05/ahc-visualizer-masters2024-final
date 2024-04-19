@@ -4,7 +4,7 @@ import { useState,useEffect } from "react";
 // Redux
 import { useSelector } from '../../store/store';
 // 外部コンポーネント
-import { CalcScoreSequence } from './CalcScore';
+// import { CalcScoreSequence } from './CalcScore';
 import { ScoreChart } from './ScoreChart';
 
 export const ScoreChartController = (props) => {
@@ -23,7 +23,7 @@ export const ScoreChartController = (props) => {
     // データを作る
     const dataAll_l = new Array();
     if(chartNum===1 && is_input_complete && is_output_complete){
-      dataAll_l[0]=CalcScoreSequence(input_body,output_body);
+      // dataAll_l[0]=CalcScoreSequence(input_body,output_body);
       setDataAll(dataAll_l);
     }
   },[is_input_complete,is_output_complete]);

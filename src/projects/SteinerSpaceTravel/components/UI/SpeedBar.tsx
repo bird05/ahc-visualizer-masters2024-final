@@ -10,7 +10,7 @@ import styled from "@emotion/styled";
 // MUI
 import Stack from '@mui/material/Stack';
 // 型
-import type { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
+import type { Input_type, Output_type } from "../../types/typeFormat"
 
 export const SpeedBar = () => {
   // useState==============================
