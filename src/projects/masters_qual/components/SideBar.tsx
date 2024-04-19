@@ -59,6 +59,7 @@ export const SideBar = () => {
       {/* <input type="button" onClick={onClickAuth} value={"Single"}/> */}
       <p><input type="button" onClick={() => navigate('single')} value={"Single"}/></p>
       <p><input type="button" onClick={() => navigate('input_survey')} value={"Input Survey"}/></p>
+      <p><input type="button" onClick={() => navigate('statistics')} value={"Statistics"}/></p>
       {/* <SButtonMenu>Single</SButtonMenu> */}
 
       <hr></hr>

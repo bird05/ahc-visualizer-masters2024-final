@@ -18,6 +18,9 @@ export const outputSlice = createSlice({
       e:new Array(),
     } as Output_type,
     urls:new Array(),
+    urls1:new Array(),
+    urls2:new Array(),
+    urls3:new Array(),
     isCompleteSet:false,
   },
   reducers: {
@@ -33,6 +36,18 @@ export const outputSlice = createSlice({
       if (Number.isNaN(action.payload)) return;
       state.urls = action.payload;
     },
+    setUrls1: (state, action) => {
+      if (Number.isNaN(action.payload)) return;
+      state.urls1 = action.payload;
+    },
+    setUrls2: (state, action) => {
+      if (Number.isNaN(action.payload)) return;
+      state.urls2 = action.payload;
+    },
+    setUrls3: (state, action) => {
+      if (Number.isNaN(action.payload)) return;
+      state.urls3 = action.payload;
+    },
     // inputSliceにSeedの処理があるのでinputSliceには以下の関数は不要でこちらのみに存在する
     setIsCompleteSet: (state, action) => {
       if (Number.isNaN(action.payload)) return;
@@ -41,5 +56,5 @@ export const outputSlice = createSlice({
   },
 });
 
-export const { setOutput, setUrls, setIsCompleteSet } = outputSlice.actions;
+export const { setOutput, setUrls, setUrls1, setUrls2, setUrls3, setIsCompleteSet } = outputSlice.actions;
 export default outputSlice.reducer;

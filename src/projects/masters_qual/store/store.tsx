@@ -7,6 +7,7 @@ import inputReducer from './inputSlice';
 import outputReducer from './outputSlice';
 import tarTurnReducer from './tarTurnSlice';
 import playingFlagReducer from './playingFlagSlice';
+import statisticsInfoReducer from './statisticsInfoSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     output: outputReducer,
     tarTurn: tarTurnReducer,
     playingFlag: playingFlagReducer,
+    statistics: statisticsInfoReducer,
   },
 });
 

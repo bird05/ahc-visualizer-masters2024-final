@@ -4,7 +4,7 @@ import { useState,useEffect,useRef } from "react";
 // Redux
 import { useSelector } from '../../store/store';
 import { useDispatch, shallowEqual } from 'react-redux';
-import { setUrls } from '../../store/outputSlice';
+import { setUrls, setUrls1, setUrls2, setUrls3 } from '../../store/outputSlice';
 // CSS
 import styled from "@emotion/styled";
 // MUI
@@ -12,7 +12,8 @@ import styled from "@emotion/styled";
 // 型
 // import type { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
 
-export const FolderSelector = () => {
+export const FolderSelector = (props) => {
+  const { tarNum } = props;
   // useState==============================
   
   // Redux==============================
@@ -26,7 +27,6 @@ export const FolderSelector = () => {
   `
   // 関数==============================
   const onFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     if(e.target.files){
       const buf=new Array();
       for(let i=0; i<e.target.files.length; ++i){
@@ -35,15 +35,15 @@ export const FolderSelector = () => {
           blob: URL.createObjectURL(e.target.files[i])
         };
       }
-      console.log(buf);
       buf.sort((a, b) => a.id-b.id);
-      console.log(buf);
       const blobs=new Array();
       for(let i=0; i<e.target.files.length; ++i){
         blobs[i]=buf[i].blob;
       }
-      dispatch(setUrls(blobs));
-      console.log(blobs);
+      if(tarNum===0) dispatch(setUrls(blobs));
+      else if(tarNum===1) dispatch(setUrls1(blobs));
+      else if(tarNum===2) dispatch(setUrls2(blobs));
+      else if(tarNum===3) dispatch(setUrls3(blobs));
     }
     // console.log(e.target.files);
     // console.log(e.target.files[0]);
@@ -54,8 +54,6 @@ export const FolderSelector = () => {
   console.log("FolderSelector");
   return(
     <>
-      <label>Output Folder: </label>
-      <br></br>
       {/* <select id="fileSelect" disabled></select> */}
       <input 
         type="file" 

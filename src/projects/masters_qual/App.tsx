@@ -17,6 +17,7 @@ import { SideBar } from './components/SideBar';
 // import { Main } from './components/old/Main';
 import { Main_Single } from './components/Main_Single';
 import { Main_InputSurvey } from './components/Main_InputSurvey';
+import { Main_Statistics } from './components/Main_Statistics';
 
 // // Redux
 // import { useSelector } from './store/store';
@@ -46,7 +47,7 @@ const App = () => {
     margin-left: 5px;
     margin-right:5px;
     box-sizing: border-box;
-    background-color: #ffffff;//blue;
+    background-color: #eee;//blue;
   `
   const SDivMain = styled.div`
     height: ${isWide?"100vh":"100%"};
@@ -73,6 +74,7 @@ const App = () => {
               <Route path={'/*'} element={<Main_Single/>} />
               <Route path={'/single'} element={<Main_Single/>} />
               <Route path={'/input_survey'} element={<Main_InputSurvey/>} />
+              <Route path={'/statistics'} element={<Main_Statistics/>} />
             </Routes>
             // <Main_Single/>
             // <Main_InputSurvey/>
