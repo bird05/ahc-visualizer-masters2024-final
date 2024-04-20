@@ -1,92 +1,95 @@
 import React from 'react';
+// Redux関連
+// import { useSelector } from '../store/store';
 // CSS
 import styled from "@emotion/styled";
-// import useMedia from "use-media";
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
 // MUI
 import Stack from '@mui/material/Stack';
 // ビルトインフック
-import { useState, useEffect, memo} from 'react';
+// import { useState, memo} from 'react';
 // 外部コンポーネント
-import { BoardDisplay } from './display/BoardDisplay';
+import { MultiBoard } from './MainInputSurvey_parts/MultiBoard';
+import { InputTypeSelector } from './UI/InputTypeSelector';
+// import { FolderSelectorMulti } from './MainStatistics_parts/FolderSelectorMulti';
+// import { CreateStatisticsButton } from './MainStatistics_parts/CreateStatisticsButton';
+// import { ScoreTableFilterSort } from './MainStatistics_parts/ScoreTableFilterSort';
+// import { ScoreTable } from './MainStatistics_parts/ScoreTable';
+// import { InitialBoard } from './MainStatistics_parts/InitialBoard';
+// import { LastBoard } from './MainStatistics_parts/LastBoard';
+// import { ScoreChartController } from './display/ScoreChartController';
 // 型
-import type { Input_type, Output_type } from "../types/typeFormat"
-
-// 関数インポート
-import { zeroPadding, read_text_from_url, text_to_Input } from '../functions/CommonFunctions'
+// import type { Input_type, Output_type } from "../types/typeFormat"
 
 export const Main_InputSurvey = () => {
   // useState==============================
 
-  // useEffect==============================
-  useEffect(() => {
-    for(let i=0; i<100; ++i){
-      byoga(i);
-    }
-  },[])
+  // Styled CSS==============================
+  const SDivTopOuter = styled.div`
+    width: 100%;
+    height: 150px;
+  `
+  const SDivLeft = styled.div`
+    min-width: 400px;
+    height: ${"calc(100vh - 200px)"};
+    overflow: scroll;
+  `
+  const SDivRight = styled.div`
+    width: 100%;
+    height: ${"calc(100vh - 200px)"};
+    // overflow: scroll;
+  `
 
-  // 関数==============================
-  // seedを指定して描画する関数
-  async function byoga(seed_l:number){
-    const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
-    const input_body=text_to_Input(text);
-    if(input_body){
-      const canvas=BoardDisplay(
-        200,200,
-        input_body.is_valid,input_body.N,input_body.v,input_body.h,input_body.a,
-        false,-1,-1,-1,-1
-      );
-      const pa=document.getElementById(`board${seed_l}`);
-      if(pa) pa.replaceChildren(canvas);
-    }
-  }
-  
-  const num_g=[0,1,2,3,4,5,6,7,8,9];
-  const num_e1=[0,1,2,3,4];
-  const num_e2=[5,6,7,8,9];
   console.log("Main_InputSurvey");
   return(
     <>
-      {num_g.map((g) => (
-        <>
-        <Stack direction={'row'}>
-          {num_e1.map((e1) => (
-            <SDiv>
-              Seed:{g*10+e1}
-              <div id={`board${g*10+e1}`}></div>
-            </SDiv>
-          ))}
-        </Stack>
-        <Stack direction={'row'}>
-          {num_e2.map((e2) => (
-            <SDiv>
-              Seed:{g*10+e2}
-              <div id={`board${g*10+e2}`}></div>
-            </SDiv>
-          ))}
-        </Stack>
-        </>
-      ))}
+      <InputTypeSelector/>
+      <MultiBoard/>
+      {/* <SDivTopOuter>
+        <h3>Statistics</h3>
+        <FolderSelectorMulti/>
+        <CreateStatisticsButton/>
+      </SDivTopOuter>
+      <hr></hr>
+      <Stack direction="row">
+        <SDivLeft>
+          <ScoreTableFilterSort/>
+          <ScoreTable/>
+        </SDivLeft>
+        <SDivRight>
+          <Stack direction="row">
+            <InitialBoard/>
+            <LastBoard p_id={0}/>
+            <LastBoard p_id={1}/>
+            <LastBoard p_id={2}/>
+          </Stack>
+          <ScoreChartController chartNum={3}/>
+        </SDivRight>
+      </Stack> */}
 
-      {/* <Stack direction={'row'}>
-        {num_e1.map((e1) => (
-          <SDiv>
-            Seed:{e1}
-            <div id={`board${e1}`}></div>
-          </SDiv>
-        ))}
-      </Stack>
-      <Stack direction={'row'}>
-        {num_e2.map((e2) => (
-          <SDiv>
-            Seed:{e2}
-            <div id={`board${e2}`}></div>
-          </SDiv>
-        ))}
+      {/* <SeedSelector/>
+      <br></br>
+      <InputTextarea/>
+      <br></br>
+      <OutputTextarea/>
+      <br></br>
+      <FolderSelector/>
+      <br></br>
+      <GenerateGIF/>
+      <SDiv>
+        <PlayStopButton/>
+        <SpeedBar/>
+        <TarTurnInput/>
+      </SDiv>
+      <SeekBar/>
+      <hr></hr>
+      <Stack direction="row">
+        <div><BoardController/></div>
+        <ScoreChartController chartNum={1}/>
       </Stack> */}
     </>
   );
 };
 const SDiv = styled.div`
-margin-right:5px;
+display: flex;
+margin-top:5px;
 `

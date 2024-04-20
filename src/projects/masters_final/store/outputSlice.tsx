@@ -9,13 +9,9 @@ export const outputSlice = createSlice({
   initialState: {
     b:{
       is_valid:false,
-      pi:-1,
-      pj:-1,
-      qi:-1,
-      qj:-1,
-      s:new Array(),
-      d:new Array(),
-      e:new Array(),
+      ope:new Array(),
+      ax:new Array(),
+      ay:new Array(),
     } as Output_type,
     urls:new Array(),
     urls1:new Array(),

@@ -41,15 +41,13 @@ export const Main_Single = () => {
       <SDiv>
         <PlayStopButton/>
         <SpeedBar/>
-        <TarTurnInput/>
+        {/* <TarTurnInput/> */}
       </SDiv>
-      <SeekBar/>
-      {/* <hr></hr> */}
-      {/* <Board/> */}
+      {/* <SeekBar/> */}
       <hr></hr>
       <Stack direction="row">
-        <div><BoardController/></div>
-        <ScoreChartController chartNum={1}/>
+        {/* <div><BoardController/></div> */}
+        {/* <ScoreChartController chartNum={1}/> */}
       </Stack>
     </>
   );

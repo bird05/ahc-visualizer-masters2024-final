@@ -1,11 +1,21 @@
 // 入力フォーマット
 export type Input_type = {
   is_valid: boolean;
-  t: number;
   N: number;
-  v: string[];
-  h: string[];
-  a: number[][];
+  M: number;
+  eps: number; // 風
+  dlt: number; // 測定
+  sx: number;
+  sy: number;
+  px: number[];
+  py: number[];
+  lx: number[];
+  ly: number[];
+  rx: number[];
+  ry: number[];
+  alp: number[];
+  fx: number[];
+  fy: number[];
 }
 // 出力フォーマット
 export type Ope_type = {
@@ -15,12 +25,7 @@ export type Ope_type = {
 }
 export type Output_type = {
   is_valid: boolean;
-  pi: number;
-  pj: number;
-  qi: number;
-  qj: number;
-  s: number[];
-  d: string[];
-  e: string[];
-  // ope: Ope_type[];
+  ope: string[];
+  ax: number[];
+  ay: number[];
 }

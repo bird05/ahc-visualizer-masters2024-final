@@ -9,13 +9,24 @@ export const inputSlice = createSlice({
   initialState: {
     b:{
       is_valid:false,
-      t:0,
       N:0,
-      v:new Array(),
-      h:new Array(),
-      a:new Array(),
+      M:0,
+      eps:0,
+      dlt:0,
+      sx:0,
+      sy:0,
+      px:new Array(),
+      py:new Array(),
+      lx:new Array(),
+      ly:new Array(),
+      rx:new Array(),
+      ry:new Array(),
+      alp:new Array(),
+      fx:new Array(),
+      fy:new Array(),
     } as Input_type,
     seed:0,
+    type:'A',
     isCompleteSet:false,
   },
   reducers: {
@@ -33,6 +44,11 @@ export const inputSlice = createSlice({
       state.isCompleteSet=false;
       state.seed = action.payload;
     },
+    setType: (state, action) => {
+      if (Number.isNaN(action.payload)) return;
+      state.isCompleteSet=false;
+      state.type = action.payload;
+    },
     // setIsCompleteSeedEffect: (state, action) => {
     //   if (Number.isNaN(action.payload)) return;
     //   state.seed = action.payload;
@@ -40,5 +56,5 @@ export const inputSlice = createSlice({
   },
 });
 
-export const { setInput, setSeed } = inputSlice.actions;
+export const { setInput, setSeed, setType } = inputSlice.actions;
 export default inputSlice.reducer;
