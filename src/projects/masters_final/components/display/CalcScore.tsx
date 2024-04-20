@@ -201,3 +201,65 @@ export const CalcEndBoardPlace = function(input_body:Input_type, output_body:Out
   // 最終状態を返す
   return { board,x1,y1,x2,y2 };
 }
+const judgeIentersected = function(ax:number, ay:number, bx:number, by:number, cx:number, cy:number, dx:number, dy:number) {
+  let ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);
+  let tb = (cx - dx) * (by - cy) + (cy - dy) * (cx - bx);
+  let tc = (ax - bx) * (cy - ay) + (ay - by) * (ax - cx);
+  let td = (ax - bx) * (dy - ay) + (ay - by) * (ax - dx);
+
+  // return tc * td < 0 && ta * tb < 0;
+  return tc * td <= 0 && ta * tb <= 0; // 端点を含む場合
+};
+// ドローンの軌跡を求める関数
+export const getTrajectory = function(input_body:Input_type, output_body:Output_type){
+  const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
+  const [output_is_valid,ope,ax,ay]=[output_body.is_valid,output_body.ope,output_body.ax,output_body.ay];
+
+  const tra = new Array();
+  if(!input_is_valid || ! output_is_valid) return { tra };
+  // console.log(sx);
+  let [x,y] = [sx,sy]; // 変更していくx,y
+  // console.log(x);
+  let [vx,vy] = [0,0]; // 変更していくx,y
+  for(let turn=0; turn<output_body.ope.length; ++turn){
+    // 加速
+    if(ope[turn]==='A'){
+      vx+=ax[turn];
+      vy+=ay[turn];
+    }
+    // 誤差
+    vx+=Number(fx[turn]);
+    vy+=Number(fy[turn]);
+    // 移動
+    let nx: number = x+vx;
+    let ny: number = y+vy;
+    // console.log(x);
+    
+    // 壁衝突判定
+    let is_collide: boolean = false;
+    if(nx<=-100000 || 100000<=nx || ny<=-100000 || 100000<=ny) is_collide=true;
+    for(let w_id=0; w_id<M; ++w_id){
+      if(judgeIentersected(x,y,nx,ny,lx[w_id],ly[w_id],rx[w_id],ry[w_id])) is_collide=true; // TODO:壁衝突判定
+    }
+
+    // 軌跡格納
+    tra.push(
+      {
+        lx:x,
+        ly:y,
+        rx:nx,
+        ry:ny,
+        is_col:is_collide,
+      }
+    );
+
+    // 衝突時の処理
+    if(is_collide){
+      [vx,vy]=[0,0];
+    // 非衝突時の処理
+    }else{
+      [x,y]=[nx,ny]; // swap
+    }
+  }
+  return tra;
+}

@@ -6,13 +6,15 @@ import { useSelector } from '../../store/store';
 // 型
 // import { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
 // 外部コンポーネント
-import { CalcScore, move_player, move_player_rev } from './CalcScore';
+import { CalcScore, move_player, move_player_rev, getTrajectory } from './CalcScore';
 import { BoardDisplay } from './BoardDisplay';
 // 関数インポート
 import { is_outer_range } from '../../functions/CommonFunctions';
+import { setT } from "../../store/statisticsInfoSlice";
 
 export const BoardController = () => {
   // useState==============================
+  const [trajectory, setTrajectory] = useState([]); // 盤面
   const [board, setBoard] = useState<number[][]>([]); // 盤面
   const [turn, setTurn] = useState(0); // ターン
   const [x1, setX1] = useState(0); // x,y
@@ -26,27 +28,37 @@ export const BoardController = () => {
   const tarTurn = useSelector((state) => state.tarTurn.tarTurn);
 
   // useEffect==============================
-  useEffect(() => {
-    setBoard(input_body.a);
-  },[input_body])
-  useEffect(() => {
-    setX1(output_body.pi);
-    setY1(output_body.pj);
-    setX2(output_body.qi);
-    setY2(output_body.qj);
-  },[output_body])
+  // useEffect(() => {
+  //   setBoard(input_body.a);
+  // },[input_body])
+  // useEffect(() => {
+  //   setX1(output_body.pi);
+  //   setY1(output_body.pj);
+  //   setX2(output_body.qi);
+  //   setY2(output_body.qj);
+  // },[output_body])
+  // useEffect(() => {
+  //   setTurn(0);
+  //   updateBoard(input_body.a,output_body.pi,output_body.pj,output_body.qi,output_body.qj); // ターン更新前に描画するためにここにも記載
+  // },[input_body,output_body])
+  // useEffect(() => {
+  //   if(turn<tarTurn) advance_turn();
+  //   if(turn>tarTurn) back_turn();
+  // },[tarTurn])
+  // useEffect(() => {
+  //   updateBoard(board,x1,y1,x2,y2);
+  // },[turn])
+
   useEffect(() => {
     setTurn(0);
-    updateBoard(input_body.a,output_body.pi,output_body.pj,output_body.qi,output_body.qj); // ターン更新前に描画するためにここにも記載
+    const res:any = getTrajectory(input_body,output_body);
+    setTrajectory(res);
+    // updateBoard(input_body.a,output_body.pi,output_body.pj,output_body.qi,output_body.qj); // ターン更新前に描画するためにここにも記載
   },[input_body,output_body])
   useEffect(() => {
-    if(turn<tarTurn) advance_turn();
-    if(turn>tarTurn) back_turn();
-  },[tarTurn])
-  useEffect(() => {
-    updateBoard(board,x1,y1,x2,y2);
-  },[turn])
-
+    updateBoard(); // ターン更新前に描画するためにここにも記載
+  },[trajectory])
+// A 0 0
   // 関数==============================
   // 指定ターンから1ターン進める関数
   function advance_turn(){
@@ -146,11 +158,14 @@ export const BoardController = () => {
     setY2(y2_buf);
   }
   
-  function updateBoard(board_l:number[][], x1:number ,y1:number ,x2:number ,y2:number ){
+  function updateBoard(){
     const canvas=BoardDisplay(
       500,500,
-      input_body.is_valid,input_body.N,input_body.v,input_body.h,board_l,
-      output_body.is_valid,x1,y1,x2,y2
+      input_body.is_valid,
+      input_body.px,input_body.py,
+      input_body.lx,input_body.ly,input_body.rx,input_body.ry,
+      input_body.sx,input_body.sy,
+      trajectory
     );
     const pa=document.getElementById("board");
     // console.log("disp");
@@ -161,7 +176,7 @@ export const BoardController = () => {
   // console.log("Board Controller");
   return(
     <>
-      Score:{CalcScore(input_body.is_valid && output_body.is_valid,input_body.N,input_body.v,input_body.h,input_body.a,board)}
+      {/* Score:{CalcScore(input_body.is_valid && output_body.is_valid,input_body.N,input_body.v,input_body.h,input_body.a,board)} */}
       <div id="board"></div>
     </>
   )

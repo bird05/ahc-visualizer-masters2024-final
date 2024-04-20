@@ -18,13 +18,13 @@ export function BoardDisplay(
   px:number[], py:number[], // 目的地の位置
   lx:number[],ly:number[],rx:number[],ry:number[],// 壁の位置
   // output_is_valid:boolean,
-  dro_x:number,dro_y:number // ドローンの位置
+  dro_x:number,dro_y:number, // ドローンの位置
+  tra:any
   // input_body:Input_type, output_body:Output_type
   ){
   // const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
   // const [output_is_valid,ope,ax,ay]=[output_body.is_valid,output_body.ope,output_body.ax,output_body.ay];
   // let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
-
   const canvas=document.createElement("canvas");
   canvas.width=canv_w;
   canvas.height=canv_h;
@@ -54,6 +54,26 @@ export function BoardDisplay(
       }      
       ctx.closePath();
       ctx.stroke();
+      ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
+      // 軌跡
+      // ctx.lineWidth = 1.5;
+      // ctx.strokeStyle = 'hsla(100,100%,50%,.8)';
+      for(let i=0; i<tra.length; ++i){
+        ctx.beginPath();
+        const [x1,y1] = conv_coord(tra[i].lx,tra[i].ly); // 座標変換
+        const [x2,y2] = conv_coord(tra[i].rx,tra[i].ry);
+        if(tra[i].is_col){
+          ctx.lineWidth = 3.0;
+          ctx.strokeStyle = 'hsla(0,100%,50%,.8)';
+        }else{
+          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = 'hsla(100,100%,50%,.8)';
+        }
+        ctx.moveTo(x1*LEN, y1*LEN);
+        ctx.lineTo(x2*LEN, y2*LEN);
+        ctx.closePath();
+        ctx.stroke();
+      }
       ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
       // ドローン
       ctx.fillStyle = 'hsla(205,100%,50%,0.5)';

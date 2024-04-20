@@ -21,7 +21,7 @@ export const TarTurnInput = () => {
   let intervalID=0;
   const refIntervalID = useRef(intervalID);
   // Redux==============================
-  const s = useSelector((state) => state.output.b.s);
+  const ope = useSelector((state) => state.output.b.ope);
   const tarTurn = useSelector((state) => state.tarTurn.tarTurn);
   const seed = useSelector((state) => state.input.seed);
   const playingFlag = useSelector((state) => state.playingFlag.playingFlag);
@@ -65,7 +65,7 @@ export const TarTurnInput = () => {
     clearInterval(refIntervalID.current);
     refIntervalID.current = setInterval(() => {
       // ターン上限で停止
-      if(refTarTurn.current>=s.length){
+      if(refTarTurn.current>=ope.length){
         stopBoard();
       }else{
         advanceTarTurn();
@@ -85,7 +85,7 @@ export const TarTurnInput = () => {
   return(
     <>
       <SLabel>turn:</SLabel>
-      <InputTrunSelect type="number" id="turn" defaultValue={tarTurn} min={0} max={s.length} onChange={(e) => dispatch(setTarTurn(e.target.value))}/>
+      <InputTrunSelect type="number" id="turn" defaultValue={tarTurn} min={0} max={ope.length} onChange={(e) => dispatch(setTarTurn(e.target.value))}/>
     </>
   )
 };

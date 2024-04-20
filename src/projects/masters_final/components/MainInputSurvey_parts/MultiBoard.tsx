@@ -18,7 +18,7 @@ import { BoardDisplay } from '../display/BoardDisplay';
 import { zeroPadding, read_text_from_url, text_to_Input } from '../../functions/CommonFunctions'
 
 export const MultiBoard = () => {
-// Redux==============================
+  // Redux==============================
   const input_type = useSelector((state) => state.input.type);
   // useState==============================
 
@@ -39,7 +39,8 @@ export const MultiBoard = () => {
         200,200,
         input_body.is_valid,input_body.px,input_body.py,
         input_body.lx,input_body.ly,input_body.rx,input_body.ry,
-        0,0
+        input_body.sx,input_body.sy,
+        []
       );
       const pa=document.getElementById(`board${seed_l}`);
       if(pa) pa.replaceChildren(canvas);

@@ -19,12 +19,13 @@ export const InputTextarea = () => {
   const [inputText, setInputText] = useState<string>(""); // 盤面
   // Redux==============================
   const input_body=useSelector((state) => state.input.b);
+  const input_type = useSelector((state) => state.input.type);
   const seed=useSelector((state) => state.input.seed);
   const dispatch = useDispatch();
   // useEffect==============================
   useEffect(() => {
     readInput_from_File(seed);
-  },[seed])
+  },[input_type,seed])
   // Styled CSS==============================
   const SLabel = styled.label`
   color:red;
@@ -45,7 +46,10 @@ export const InputTextarea = () => {
     // const response = await fetch(`https://raw.githubusercontent.com/bird05/ahc-visualizer/main/src/projects/masters_qual/in/${zeroPadding(seed_l,4)}.txt`); // こちらはプライベートにした
     // const response = await fetch(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
     // const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_qual/in/${zeroPadding(seed_l,4)}.txt`);
-    const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_final/inA/${zeroPadding(seed_l,4)}.txt`);
+    
+    // const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_final/inA/${zeroPadding(seed_l,4)}.txt`);
+    // const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_final/inB/${zeroPadding(seed_l,4)}.txt`);
+    const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_final/in${input_type}/${zeroPadding(seed_l,4)}.txt`);
     dispatch(setInput(text));
     setInputText(text);
   }

@@ -135,10 +135,10 @@ export const text_to_Input = function(text):Input_type{
       res.is_valid=false;
       return res;
     }
-    fx[i-N-M-2]=Number(one_data6[0]);
-    fy[i-N-M-2]=Number(one_data6[1]);
+    fx[i-N-M-2-5000]=Number(one_data6[0]);
+    fy[i-N-M-2-5000]=Number(one_data6[1]);
   }
-
+  
   [res.N, res.M, res.eps, res.dlt, res.sx, res.sy, res.px, res.py, res.lx, res.ly, res.rx, res.ry, res.alp, res.fx, res.fy] = [N, M, eps, dlt, sx, sy, px, py, lx, ly, rx, ry, alp, fx, fy];
   return res;
 }
@@ -155,15 +155,17 @@ export const text_to_Output = function(text):Output_type{
   let ax:number[]=new Array();
   let ay:number[]=new Array();
   for(let i=0; i<arr.length; ++i){
-    const one_data=arr[0].split(' ');
+    const one_data=arr[i].split(' ');
+    if(one_data[0].substr(0,1)==='#') continue;
     // 要素数が3でない
-    if(one_data.length!=3){
-      res.is_valid=false;
-      return res;
-    }
-    ope[i]=one_data[0];
-    ax[i]=Number(one_data[1]);
-    ay[i]=Number(one_data[2]);
+    if(one_data.length!=3) break;
+    
+    ope.push(one_data[0]);
+    ax.push(Number(one_data[1]));
+    ay.push(Number(one_data[2]));
+    // ope[i]=one_data[0];
+    // ax[i]=Number(one_data[1]);
+    // ay[i]=Number(one_data[2]);
   }
 
   [res.ope, res.ax, res.ay] = [ope, ax, ay];

@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 // ビルトインフック
 import { useState, memo} from 'react';
 // 外部コンポーネント
+import { InputTypeSelector } from './UI/InputTypeSelector';
 import { FolderSelector } from './UI/FolderSelector';
 import { SeedSelector } from './UI/SeedSelector';
 import { InputTextarea } from './UI/InputTextarea';
@@ -29,6 +30,7 @@ export const Main_Single = () => {
   console.log("Main_Single");
   return(
     <>
+      <InputTypeSelector/>
       <SeedSelector/>
       <br></br>
       <InputTextarea/>
@@ -41,12 +43,12 @@ export const Main_Single = () => {
       <SDiv>
         <PlayStopButton/>
         <SpeedBar/>
-        {/* <TarTurnInput/> */}
+        <TarTurnInput/>
       </SDiv>
-      {/* <SeekBar/> */}
+      <SeekBar/>
       <hr></hr>
       <Stack direction="row">
-        {/* <div><BoardController/></div> */}
+        <div><BoardController/></div>
         {/* <ScoreChartController chartNum={1}/> */}
       </Stack>
     </>

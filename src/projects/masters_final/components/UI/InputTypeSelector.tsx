@@ -37,7 +37,13 @@ export const InputTypeSelector = () => {
   console.log("InputTypeSelector");
   return(
     <>
-      <STable>
+      <label>Type: </label>
+      <SSelect onChange={changeFunction} value={inputT}>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+      </SSelect>
+      {/* <STable>
           <caption></caption>
           <tbody>
             <tr>
@@ -53,7 +59,7 @@ export const InputTypeSelector = () => {
               </STd>
             </STr>
           </tbody>
-        </STable>
+        </STable> */}
     </>
   )
 };

@@ -15,7 +15,7 @@ import type { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
 
 export const SeekBar = () => {
   // Redux==============================
-  const s = useSelector((state) => state.output.b.s);
+  const ope = useSelector((state) => state.output.b.ope);
   const tarTurn = useSelector((state) => state.tarTurn.tarTurn);
   const dispatch = useDispatch();
   // useState==============================
@@ -64,7 +64,7 @@ export const SeekBar = () => {
           value={tarTurn}
           onChange={handleChange}
           min={0}
-          max={s.length}
+          max={ope.length}
         />
       </SDiv>
     </>
