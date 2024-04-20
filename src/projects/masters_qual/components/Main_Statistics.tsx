@@ -14,6 +14,7 @@ import { ScoreTableFilterSort } from './MainStatistics_parts/ScoreTableFilterSor
 import { ScoreTable } from './MainStatistics_parts/ScoreTable';
 import { InitialBoard } from './MainStatistics_parts/InitialBoard';
 import { LastBoard } from './MainStatistics_parts/LastBoard';
+import { ScoreChartController } from './display/ScoreChartController';
 // 型
 // import type { Input_type, Output_type } from "../types/typeFormat"
 
@@ -57,6 +58,7 @@ export const Main_Statistics = () => {
             <LastBoard p_id={1}/>
             <LastBoard p_id={2}/>
           </Stack>
+          <ScoreChartController chartNum={3}/>
         </SDivRight>
       </Stack>
       {/* <SeedSelector/>
