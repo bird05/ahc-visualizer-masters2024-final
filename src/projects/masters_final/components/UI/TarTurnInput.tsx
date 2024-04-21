@@ -18,6 +18,8 @@ export const TarTurnInput = () => {
   // useState==============================
   // const [Input, setInput] = useState([] as Input_type); // Inputデータ
   // const [intervalID,setIntervalID] = useState(null);
+  let tarTurnFloat=0; // 目標ターンを少数で扱うための変数
+  const refTarTurnFloat = useRef(tarTurnFloat);
   let intervalID=0;
   const refIntervalID = useRef(intervalID);
   // Redux==============================
@@ -32,6 +34,7 @@ export const TarTurnInput = () => {
   const refFPS = useRef(FPS);
   useEffect(() => {
     refTarTurn.current = tarTurn;
+    refTarTurnFloat.current = tarTurn;
     // console.log(refTarTurn.current);
   },[tarTurn]);
   useEffect(() => {
@@ -55,18 +58,16 @@ export const TarTurnInput = () => {
   `
 
   // 関数==============================
-  // tarTurn読み取り
-  const readTarTurn = () => {
-
-  }
   // 定期実行
   const advanceTarTurn = () => {
-    dispatch(setTarTurn(Number(Math.min(ope.length, refTarTurn.current+Math.trunc(refFPS.current/10)))));
+    refTarTurnFloat.current+=refFPS.current/10;
+    console.log(refTarTurnFloat.current);
+    dispatch(setTarTurn(Number(Math.min(ope.length, Math.trunc(refTarTurnFloat.current)))));
+    // dispatch(setTarTurn(Number(Math.min(ope.length, refTarTurn.current+Math.trunc(refFPS.current/10)))));
     // console.log(refTarTurn.current);
   }
   // 再生開始
   function playBoard(){
-    // console.log("start");
     clearInterval(refIntervalID.current);
     refIntervalID.current = setInterval(() => {
       // ターン上限で停止
@@ -74,7 +75,6 @@ export const TarTurnInput = () => {
         stopBoard();
       }else{
         advanceTarTurn();
-        // console.log(refIntervalID.current);
       }
     }, 100);
   }
