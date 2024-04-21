@@ -23,15 +23,20 @@ export const TarTurnInput = () => {
   // Redux==============================
   const ope = useSelector((state) => state.output.b.ope);
   const tarTurn = useSelector((state) => state.tarTurn.tarTurn);
+  const FPS = useSelector((state) => state.tarTurn.FPS);
   const seed = useSelector((state) => state.input.seed);
   const playingFlag = useSelector((state) => state.playingFlag.playingFlag);
   const dispatch = useDispatch();
   // useEffect==============================
   const refTarTurn = useRef(tarTurn);
+  const refFPS = useRef(FPS);
   useEffect(() => {
     refTarTurn.current = tarTurn;
     // console.log(refTarTurn.current);
   },[tarTurn]);
+  useEffect(() => {
+    refFPS.current = FPS;
+  },[FPS]);
   useEffect(() => {
     if(playingFlag) playBoard();
     else stopBoard();
@@ -46,7 +51,7 @@ export const TarTurnInput = () => {
   text-align:right; 
   `
   const SLabel = styled.label`
-  padding: 0px 4px;
+  padding: 0px 4px 0px 15px;
   `
 
   // 関数==============================
@@ -56,7 +61,7 @@ export const TarTurnInput = () => {
   }
   // 定期実行
   const advanceTarTurn = () => {
-    dispatch(setTarTurn(Number(Math.min(ope.length, refTarTurn.current+10))));
+    dispatch(setTarTurn(Number(Math.min(ope.length, refTarTurn.current+Math.trunc(refFPS.current/10)))));
     // console.log(refTarTurn.current);
   }
   // 再生開始

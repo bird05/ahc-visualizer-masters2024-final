@@ -60,7 +60,7 @@ export const BoardController = () => {
   useEffect(() => {
     updateBoard(tarTurn);
   },[tarTurn])
-// A 0 0
+  
   // 関数==============================
   // 指定ターンから1ターン進める関数
   // function advance_turn(){
