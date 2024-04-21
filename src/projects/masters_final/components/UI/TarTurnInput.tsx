@@ -30,7 +30,7 @@ export const TarTurnInput = () => {
   const refTarTurn = useRef(tarTurn);
   useEffect(() => {
     refTarTurn.current = tarTurn;
-    console.log(refTarTurn.current);
+    // console.log(refTarTurn.current);
   },[tarTurn]);
   useEffect(() => {
     if(playingFlag) playBoard();
@@ -56,7 +56,7 @@ export const TarTurnInput = () => {
   }
   // 定期実行
   const advanceTarTurn = () => {
-    dispatch(setTarTurn(Number(refTarTurn.current)+1));
+    dispatch(setTarTurn(Number(Math.min(ope.length, refTarTurn.current+10))));
     // console.log(refTarTurn.current);
   }
   // 再生開始
@@ -69,7 +69,7 @@ export const TarTurnInput = () => {
         stopBoard();
       }else{
         advanceTarTurn();
-        console.log(refIntervalID.current);
+        // console.log(refIntervalID.current);
       }
     }, 100);
   }
