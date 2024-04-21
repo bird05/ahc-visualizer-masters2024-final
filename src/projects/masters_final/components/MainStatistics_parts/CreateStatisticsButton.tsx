@@ -38,7 +38,8 @@ export const CreateStatisticsButton = () => {
         score123[p_id]=CalcEndScore(input_body, output_body);
       }
       const buf = {
-        t: input_body.t,
+        // t: input_body.t,
+        t: 1,
         seed: seed_id,
         score1: score123[0],
         score2: score123[1],

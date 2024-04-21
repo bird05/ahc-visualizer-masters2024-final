@@ -42,8 +42,10 @@ export const LastBoard = (props) => {
       if(urlsAll[p_id].length<=selectedSeed){
         const canvas=BoardDisplay(
           200,200,
-          false,0,[],[],[[]],
-          false,-1,-1,-1,-1
+          false,[],[],
+          [],[],[],[],
+          0,0,
+          []
         );
         const pa=document.getElementById(`lastBoard${p_id}`);
         if(pa) pa.replaceChildren(canvas);
@@ -54,8 +56,10 @@ export const LastBoard = (props) => {
         const res:any = CalcEndBoardPlace(input_body,output_body);
         const canvas=BoardDisplay(
           200,200,
-          input_body.is_valid,input_body.N,input_body.v,input_body.h,res.board,
-          output_body.is_valid,res.x1,res.y1,res.x2,res.y2
+          input_body.is_valid,input_body.px,input_body.py,
+          input_body.lx,input_body.ly,input_body.rx,input_body.ry,
+          input_body.sx,input_body.sy,
+          []
         );
         const pa=document.getElementById(`lastBoard${p_id}`);
         if(pa) pa.replaceChildren(canvas);

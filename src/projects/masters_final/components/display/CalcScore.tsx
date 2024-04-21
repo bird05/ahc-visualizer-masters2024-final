@@ -131,75 +131,78 @@ export const move_player_rev = function(dir:string, x:number, y:number){
 }
 // 各ターンのScoreを計算する関数
 export const CalcScoreSequence = function(input_body:Input_type, output_body:Output_type){
-  let board: number[][] = JSON.parse(JSON.stringify(input_body.a)); // 多次元配列のディープコピー
-  const [N,v,h,a]=[input_body.N,input_body.v,input_body.h,input_body.a];
-  const [s,d,e]=[output_body.s,output_body.d,output_body.e]
-  let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
+  // let board: number[][] = JSON.parse(JSON.stringify(input_body.a)); // 多次元配列のディープコピー
+  // const [N,v,h,a]=[input_body.N,input_body.v,input_body.h,input_body.a];
+  // const [s,d,e]=[output_body.s,output_body.d,output_body.e]
+  // let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
 
-  const D_d=calc_sum_of_squares(N,v,h,a);
-  let D=D_d;
+  // const D_d=calc_sum_of_squares(N,v,h,a);
+  // let D=D_d;
   const res = new Array();
 
-  for(let turn=0; turn<output_body.s.length; ++turn){
-    // 得点計算
-    // res[turn]=CalcScore(true,N,v,h,input_body.a,board);
-    D=CalcD_def(true,N,v,h,board,D,x1,y1,x2,y2,s[turn],d[turn],e[turn]);
-    res[turn]=Math.max(1,Math.round(1000000*getBaseLog(2,D_d/D)));
-    // 入替
-    if(s[turn]){
-      if(is_outer_range(x1,y1,board.length,board.length)) return res; // 範囲外swapの回避
-      if(is_outer_range(x2,y2,board.length,board.length)) return res;
-      [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
-    }
-    // 移動
-    [x1,y1]=move_player(d[turn],x1,y1);
-    [x2,y2]=move_player(e[turn],x2,y2);
-  }
-  res[output_body.s.length]=CalcScore(true,N,v,h,input_body.a,board);
+  // for(let turn=0; turn<output_body.s.length; ++turn){
+  //   // 得点計算
+  //   // res[turn]=CalcScore(true,N,v,h,input_body.a,board);
+  //   D=CalcD_def(true,N,v,h,board,D,x1,y1,x2,y2,s[turn],d[turn],e[turn]);
+  //   res[turn]=Math.max(1,Math.round(1000000*getBaseLog(2,D_d/D)));
+  //   // 入替
+  //   if(s[turn]){
+  //     if(is_outer_range(x1,y1,board.length,board.length)) return res; // 範囲外swapの回避
+  //     if(is_outer_range(x2,y2,board.length,board.length)) return res;
+  //     [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
+  //   }
+  //   // 移動
+  //   [x1,y1]=move_player(d[turn],x1,y1);
+  //   [x2,y2]=move_player(e[turn],x2,y2);
+  // }
+  // res[output_body.s.length]=CalcScore(true,N,v,h,input_body.a,board);
 
   return res;
 }
 // 最終状態のScoreを計算する関数
 export const CalcEndScore = function(input_body:Input_type, output_body:Output_type){
-  let board: number[][] = JSON.parse(JSON.stringify(input_body.a)); // 多次元配列のディープコピー
-  const [N,v,h,a]=[input_body.N,input_body.v,input_body.h,input_body.a];
-  const [s,d,e]=[output_body.s,output_body.d,output_body.e]
-  let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
+  // let board: number[][] = JSON.parse(JSON.stringify(input_body.a)); // 多次元配列のディープコピー
+  // const [N,v,h,a]=[input_body.N,input_body.v,input_body.h,input_body.a];
+  // const [s,d,e]=[output_body.s,output_body.d,output_body.e]
+  // let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
 
-  for(let turn=0; turn<output_body.s.length; ++turn){
-    // 入替
-    if(s[turn]){
-      if(is_outer_range(x1,y1,board.length,board.length)) return 1; // 範囲外swapの回避
-      if(is_outer_range(x2,y2,board.length,board.length)) return 1;
-      [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
-    }
-    // 移動
-    [x1,y1]=move_player(d[turn],x1,y1);
-    [x2,y2]=move_player(e[turn],x2,y2);
-  }
-  // 最終状態のスコアを計算して返す
-  return CalcScore(true,N,v,h,a,board);
+  // for(let turn=0; turn<output_body.s.length; ++turn){
+  //   // 入替
+  //   if(s[turn]){
+  //     if(is_outer_range(x1,y1,board.length,board.length)) return 1; // 範囲外swapの回避
+  //     if(is_outer_range(x2,y2,board.length,board.length)) return 1;
+  //     [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
+  //   }
+  //   // 移動
+  //   [x1,y1]=move_player(d[turn],x1,y1);
+  //   [x2,y2]=move_player(e[turn],x2,y2);
+  // }
+  // // 最終状態のスコアを計算して返す
+  // return CalcScore(true,N,v,h,a,board);
+
+  return 1;
 }
 // 最終状態の盤面とプレイヤーの位置を計算する関数
 export const CalcEndBoardPlace = function(input_body:Input_type, output_body:Output_type){
-  let board: number[][] = JSON.parse(JSON.stringify(input_body.a)); // 多次元配列のディープコピー
-  const [N,v,h,a]=[input_body.N,input_body.v,input_body.h,input_body.a];
-  const [s,d,e]=[output_body.s,output_body.d,output_body.e]
-  let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
+  // let board: number[][] = JSON.parse(JSON.stringify(input_body.a)); // 多次元配列のディープコピー
+  // const [N,v,h,a]=[input_body.N,input_body.v,input_body.h,input_body.a];
+  // const [s,d,e]=[output_body.s,output_body.d,output_body.e]
+  // let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
 
-  for(let turn=0; turn<output_body.s.length; ++turn){
-    // 入替
-    if(s[turn]){
-      if(is_outer_range(x1,y1,board.length,board.length)) return 1; // 範囲外swapの回避
-      if(is_outer_range(x2,y2,board.length,board.length)) return 1;
-      [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
-    }
-    // 移動
-    [x1,y1]=move_player(d[turn],x1,y1);
-    [x2,y2]=move_player(e[turn],x2,y2);
-  }
-  // 最終状態を返す
-  return { board,x1,y1,x2,y2 };
+  // for(let turn=0; turn<output_body.s.length; ++turn){
+  //   // 入替
+  //   if(s[turn]){
+  //     if(is_outer_range(x1,y1,board.length,board.length)) return 1; // 範囲外swapの回避
+  //     if(is_outer_range(x2,y2,board.length,board.length)) return 1;
+  //     [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
+  //   }
+  //   // 移動
+  //   [x1,y1]=move_player(d[turn],x1,y1);
+  //   [x2,y2]=move_player(e[turn],x2,y2);
+  // }
+  // // 最終状態を返す
+  // return { board,x1,y1,x2,y2 };
+  return { board:[],x1:1,y1:1,x2:1,y2:1 };
 }
 const judgeIentersected = function(ax:number, ay:number, bx:number, by:number, cx:number, cy:number, dx:number, dy:number) {
   let ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);

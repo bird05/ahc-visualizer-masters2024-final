@@ -18,57 +18,55 @@ function GenerateGIF() {
   const handleClick = () => {
     // イメージ作成
     let images = new Array();
-    let board: number[][] = JSON.parse(JSON.stringify(input_body.a)); // ディープコピー
-    // console.log(a);
-    // console.log(board);
-    const [N,v,h]=[input_body.N,input_body.v,input_body.h];
-    const [s,d,e]=[output_body.s,output_body.d,output_body.e]
-    let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
+    // let board: number[][] = JSON.parse(JSON.stringify(input_body.a)); // ディープコピー
+    // const [N,v,h]=[input_body.N,input_body.v,input_body.h];
+    // const [s,d,e]=[output_body.s,output_body.d,output_body.e]
+    // let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
     
-    // 最初の数フレーム
-    const initial_flame_cnt=20;
-    for(var turn=0; turn<initial_flame_cnt; ++turn){
-      const canvas=BoardDisplay(
-        500,500,
-        input_body.is_valid,N,v,h,board,
-        output_body.is_valid,x1,y1,x2,y2
-      );
-      const url=canvas.toDataURL();
-      images[turn]=url;
-    }
-    // 動くフレーム
-    for(var turn=0; turn<output_body.s.length; ++turn){
-    // for(var turn=0; turn<1; ++turn){
-      // console.log(turn);
+    // // 最初の数フレーム
+    // const initial_flame_cnt=20;
+    // for(var turn=0; turn<initial_flame_cnt; ++turn){
+    //   const canvas=BoardDisplay(
+    //     500,500,
+    //     input_body.is_valid,N,v,h,board,
+    //     output_body.is_valid,x1,y1,x2,y2
+    //   );
+    //   const url=canvas.toDataURL();
+    //   images[turn]=url;
+    // }
+    // // 動くフレーム
+    // for(var turn=0; turn<output_body.s.length; ++turn){
+    // // for(var turn=0; turn<1; ++turn){
+    //   // console.log(turn);
       
-      // 入替
-      if(s[turn]){
-        [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
-      }
-      // 移動
-      [x1,y1]=move_player(d[turn],x1,y1);
-      [x2,y2]=move_player(e[turn],x2,y2);
+    //   // 入替
+    //   if(s[turn]){
+    //     [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
+    //   }
+    //   // 移動
+    //   [x1,y1]=move_player(d[turn],x1,y1);
+    //   [x2,y2]=move_player(e[turn],x2,y2);
       
-      // 画像追加
-      const canvas=BoardDisplay(
-        500,500,
-        input_body.is_valid,N,v,h,board,
-        output_body.is_valid,x1,y1,x2,y2
-      );
-      const url=canvas.toDataURL();
-      images[turn+initial_flame_cnt]=url;
-    }
-    // 最後の数フレーム
-    const end_flame_cnt=20;
-    for(var turn=0; turn<end_flame_cnt; ++turn){
-      const canvas=BoardDisplay(
-        500,500,
-        input_body.is_valid,N,v,h,board,
-        output_body.is_valid,x1,y1,x2,y2
-      );
-      const url=canvas.toDataURL();
-      images[turn+output_body.s.length+initial_flame_cnt]=url;
-    }
+    //   // 画像追加
+    //   const canvas=BoardDisplay(
+    //     500,500,
+    //     input_body.is_valid,N,v,h,board,
+    //     output_body.is_valid,x1,y1,x2,y2
+    //   );
+    //   const url=canvas.toDataURL();
+    //   images[turn+initial_flame_cnt]=url;
+    // }
+    // // 最後の数フレーム
+    // const end_flame_cnt=20;
+    // for(var turn=0; turn<end_flame_cnt; ++turn){
+    //   const canvas=BoardDisplay(
+    //     500,500,
+    //     input_body.is_valid,N,v,h,board,
+    //     output_body.is_valid,x1,y1,x2,y2
+    //   );
+    //   const url=canvas.toDataURL();
+    //   images[turn+output_body.s.length+initial_flame_cnt]=url;
+    // }
 
     const options = {
       images: images,

@@ -33,8 +33,10 @@ export const InitialBoard = () => {
     if(input_body){
       const canvas=BoardDisplay(
         200,200,
-        input_body.is_valid,input_body.N,input_body.v,input_body.h,input_body.a,
-        false,-1,-1,-1,-1
+        input_body.is_valid,input_body.px,input_body.py,
+        input_body.lx,input_body.ly,input_body.rx,input_body.ry,
+        input_body.sx,input_body.sy,
+        []
       );
       const pa=document.getElementById(`initialBoard`);
       if(pa) pa.replaceChildren(canvas);
