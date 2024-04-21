@@ -204,6 +204,7 @@ export const CalcEndBoardPlace = function(input_body:Input_type, output_body:Out
   // return { board,x1,y1,x2,y2 };
   return { board:[],x1:1,y1:1,x2:1,y2:1 };
 }
+// 交差判定
 const judgeIentersected = function(ax:number, ay:number, bx:number, by:number, cx:number, cy:number, dx:number, dy:number) {
   let ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);
   let tb = (cx - dx) * (by - cy) + (cy - dy) * (cx - bx);
@@ -213,6 +214,24 @@ const judgeIentersected = function(ax:number, ay:number, bx:number, by:number, c
   // return tc * td < 0 && ta * tb < 0;
   return tc * td <= 0 && ta * tb <= 0; // 端点を含む場合
 };
+// 線分を延長した際の交点座標を返す(線分が平行な場合は例外を返す)
+// https://qiita.com/malb7mm/items/50a8b9ac85a4b61d4b86
+const getIntersection = function(ax:number, ay:number, bx:number, by:number, cx:number, cy:number, dx:number, dy:number) {
+  let a1 = ay - by,
+    a2 = cy - dy,
+    b1 = bx - ax,
+    b2 = dx - cx,
+    c1 = ax*(by-ay) - ay*(bx-ax),
+    c2 = cx*(dy-cy) - cy*(dx-cx);
+
+  // 例外処理
+  if (a1*b2 == a2*b1) return [-1000000,-1000000];
+    // throw new Error("Invalid Coordinates");
+
+  let x = (c2*b1 - c1*b2) / (a1*b2 - a2*b1);
+  let y = (c2*a1 - c1*a2) / (b1*a2 - b2*a1);
+  return [x,y];
+}
 // ドローンの軌跡を求める関数
 export const getTrajectory = function(input_body:Input_type, output_body:Output_type){
   const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
@@ -224,7 +243,8 @@ export const getTrajectory = function(input_body:Input_type, output_body:Output_
   let [x,y] = [sx,sy]; // 変更していくx,y
   // console.log(x);
   let [vx,vy] = [0,0]; // 変更していくx,y
-  for(let turn=0; turn<output_body.ope.length; ++turn){
+
+  for(let turn=0; turn<output_body.ope.length; ++turn){    
     // 加速
     if(ope[turn]==='A'){
       vx+=ax[turn];
@@ -240,9 +260,23 @@ export const getTrajectory = function(input_body:Input_type, output_body:Output_
     
     // 壁衝突判定
     let is_collide: boolean = false;
-    if(nx<=-100000 || 100000<=nx || ny<=-100000 || 100000<=ny) is_collide=true;
+    let col_x:number=0, col_y:number=0;
+    // 外周
+    const LIM=100000;
+    if(nx<=-LIM) [col_x,col_y]=getIntersection(x,y,nx,ny,-LIM,-LIM,-LIM,LIM);
+    if(ny>=LIM) [col_x,col_y]=getIntersection(x,y,nx,ny,-LIM,LIM,LIM,LIM);
+    if(nx>=LIM) [col_x,col_y]=getIntersection(x,y,nx,ny,LIM,LIM,LIM,-LIM);
+    if(ny<=-LIM) [col_x,col_y]=getIntersection(x,y,nx,ny,LIM,-LIM,-LIM,-LIM);
+    
+    if(nx<=-LIM || LIM<=nx || ny<=-LIM || LIM<=ny){
+      is_collide=true;
+    }
+    // 壁
     for(let w_id=0; w_id<M; ++w_id){
-      if(judgeIentersected(x,y,nx,ny,lx[w_id],ly[w_id],rx[w_id],ry[w_id])) is_collide=true; // TODO:壁衝突判定
+      if(judgeIentersected(x,y,nx,ny,lx[w_id],ly[w_id],rx[w_id],ry[w_id])){
+        is_collide=true;
+        [col_x,col_y]=getIntersection(x,y,nx,ny,lx[w_id],ly[w_id],rx[w_id],ry[w_id]);
+      }
     }
 
     // 軌跡格納
@@ -252,7 +286,9 @@ export const getTrajectory = function(input_body:Input_type, output_body:Output_
         ly:y,
         rx:nx,
         ry:ny,
-        is_col:is_collide,
+        is_col:is_collide, // 衝突判定
+        col_x:Math.trunc(col_x),       // 衝突座標
+        col_y:Math.trunc(col_y),       // 衝突座標
       }
     );
 

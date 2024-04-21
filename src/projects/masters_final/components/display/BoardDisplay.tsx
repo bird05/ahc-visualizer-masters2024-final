@@ -11,6 +11,19 @@ const conv_coord = function(x:number, y:number){
 const conv_coord2 = function(x:number, y:number){
   return [x,100000-y];
 }
+// バツ印を描画する(ctx,中心のxy座標,大きさ)
+const cross = function (ctx:any, cx:number, cy:number, siz:number){
+  ctx.lineWidth=1.5;
+  ctx.strokeStyle = 'rgba(255,0,0,1.0)'; // 赤
+  ctx.beginPath();
+  ctx.moveTo(cx-siz/2, cy-siz/2);
+  ctx.lineTo(cx+siz/2, cy+siz/2);
+  ctx.moveTo(cx+siz/2, cy-siz/2);
+  ctx.lineTo(cx-siz/2, cy+siz/2);
+  ctx.closePath();
+  ctx.stroke();
+  ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 黒に戻す
+}
 
 export function BoardDisplay(
   canv_w:number, canv_h:number,
@@ -33,9 +46,9 @@ export function BoardDisplay(
   if(ctx){
     if(input_is_valid){
       const LEN=CANV_SIZ/200000;
-
+      
       // 目的地
-      ctx.fillStyle = 'hsla(0,100%,50%,1.0)';
+      ctx.fillStyle = 'hsla(100,100%,50%,1.0)';
       for(let i=0; i<px.length; ++i){
         ctx.beginPath();
         const [x,y] = conv_coord(px[i],py[i]); // 座標変換
@@ -56,15 +69,16 @@ export function BoardDisplay(
       ctx.stroke();
       ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
       // 軌跡
-      // ctx.lineWidth = 1.5;
-      // ctx.strokeStyle = 'hsla(100,100%,50%,.8)';
+      /*
       for(let i=0; i<tra.length; ++i){
         ctx.beginPath();
         const [x1,y1] = conv_coord(tra[i].lx,tra[i].ly); // 座標変換
         const [x2,y2] = conv_coord(tra[i].rx,tra[i].ry);
+        // 衝突あり
         if(tra[i].is_col){
-          ctx.lineWidth = 3.0;
-          ctx.strokeStyle = 'hsla(0,100%,50%,.8)';
+          ctx.lineWidth = 13.0;
+          ctx.strokeStyle = 'hsla(205,100%,50%,.8)';
+        // 衝突なし
         }else{
           ctx.lineWidth = 1.5;
           ctx.strokeStyle = 'hsla(100,100%,50%,.8)';
@@ -73,6 +87,26 @@ export function BoardDisplay(
         ctx.lineTo(x2*LEN, y2*LEN);
         ctx.closePath();
         ctx.stroke();
+      }
+      */
+      ctx.beginPath();
+      ctx.lineWidth = 1.0;
+      ctx.strokeStyle = 'hsla(205,100%,20%,.8)';
+      for(let i=0; i<tra.length; ++i){
+        const [x1,y1] = conv_coord(tra[i].lx,tra[i].ly); // 座標変換
+        const [x2,y2] = conv_coord(tra[i].rx,tra[i].ry);
+        ctx.moveTo(x1*LEN, y1*LEN);
+        ctx.lineTo(x2*LEN, y2*LEN);
+      }
+      ctx.closePath();
+      ctx.stroke();
+      
+      // ×印
+      for(let i=0; i<tra.length; ++i){
+        if(tra[i].is_col){
+          const [tx,ty] = conv_coord(tra[i].col_x,tra[i].col_y);
+          cross(ctx,tx*LEN,ty*LEN,3000*LEN);
+        }
       }
       ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
       // ドローン
@@ -89,90 +123,3 @@ export function BoardDisplay(
   // console.log(typeof(canvas));
   return canvas;
 }
-/*
-export function BoardDisplay(
-  canv_w:number, canv_h:number,
-  input_is_valid:boolean, N:number, v:string[], h:string[], board:number[][],
-  output_is_valid:boolean, x1:number, y1:number, x2:number, y2:number){
-
-  const canvas=document.createElement("canvas");
-  canvas.width=canv_w;
-  canvas.height=canv_h;
-  const CANV_SIZ=canv_w;
-  const ctx=canvas.getContext('2d');
-  if(ctx){
-    if(input_is_valid && Number(N)===board.length){
-      const LEN=canv_w/N;
-      // 背景
-      // ctx.fillStyle = 'rgb(255,255,255)';
-      // ctx.fillRect(0,0,500,500);
-      // 四角形
-      for(var i=0; i<N; ++i){
-        for(var j=0; j<N; ++j){
-          ctx.fillStyle = 'hsla('+val_to_hue(N,board[i][j])+',100%,50%,.8)';
-          ctx.fillRect(j*LEN, i*LEN, LEN, LEN);
-        }
-      }
-      // テキスト
-      ctx.fillStyle = 'black';
-      // ctx.font = `${canv_w/5/N}pt Arial`; // '10pt Arial';
-      ctx.font = `${LEN/5}pt Arial`; // '10pt Arial';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = "middle";
-      for(var i=0; i<N; ++i){
-        for(var j=0; j<N; ++j){
-          ctx.fillText(board[i][j].toString(), (j+0.5)*LEN,(i+0.5)*LEN);
-        }
-      }
-      // ライン
-      ctx.lineWidth=0.5;
-      ctx.beginPath();
-      for(var i=1; i<N; ++i){ // 縦
-        ctx.moveTo(i*LEN, 0);
-        ctx.lineTo(i*LEN, CANV_SIZ);
-      }
-      for(var i=1; i<N; ++i){ // 横
-        ctx.moveTo(0, i*LEN);
-        ctx.lineTo(CANV_SIZ, i*LEN);
-      }
-      ctx.closePath();
-      ctx.stroke();
-      // 壁
-      ctx.lineWidth=3;
-      ctx.beginPath();
-      for(var i=0; i<N; ++i){ // 縦
-        for(var j=0; j<N-1; ++j){
-          if(v[i][j]=='0') continue;
-          ctx.moveTo((j+1)*LEN,i*LEN);
-          ctx.lineTo((j+1)*LEN,(i+1)*LEN);
-        }
-      }
-      for(var i=0; i<N-1; ++i){ // 横
-        for(var j=0; j<N; ++j){
-          if(h[i][j]=='0') continue;
-          ctx.moveTo(j*LEN,(i+1)*LEN);
-          ctx.lineTo((j+1)*LEN,(i+1)*LEN);
-        }
-      }
-      ctx.closePath();
-      ctx.stroke();
-      if(output_is_valid){
-        // プレイヤー
-        ctx.fillStyle = 'hsla(0,100%,50%,.5)';
-        ctx.beginPath();
-        ctx.arc((y1+0.5)*LEN, (x1+0.5)*LEN, (CANV_SIZ/4)/N, 0, Math.PI * 2, true);
-        ctx.fill();
-        ctx.fillStyle = 'hsla(205,100%,50%,.5)';
-        ctx.beginPath();
-        ctx.arc((y2+0.5)*LEN, (x2+0.5)*LEN, (CANV_SIZ/4)/N, 0, Math.PI * 2, true);
-        ctx.fill();
-      }
-    }
-    // 枠線
-    ctx.lineWidth=1;
-    ctx.strokeRect(0,0,canv_w,canv_h);
-  }
-  // console.log(typeof(canvas));
-  return canvas;
-}
-*/
