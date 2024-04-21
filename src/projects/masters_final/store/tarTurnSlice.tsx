@@ -4,6 +4,7 @@ export const tarTurnSlice = createSlice({
   name: 'tarTurn',
   initialState: {
     tarTurn:0,
+    FPS:10,
   },
   reducers: {
     setTarTurn: (state, action) => {
@@ -14,8 +15,12 @@ export const tarTurnSlice = createSlice({
       }
       state.tarTurn=action.payload;
     },
+    setFPS: (state, action) => {
+      if (Number.isNaN(action.payload)) return;
+      state.FPS=action.payload;
+    },
   },
 });
 
-export const { setTarTurn } = tarTurnSlice.actions;
+export const { setTarTurn, setFPS } = tarTurnSlice.actions;
 export default tarTurnSlice.reducer;
