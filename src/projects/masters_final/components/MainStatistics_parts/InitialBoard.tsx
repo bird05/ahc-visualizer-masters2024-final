@@ -33,10 +33,12 @@ export const InitialBoard = () => {
     if(input_body){
       const canvas=BoardDisplay(
         200,200,
-        input_body.is_valid,input_body.px,input_body.py,
-        input_body.lx,input_body.ly,input_body.rx,input_body.ry,
+        input_body,
+        {is_valid:false,ope:[],ax:[],ay:[]},
         input_body.sx,input_body.sy,
-        []
+        [],
+        0,
+        {showTra:false,showTail:false,showCross:false}, // 軌跡,しっぽ,×
       );
       const pa=document.getElementById(`initialBoard`);
       if(pa) pa.replaceChildren(canvas);

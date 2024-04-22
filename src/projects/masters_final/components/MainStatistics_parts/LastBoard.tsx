@@ -42,10 +42,12 @@ export const LastBoard = (props) => {
       if(urlsAll[p_id].length<=selectedSeed){
         const canvas=BoardDisplay(
           200,200,
-          false,[],[],
-          [],[],[],[],
-          0,0,
-          []
+          {is_valid:false,N:0,M:0,eps:0,dlt:0,sx:0,sy:0,px:[],py:[],lx:[],ly:[],rx:[],ry:[],alp:[],fx:[],fy:[]},
+          {is_valid:false,ope:[],ax:[],ay:[]}, // TODO:output_bodyの反映
+          0,0, // TODO:output_bodyの反映
+          [],
+          0,
+          {showTra:true,showTail:false,showCross:true} // 軌跡,しっぽ,×
         );
         const pa=document.getElementById(`lastBoard${p_id}`);
         if(pa) pa.replaceChildren(canvas);
@@ -56,10 +58,12 @@ export const LastBoard = (props) => {
         const res:any = CalcEndBoardPlace(input_body,output_body);
         const canvas=BoardDisplay(
           200,200,
-          input_body.is_valid,input_body.px,input_body.py,
-          input_body.lx,input_body.ly,input_body.rx,input_body.ry,
-          input_body.sx,input_body.sy,
-          []
+          input_body,
+          {is_valid:false,ope:[],ax:[],ay:[]}, // TODO:output_bodyの反映
+          0,0, // TODO:output_bodyの反映
+          [],
+          0,
+          {showTra:true,showTail:false,showCross:true} // 軌跡,しっぽ,×
         );
         const pa=document.getElementById(`lastBoard${p_id}`);
         if(pa) pa.replaceChildren(canvas);
