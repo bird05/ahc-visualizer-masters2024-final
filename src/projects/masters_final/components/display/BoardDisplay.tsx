@@ -27,16 +27,16 @@ const cross = function (ctx:any, cx:number, cy:number, siz:number){
 
 export function BoardDisplay(
   canv_w:number, canv_h:number,
-  input_is_valid:boolean,
-  px:number[], py:number[], // 目的地の位置
-  lx:number[],ly:number[],rx:number[],ry:number[],// 壁の位置
-  // output_is_valid:boolean,
+  input_body:Input_type,
+  output_body:Output_type,
   dro_x:number,dro_y:number, // ドローンの位置
-  tra:any
-  // input_body:Input_type, output_body:Output_type
+  tra:any,                   // 軌跡
+  turn:number,               // ターン数
+  cond:any,                  // 描画条件
   ){
-  // const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
-  // const [output_is_valid,ope,ax,ay]=[output_body.is_valid,output_body.ope,output_body.ax,output_body.ay];
+  const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
+  const [output_is_valid,ope,ax,ay]=[output_body.is_valid,output_body.ope,output_body.ax,output_body.ay];
+  const [showTra,showTail,showCross]=[cond.showTra,cond.showTail,cond.showCross];
   // let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
   const canvas=document.createElement("canvas");
   canvas.width=canv_w;
@@ -89,31 +89,64 @@ export function BoardDisplay(
         ctx.stroke();
       }
       */
-      ctx.beginPath();
-      ctx.lineWidth = 1.0;
-      ctx.strokeStyle = 'hsla(205,100%,20%,.8)';
-      for(let i=0; i<tra.length; ++i){
-        const [x1,y1] = conv_coord(tra[i].lx,tra[i].ly); // 座標変換
-        const [x2,y2] = conv_coord(tra[i].rx,tra[i].ry);
-        ctx.moveTo(x1*LEN, y1*LEN);
-        ctx.lineTo(x2*LEN, y2*LEN);
+      if(showTra){
+        ctx.beginPath();
+        ctx.lineWidth = 1.0;
+        ctx.strokeStyle = 'hsla(205,100%,20%,.5)';
+        for(let i=0; i<tra.length; ++i){
+          const [x1,y1] = conv_coord(tra[i].lx,tra[i].ly); // 座標変換
+          const [x2,y2] = conv_coord(tra[i].rx,tra[i].ry);
+          ctx.moveTo(x1*LEN, y1*LEN);
+          ctx.lineTo(x2*LEN, y2*LEN);
+        }
+        ctx.closePath();
+        ctx.stroke();
       }
-      ctx.closePath();
-      ctx.stroke();
-      
-      // ×印
-      for(let i=0; i<tra.length; ++i){
-        if(tra[i].is_col){
-          const [tx,ty] = conv_coord(tra[i].col_x,tra[i].col_y);
-          cross(ctx,tx*LEN,ty*LEN,3000*LEN);
+      // しっぽ
+      if(showTail){
+        if(tra.length>0){
+          for(let i=0; i<10; ++i){
+            let t_turn=turn-i-1;
+            if(t_turn<0) break;
+            if(t_turn>tra.length) continue;
+            ctx.beginPath();
+            // 太さ変更
+            ctx.lineWidth = 3*(10-i)/10;
+            ctx.strokeStyle = `hsla(205,100%,20%,1.0)`;
+            // 透過度変更
+            // ctx.lineWidth = 3.0;            
+            // ctx.strokeStyle = `hsla(205,100%,20%,${(10-i)/10})`;
+            const [x1,y1] = conv_coord(tra[t_turn].lx,tra[t_turn].ly); // 座標変換
+            const [x2,y2] = conv_coord(tra[t_turn].rx,tra[t_turn].ry);
+            ctx.moveTo(x1*LEN, y1*LEN);
+            ctx.lineTo(x2*LEN, y2*LEN);
+            ctx.closePath();
+            ctx.stroke();
+          }
         }
       }
-      ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
+      
+      // ×印
+      if(showCross){
+        for(let i=0; i<tra.length; ++i){
+          if(tra[i].is_col){
+            const [tx,ty] = conv_coord(tra[i].col_x,tra[i].col_y);
+            cross(ctx,tx*LEN,ty*LEN,3000*LEN);
+          }
+        }
+        ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
+      }
+      
       // ドローン
       ctx.fillStyle = 'hsla(205,100%,50%,0.5)';
       ctx.beginPath();
       const [x,y] = conv_coord(dro_x,dro_y); // 座標変換
       ctx.arc(x*LEN, y*LEN,3000*LEN, 0, Math.PI * 2, true); // x,y,半径,開始角度,終了角度,時計回り
+      ctx.fill();
+      // ドローン中心
+      ctx.fillStyle = 'hsla(205,100%,50%,1.0)';
+      ctx.beginPath();
+      ctx.arc(x*LEN, y*LEN,1, 0, Math.PI * 2, true); // x,y,半径,開始角度,終了角度,時計回り
       ctx.fill();
     }
     // 枠線
