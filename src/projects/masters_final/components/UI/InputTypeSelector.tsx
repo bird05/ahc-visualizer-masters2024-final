@@ -25,24 +25,36 @@ export const InputTypeSelector = () => {
   const changeFunction: React.ChangeEventHandler<HTMLSelectElement> = (ev) => {
     setInputT(ev.target.value);
     dispatch(setType(ev.target.value));
-    
-    // if(ev.target.value==="A") setInputT('A');
-    // if(ev.target.value==="B") setInputT('B');
-    // if(ev.target.value==="C") setInputT('C');
-    // if(ev.target.value==="未選択") setInputT(-1);
-    // else setInputT(Number(ev.target.value));
-  };
+  }
+
+  const changeValue = function (ev){
+    setInputT(ev.target.value);
+    dispatch(setType(ev.target.value));
+  }
 
   // DOM==============================
   console.log("InputTypeSelector");
   return(
     <>
-      <label>Type: </label>
+      {/* ラジオボタン */}
+      <SDivAll>
+        <label>Type: </label>
+        <SDivRadioAll>
+          <SDivRadioItem><input type="radio" name="num_of_inq" value="A" onChange={changeValue} defaultChecked/>A</SDivRadioItem>
+          <SDivRadioItem><input type="radio" name="num_of_inq" value="B" onChange={changeValue} />B</SDivRadioItem>
+          <SDivRadioItem><input type="radio" name="num_of_inq" value="C" onChange={changeValue} />C</SDivRadioItem>
+        </SDivRadioAll>
+      </SDivAll>
+      
+      {/* ドロップダウンリスト */}
+      {/* <label>Type: </label>
       <SSelect onChange={changeFunction} value={inputT}>
         <option value="A">A</option>
         <option value="B">B</option>
         <option value="C">C</option>
-      </SSelect>
+      </SSelect> */}
+      
+      {/* ドロップダウンリスト */}
       {/* <STable>
           <caption></caption>
           <tbody>
@@ -88,4 +100,20 @@ const STd = styled.td`
 `;
 const SSelect = styled.select`
   cont-size: 12pt;
+`
+
+const SDivAll = styled.div`
+  display:flex;
+  // align-items: center;
+  // justify-content: center;
+  // padding: 8px;
+`
+const SDiv = styled.div`
+  // padding: 8px;
+`
+const SDivRadioAll = styled.div`
+  display:flex;
+`
+const SDivRadioItem = styled.div`
+  padding-right: 4px;
 `

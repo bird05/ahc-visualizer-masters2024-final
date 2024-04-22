@@ -30,9 +30,10 @@ export const Main_Single = () => {
   console.log("Main_Single");
   return(
     <>
-      <InputTypeSelector/>
-      <SeedSelector/>
-      <br></br>
+      <Stack direction="row" spacing="14px">
+        <InputTypeSelector/>
+        <SeedSelector/>
+      </Stack>
       <InputTextarea/>
       <br></br>
       <OutputTextarea/>
