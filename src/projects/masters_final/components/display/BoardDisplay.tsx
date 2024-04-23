@@ -3,18 +3,14 @@ import { Input_type, Output_type } from "../../types/typeFormat"
 // 関数インポート
 import { val_to_hue } from '../../functions/CommonFunctions'
 
-// x,y座標をcanvas座標に変換する関数(arcに対応)
+// x,y座標をcanvas座標に変換する関数(arc,lineに対応)
 const conv_coord = function(x:number, y:number){
   return [x+100000,100000-y];
 }
-// x,y座標をcanvas座標に変換する関数(fillRect,lineに対応)
-const conv_coord2 = function(x:number, y:number){
-  return [x,100000-y];
-}
-// バツ印を描画する(ctx,中心のxy座標,大きさ)
-const cross = function (ctx:any, cx:number, cy:number, siz:number){
+// バツ印を描画する(ctx,中心のxy座標,大きさ,透過度)
+const cross = function (ctx:any, cx:number, cy:number, siz:number, a:number){
   ctx.lineWidth=1.5;
-  ctx.strokeStyle = 'rgba(255,0,0,1.0)'; // 赤
+  ctx.strokeStyle = `rgba(255,0,0,${a})`; // 赤
   ctx.beginPath();
   ctx.moveTo(cx-siz/2, cy-siz/2);
   ctx.lineTo(cx+siz/2, cy+siz/2);
@@ -131,10 +127,27 @@ export function BoardDisplay(
         for(let i=0; i<tra.length; ++i){
           if(tra[i].is_col){
             const [tx,ty] = conv_coord(tra[i].col_x,tra[i].col_y);
-            cross(ctx,tx*LEN,ty*LEN,3000*LEN);
+            cross(ctx,tx*LEN,ty*LEN,3000*LEN,1.0);
           }
         }
         ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
+      }else{
+        // d_turnだけ表示
+        const d_turn:number = 35;
+        if(tra.length>0){
+          for(let i=0; i<d_turn; ++i){
+            let t_turn=turn-i;
+            if(t_turn<0) break;
+            if(t_turn>tra.length) continue;
+            if(tra[t_turn].is_col){
+              const [tx,ty] = conv_coord(tra[t_turn].col_x,tra[t_turn].col_y);
+              // 最後10ターンで1.0から0.1まで減少
+              let alpha=Math.min(1.0,(d_turn-i)/10)
+              cross(ctx,tx*LEN,ty*LEN,3000*LEN,alpha);
+            }
+          }
+          ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
+        }
       }
       
       // ドローン
