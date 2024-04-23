@@ -21,6 +21,11 @@ export const BoardController = () => {
   const input_body=useSelector((state) => state.input.b);
   const output_body=useSelector((state) => state.output.b);
   const tarTurn = useSelector((state) => state.tarTurn.tarTurn);
+  // const showTail = useSelector((state) => state.displayCondition.showTail);
+  // const showTrajectory = useSelector((state) => state.displayCondition.showTrajectory);
+  // const showCollision = useSelector((state) => state.displayCondition.showCollision);
+  const showCond = useSelector((state) => state.displayCondition.showCond);
+
 
   // useEffect==============================
   useEffect(() => {
@@ -34,7 +39,7 @@ export const BoardController = () => {
   },[trajectory])
   useEffect(() => {
     updateBoard(tarTurn);
-  },[tarTurn])
+  },[tarTurn,showCond])
   
   // 関数==============================
   // 現在位置を渡して盤面を描画する関数
@@ -54,7 +59,7 @@ export const BoardController = () => {
       cx,cy,
       trajectory,
       turn,
-      {showTra:false,showTail:true,showCross:true}, // 軌跡,しっぽ,×
+      {showTra:showCond.trajectory,showTail:showCond.tail,showCross:showCond.collision}, // 軌跡,しっぽ,×
     );
     const pa=document.getElementById("board");
     // console.log("disp");

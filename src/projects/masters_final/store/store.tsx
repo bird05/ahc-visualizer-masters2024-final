@@ -7,6 +7,7 @@ import inputReducer from './inputSlice';
 import outputReducer from './outputSlice';
 import tarTurnReducer from './tarTurnSlice';
 import playingFlagReducer from './playingFlagSlice';
+import displayConditionReducer from './displayConditionSlice';
 import statisticsInfoReducer from './statisticsInfoSlice';
 
 export const store = configureStore({
@@ -16,6 +17,7 @@ export const store = configureStore({
     output: outputReducer,
     tarTurn: tarTurnReducer,
     playingFlag: playingFlagReducer,
+    displayCondition: displayConditionReducer,
     statistics: statisticsInfoReducer,
   },
 });

@@ -23,6 +23,7 @@ import { ScoreChartController } from './display/ScoreChartController';
 import GenerateGIF from '../functions/GenerateGIF';
 // 型
 import type { Input_type, Output_type } from "../types/typeFormat"
+import { DisplayConditionSelector } from './UI/DisplayConditionSelector';
 
 export const Main_Single = () => {
   // useState==============================
@@ -47,6 +48,7 @@ export const Main_Single = () => {
         <TarTurnInput/>
       </SDiv>
       <SeekBar/>
+      <DisplayConditionSelector/>
       <hr></hr>
       <Stack direction="row">
         <div><BoardController/></div>

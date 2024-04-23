@@ -151,6 +151,7 @@ export function BoardDisplay(
     }
     // 枠線
     ctx.lineWidth=1;
+    ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
     ctx.strokeRect(0,0,canv_w,canv_h);
   }
   // console.log(typeof(canvas));
