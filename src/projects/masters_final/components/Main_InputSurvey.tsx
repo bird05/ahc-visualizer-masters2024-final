@@ -42,6 +42,9 @@ export const Main_InputSurvey = () => {
   console.log("Main_InputSurvey");
   return(
     <>
+      <SH3>Input Survey</SH3>
+      問題文は<SA href="https://atcoder.jp/contests/masters2024-final/tasks/masters2024_final_a">こちら</SA>。
+      <hr></hr>
       <InputTypeSelector/>
       <MultiBoard/>
       {/* <SDivTopOuter>
@@ -89,7 +92,13 @@ export const Main_InputSurvey = () => {
     </>
   );
 };
+const SH3 = styled.h3`
+  margin:5px 0px;
+`
+const SA = styled.a`
+  text-decoration: underline;
+`
 const SDiv = styled.div`
-display: flex;
-margin-top:5px;
+  display: flex;
+  margin-top:5px;
 `

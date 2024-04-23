@@ -40,6 +40,7 @@ const App = () => {
     flex-direction: ${isWide?"row":"column"};
   `
   const SDivSide = styled.div`
+    min-width: 180px;
     ${isWide?"width: 180px":"height: 100%"};
     //padding-top: 5px;
     //padding-left: 5px;

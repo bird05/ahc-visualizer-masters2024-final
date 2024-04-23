@@ -28,14 +28,14 @@ export const SideBar = () => {
   const [inputName, setInputName] = useState(""); // 名前をリアルタイムに受け取るState
   const [inputPass, setInputPass] = useState(""); // パスをリアルタイムに受け取るState
   // Styled CSS==============================
-  const SButtonMenu = styled.button`
-  font-size: 20px;
-  `
   const SInput = styled.input`
   color:#000000; // 黒
   // background-color:#efefef; // ライトグレー
   // border-color:#767676; // ライトグレー
   // border-radius:3px;
+  `
+  const SH3 = styled.h3`
+    margin:5px 0px;
   `
   const onClickAuth = () => {
     // 名前、パスを照会
@@ -55,14 +55,13 @@ export const SideBar = () => {
   };
   return(
     <>
-      <h3>Menu</h3>
+      <SH3>Menu</SH3>
       <p><input type="button" onClick={() => navigate('single')} value={"Single"}/></p>
       <p><input type="button" onClick={() => navigate('input_survey')} value={"Input Survey"}/></p>
       {/* <p><input type="button" onClick={() => navigate('statistics')} value={"Statistics"}/></p> */}
-      {/* <SButtonMenu>Single</SButtonMenu> */}
 
       <hr></hr>
-      <div>
+      {/* <div>
         <h3>権限設定</h3>
         <p>
           名前：{name}<br></br>
@@ -85,7 +84,7 @@ export const SideBar = () => {
           <SInput type="button" onClick={onClickAuth} value={"権限切り替え"}/>
           <input type="button" onClick={onClickLogOff} value={"ログオフ"}/>
         </p>
-      </div>
+      </div> */}
     </>
   );
 };

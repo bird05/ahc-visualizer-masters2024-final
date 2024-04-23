@@ -31,6 +31,9 @@ export const Main_Single = () => {
   console.log("Main_Single");
   return(
     <>
+      <SH3>Single</SH3>
+      問題文は<SA href="https://atcoder.jp/contests/masters2024-final/tasks/masters2024_final_a">こちら</SA>。
+      <hr></hr>
       <Stack direction="row" spacing="14px">
         <InputTypeSelector/>
         <SeedSelector/>
@@ -40,8 +43,8 @@ export const Main_Single = () => {
       <OutputTextarea/>
       <br></br>
       <FolderSelector/>
-      <br></br>
-      <GenerateGIF/>
+      {/* <br></br>
+      <GenerateGIF/> */}
       <SDiv>
         <PlayStopButton/>
         <SpeedBar/>
@@ -57,7 +60,13 @@ export const Main_Single = () => {
     </>
   );
 };
+const SH3 = styled.h3`
+  margin:5px 0px;
+`
+const SA = styled.a`
+  text-decoration: underline;
+`
 const SDiv = styled.div`
-display: flex;
-margin-top:5px;
+  display: flex;
+  margin-top:5px;
 `
