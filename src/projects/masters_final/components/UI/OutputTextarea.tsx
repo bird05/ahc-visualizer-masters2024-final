@@ -34,15 +34,7 @@ export const OutputTextarea = () => {
   },[output_urls,seed])
 
   // Styled CSS==============================
-  const SLabel = styled.label`
-  color:red;
-  `
-  const STextarea = styled.textarea`
-  color:#000000; // 黒
-  background-color:#ffffff; // 白
-  border-color:#767676; // ライトグレー
-  border-radius:3px;
-  `
+  
   // 関数==============================
   // 出力内容読み取り
   const readOutput = () => {
@@ -62,3 +54,12 @@ export const OutputTextarea = () => {
     </>
   )
 };
+const SLabel = styled.label`
+  color:red;
+`
+const STextarea = styled.textarea`
+  color:#000000; // 黒
+  background-color:#ffffff; // 白
+  border-color:#767676; // ライトグレー
+  border-radius:3px;
+`

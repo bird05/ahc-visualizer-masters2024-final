@@ -27,15 +27,7 @@ export const InputTextarea = () => {
     readInput_from_File(seed);
   },[input_type,seed])
   // Styled CSS==============================
-  const SLabel = styled.label`
-  color:red;
-  `
-  const STextarea = styled.textarea`
-  color:#000000; // 黒
-  background-color:#ffffff; // 白
-  border-color:#767676; // ライトグレー
-  border-radius:3px;
-  `
+  
   // 関数==============================
   // ファイルからの読み込み
   const readInput_from_File = async (seed_l:number) => {
@@ -71,3 +63,12 @@ export const InputTextarea = () => {
     </>
   )
 };
+const SLabel = styled.label`
+  color:red;
+`
+const STextarea = styled.textarea`
+  color:#000000; // 黒
+  background-color:#ffffff; // 白
+  border-color:#767676; // ライトグレー
+  border-radius:3px;
+`
