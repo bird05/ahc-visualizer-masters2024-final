@@ -98,6 +98,18 @@ export function BoardDisplay(
         ctx.closePath();
         ctx.stroke();
       }
+      // 計測線
+      if(ope[turn]==='S'){
+        ctx.beginPath();
+        ctx.lineWidth = 1.0;
+        ctx.strokeStyle = 'hsla(60,100%,30%,.5)';
+        const [x1,y1] = conv_coord(dro_x,dro_y); // 座標変換
+        const [x2,y2] = conv_coord(tra[turn].mx,tra[turn].my); // 座標変換
+        ctx.moveTo(x1*LEN, y1*LEN);
+        ctx.lineTo(x2*LEN, y2*LEN);
+        ctx.closePath();
+        ctx.stroke();
+      }
       // しっぽ
       if(showTail){
         if(tra.length>0){
@@ -138,7 +150,7 @@ export function BoardDisplay(
           for(let i=0; i<d_turn; ++i){
             let t_turn=turn-i;
             if(t_turn<0) break;
-            if(t_turn>tra.length) continue;
+            if(t_turn>=tra.length) continue;
             if(tra[t_turn].is_col){
               const [tx,ty] = conv_coord(tra[t_turn].col_x,tra[t_turn].col_y);
               // 最後10ターンで1.0から0.1まで減少

@@ -232,6 +232,12 @@ const getIntersection = function(ax:number, ay:number, bx:number, by:number, cx:
   let y = (c2*a1 - c1*a2) / (b1*a2 - b2*a1);
   return [x,y];
 }
+// 距離の2乗を求める
+const calcDist2 = function (x1:number, y1:number, x2:number, y2:number){
+  let dx:number = x1-x2;
+  let dy:number = y1-y2;
+  return dx*dx+dy*dy;
+}
 // ドローンの軌跡を求める関数
 export const getTrajectory = function(input_body:Input_type, output_body:Output_type){
   const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
@@ -239,43 +245,73 @@ export const getTrajectory = function(input_body:Input_type, output_body:Output_
 
   const tra = new Array();
   if(!input_is_valid || ! output_is_valid) return { tra };
-  // console.log(sx);
   let [x,y] = [sx,sy]; // 変更していくx,y
-  // console.log(x);
   let [vx,vy] = [0,0]; // 変更していくx,y
 
-  for(let turn=0; turn<output_body.ope.length; ++turn){    
+  // 外周を壁の集合に加える
+  let lx_add=[...lx];
+  let ly_add=[...ly];
+  let rx_add=[...rx];
+  let ry_add=[...ry];
+  const LIM=100000;
+  const out_wall_lx:number[]=[-LIM,-LIM,LIM,LIM];
+  const out_wall_ly:number[]=[-LIM,LIM,LIM,-LIM];
+  const out_wall_rx:number[]=[-LIM,LIM,LIM,-LIM];
+  const out_wall_ry:number[]=[LIM,LIM,-LIM,-LIM];
+  for(let i=0; i<4; ++i){
+    lx_add.push(out_wall_lx[i]);
+    ly_add.push(out_wall_ly[i]);
+    rx_add.push(out_wall_rx[i]);
+    ry_add.push(out_wall_ry[i]);
+  }
+
+  for(let turn=0; turn<output_body.ope.length; ++turn){ 
+    // 計測線
+    let mx:number=0, my:number=0; // 計測線
+
     // 加速
     if(ope[turn]==='A'){
       vx+=ax[turn];
       vy+=ay[turn];
+    // 計測
+    }else{
+      // mx,myを決める
+      let mx_len=3*100000;
+      let len=Math.sqrt(ax[turn]*ax[turn]+ay[turn]*ay[turn]);
+      let r=mx_len/len;
+      // 計測線の終点
+      let end_x=x+ax[turn]*r;
+      let end_y=y+ay[turn]*r;
+      let mn_len2=mx_len*mx_len;
+      // 壁、外周との交点を求める
+      for(let w_id=0; w_id<lx_add.length; ++w_id){
+        if(judgeIentersected(x,y,end_x,end_y,lx_add[w_id],ly_add[w_id],rx_add[w_id],ry_add[w_id])){
+          // 注目している壁にぶつかる点
+          const [mx_buf,my_buf]=getIntersection(x,y,end_x,end_y,lx_add[w_id],ly_add[w_id],rx_add[w_id],ry_add[w_id]);
+          let cu_len2=calcDist2(x,y,mx_buf,my_buf);
+          if(cu_len2<mn_len2){
+            mn_len2=cu_len2;
+            [mx,my]=[mx_buf,my_buf]
+          }
+        }
+      }
     }
+
     // 誤差
     vx+=Number(fx[turn]);
     vy+=Number(fy[turn]);
     // 移動
     let nx: number = x+vx;
     let ny: number = y+vy;
-    // console.log(x);
     
     // 壁衝突判定
     let is_collide: boolean = false;
     let col_x:number=0, col_y:number=0;
-    // 外周
-    const LIM=100000;
-    if(nx<=-LIM) [col_x,col_y]=getIntersection(x,y,nx,ny,-LIM,-LIM,-LIM,LIM);
-    if(ny>=LIM) [col_x,col_y]=getIntersection(x,y,nx,ny,-LIM,LIM,LIM,LIM);
-    if(nx>=LIM) [col_x,col_y]=getIntersection(x,y,nx,ny,LIM,LIM,LIM,-LIM);
-    if(ny<=-LIM) [col_x,col_y]=getIntersection(x,y,nx,ny,LIM,-LIM,-LIM,-LIM);
-    
-    if(nx<=-LIM || LIM<=nx || ny<=-LIM || LIM<=ny){
-      is_collide=true;
-    }
-    // 壁
-    for(let w_id=0; w_id<M; ++w_id){
-      if(judgeIentersected(x,y,nx,ny,lx[w_id],ly[w_id],rx[w_id],ry[w_id])){
+    // 壁、外周
+    for(let w_id=0; w_id<lx_add.length; ++w_id){
+      if(judgeIentersected(x,y,nx,ny,lx_add[w_id],ly_add[w_id],rx_add[w_id],ry_add[w_id])){
         is_collide=true;
-        [col_x,col_y]=getIntersection(x,y,nx,ny,lx[w_id],ly[w_id],rx[w_id],ry[w_id]);
+        [col_x,col_y]=getIntersection(x,y,nx,ny,lx_add[w_id],ly_add[w_id],rx_add[w_id],ry_add[w_id]);
       }
     }
 
@@ -286,9 +322,11 @@ export const getTrajectory = function(input_body:Input_type, output_body:Output_
         ly:y,
         rx:nx,
         ry:ny,
-        is_col:is_collide, // 衝突判定
-        col_x:Math.trunc(col_x),       // 衝突座標
-        col_y:Math.trunc(col_y),       // 衝突座標
+        is_col:is_collide,       // 衝突判定
+        col_x:Math.trunc(col_x), // 衝突座標
+        col_y:Math.trunc(col_y), // 衝突座標
+        mx:mx,                   // 計測線の到達位置
+        my:my,
       }
     );
 
