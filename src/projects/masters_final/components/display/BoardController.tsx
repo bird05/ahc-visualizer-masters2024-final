@@ -14,7 +14,8 @@ import { setT } from "../../store/statisticsInfoSlice";
 
 export const BoardController = () => {
   // useState==============================
-  const [trajectory, setTrajectory] = useState<any>([]); // 軌跡
+  // const [trajectory, setTrajectory] = useState<any>([]); // 軌跡
+  const [res, setRes] = useState({ tra:new Array(), vis_turn:new Array() }); // 軌跡等
   // const [turn, setTurn] = useState(0); // ターン
 
   // Redux==============================
@@ -30,13 +31,14 @@ export const BoardController = () => {
   // useEffect==============================
   useEffect(() => {
     // setTurn(0);
-    const res:any = getTrajectory(input_body,output_body);
-    setTrajectory(res);
+    const res_buf:any = getTrajectory(input_body,output_body);
+    // setTrajectory(res);
+    setRes(res_buf);
     // updateBoard(input_body.a,output_body.pi,output_body.pj,output_body.qi,output_body.qj); // ターン更新前に描画するためにここにも記載
   },[input_body,output_body])
   useEffect(() => {
     updateBoard(0); // ターン更新前に描画するためにここにも記載
-  },[trajectory])
+  },[res])
   useEffect(() => {
     updateBoard(tarTurn);
   },[tarTurn,showCond])
@@ -47,17 +49,18 @@ export const BoardController = () => {
     // turn=0の場合の位置をセット
     let cx:number = input_body.sx;
     let cy:number = input_body.sy;
+    const {tra,vis_turn}=res;
     // turn>0なら移動後の位置をセット
-    if(turn>0 && trajectory.length>0){
-      cx = trajectory[turn-1].is_col?trajectory[turn-1].lx:trajectory[turn-1].rx;
-      cy = trajectory[turn-1].is_col?trajectory[turn-1].ly:trajectory[turn-1].ry;
+    if(turn>0 && tra.length>0){
+      cx = tra[turn-1].is_col?tra[turn-1].lx:tra[turn-1].rx;
+      cy = tra[turn-1].is_col?tra[turn-1].ly:tra[turn-1].ry;
     }
     const canvas=BoardDisplay(
       500,500,
       input_body,
       output_body,
       cx,cy,
-      trajectory,
+      res,
       turn,
       {showTra:showCond.trajectory,showTail:showCond.tail,showCross:showCond.collision}, // 軌跡,しっぽ,×
     );

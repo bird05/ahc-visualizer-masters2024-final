@@ -232,6 +232,24 @@ const getIntersection = function(ax:number, ay:number, bx:number, by:number, cx:
   let y = (c2*a1 - c1*a2) / (b1*a2 - b2*a1);
   return [x,y];
 }
+// 線分と点の距離の2乗を求める
+// https://zenn.dev/boiledorange73/articles/0037-js-distance-pt-seg
+function min_d2(x0, y0, x1, y1, x2, y2) {
+  var a = x2 - x1;
+  var b = y2 - y1;
+  var a2 = a * a;
+  var b2 = b * b;
+  var r2 = a2 + b2;
+  var tt = -(a*(x1-x0)+b*(y1-y0));
+  if( tt < 0 ) {
+    return (x1-x0)*(x1-x0) + (y1-y0)*(y1-y0);
+  }
+  if( tt > r2 ) {
+    return (x2-x0)*(x2-x0) + (y2-y0)*(y2-y0);
+  }
+  var f1 = a*(y1-y0)-b*(x1-x0);
+  return (f1*f1)/r2;
+}
 // 距離の2乗を求める
 const calcDist2 = function (x1:number, y1:number, x2:number, y2:number){
   let dx:number = x1-x2;
@@ -244,7 +262,10 @@ export const getTrajectory = function(input_body:Input_type, output_body:Output_
   const [output_is_valid,ope,ax,ay]=[output_body.is_valid,output_body.ope,output_body.ax,output_body.ay];
 
   const tra = new Array();
-  if(!input_is_valid || ! output_is_valid) return { tra };
+  let vis_turn = new Array();// 各目的地が何ターン目に訪問されるか
+  for(let i=0; i<N; ++i) vis_turn.push(5005);
+
+  if(!input_is_valid || ! output_is_valid) return { tra, vis_turn };
   let [x,y] = [sx,sy]; // 変更していくx,y
   let [vx,vy] = [0,0]; // 変更していくx,y
 
@@ -314,6 +335,13 @@ export const getTrajectory = function(input_body:Input_type, output_body:Output_
         [col_x,col_y]=getIntersection(x,y,nx,ny,lx_add[w_id],ly_add[w_id],rx_add[w_id],ry_add[w_id]);
       }
     }
+    
+    // 目的地到達判定(衝突していない場合のみ)
+    for(let i=0; i<N; ++i){
+      if(vis_turn[i]!==5005) continue;
+      // 点と線分の距離の2乗
+      if(min_d2(px[i],py[i],x,y,nx,ny)<=1000000) vis_turn[i]=turn+1;
+    }
 
     // 軌跡格納
     tra.push(
@@ -338,5 +366,6 @@ export const getTrajectory = function(input_body:Input_type, output_body:Output_
       [x,y]=[nx,ny]; // swap
     }
   }
-  return tra;
+  // console.log(vis_turn);
+  return {tra,vis_turn};
 }

@@ -26,13 +26,14 @@ export function BoardDisplay(
   input_body:Input_type,
   output_body:Output_type,
   dro_x:number,dro_y:number, // ドローンの位置
-  tra:any,                   // 軌跡
+  res:any,                   // 軌跡等
   turn:number,               // ターン数
   cond:any,                  // 描画条件
   ){
   const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
   const [output_is_valid,ope,ax,ay]=[output_body.is_valid,output_body.ope,output_body.ax,output_body.ay];
   const [showTra,showTail,showCross]=[cond.showTra,cond.showTail,cond.showCross];
+  const {tra,vis_turn} = res;
   // let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
   const canvas=document.createElement("canvas");
   canvas.width=canv_w;
@@ -44,8 +45,12 @@ export function BoardDisplay(
       const LEN=CANV_SIZ/200000;
       
       // 目的地
-      ctx.fillStyle = 'hsla(100,100%,50%,1.0)';
+      ctx.fillStyle = 'hsla(205,100%,50%,1.0)';
       for(let i=0; i<px.length; ++i){
+        if(vis_turn.length>0){
+          if(vis_turn[i]<=turn) ctx.fillStyle = 'hsla(205,100%,50%,1.0)'; // 訪問済
+          else ctx.fillStyle = 'hsla(100,100%,50%,1.0)'; // 未訪問
+        }
         ctx.beginPath();
         const [x,y] = conv_coord(px[i],py[i]); // 座標変換
         ctx.arc(x*LEN, y*LEN, 1000*LEN, 0, Math.PI * 2, true); // x,y,半径,開始角度,終了角度,時計回り
