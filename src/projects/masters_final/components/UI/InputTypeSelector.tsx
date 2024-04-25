@@ -18,17 +18,25 @@ export const InputTypeSelector = () => {
   const dispatch = useDispatch();
   // useState==============================
   // リアルタイムに情報を受け取る==============================
-  const [inputT, setInputT] = useState(t_store); // inputで与えられるt(t_storeはpropsで受け取らないとだめかも)
+  // const [inputT, setInputT] = useState(t_store); // inputで与えられるt(t_storeはpropsで受け取らないとだめかも)
   // useEffect==============================
   
+  // Styled CSS==============================
+  const SLabel = styled.label`
+    cursor:pointer;
+    // padding-right:5px;
+    margin-right:5px;
+  `
+  const SInput = styled.input`
+    cursor:pointer;
+  `
   // 関数==============================
   const changeFunction: React.ChangeEventHandler<HTMLSelectElement> = (ev) => {
-    setInputT(ev.target.value);
     dispatch(setType(ev.target.value));
   }
 
   const changeValue = function (ev){
-    setInputT(ev.target.value);
+    console.log(ev.target.value);
     dispatch(setType(ev.target.value));
   }
 
@@ -37,14 +45,12 @@ export const InputTypeSelector = () => {
   return(
     <>
       {/* ラジオボタン */}
-      <SDivAll>
+      <div>
         <label>Type: </label>
-        <SDivRadioAll>
-          <SDivRadioItem><input type="radio" name="num_of_inq" value="A" onChange={changeValue} defaultChecked/>A</SDivRadioItem>
-          <SDivRadioItem><input type="radio" name="num_of_inq" value="B" onChange={changeValue} />B</SDivRadioItem>
-          <SDivRadioItem><input type="radio" name="num_of_inq" value="C" onChange={changeValue} />C</SDivRadioItem>
-        </SDivRadioAll>
-      </SDivAll>
+        <SLabel><SInput type="radio" name="abc" value="A" onChange={changeValue} checked={t_store==='A'}/>A</SLabel>            
+        <SLabel><SInput type="radio" name="abc" value="B" onChange={changeValue} checked={t_store==='B'}/>B</SLabel>
+        <SLabel><SInput type="radio" name="abc" value="C" onChange={changeValue} checked={t_store==='C'}/>C</SLabel>
+      </div>
       
       {/* ドロップダウンリスト */}
       {/* <label>Type: </label>
@@ -100,20 +106,4 @@ const STd = styled.td`
 `;
 const SSelect = styled.select`
   cont-size: 12pt;
-`
-
-const SDivAll = styled.div`
-  display:flex;
-  // align-items: center;
-  // justify-content: center;
-  // padding: 8px;
-`
-const SDiv = styled.div`
-  // padding: 8px;
-`
-const SDivRadioAll = styled.div`
-  display:flex;
-`
-const SDivRadioItem = styled.div`
-  padding-right: 4px;
 `
