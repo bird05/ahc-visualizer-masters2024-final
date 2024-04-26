@@ -28,6 +28,7 @@ export const TarTurnInput = () => {
   const FPS = useSelector((state) => state.tarTurn.FPS);
   const seed = useSelector((state) => state.input.seed);
   const playingFlag = useSelector((state) => state.playingFlag.playingFlag);
+  const t_store = useSelector((state) => state.input.type);
   const dispatch = useDispatch();
   // useEffect==============================
   const refTarTurn = useRef(tarTurn);
@@ -44,10 +45,10 @@ export const TarTurnInput = () => {
     if(playingFlag) playBoard();
     else stopBoard();
   },[playingFlag]);
-  // Seed変更時にターンを0に戻す
+  // Seed,t_store変更時にターンを0に戻す
   useEffect(() => {
     dispatch(setTarTurn(0));
-  },[seed]);
+  },[seed,t_store]);
   // Styled CSS==============================
   const InputTrunSelect = styled.input`
   width:70px;
