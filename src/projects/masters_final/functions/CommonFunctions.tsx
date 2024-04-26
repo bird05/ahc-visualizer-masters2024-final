@@ -43,7 +43,7 @@ export const text_to_Input = function(text):Input_type{
     alp: new Array(),
     fx: new Array(),
     fy: new Array(),
-  }
+  };
   let N: number=0;
   let M: number=0;
   let eps: number=0; // 風
@@ -139,7 +139,8 @@ export const text_to_Input = function(text):Input_type{
     fy[i-N-M-2-5000]=Number(one_data6[1]);
   }
   
-  [res.N, res.M, res.eps, res.dlt, res.sx, res.sy, res.px, res.py, res.lx, res.ly, res.rx, res.ry, res.alp, res.fx, res.fy] = [N, M, eps, dlt, sx, sy, px, py, lx, ly, rx, ry, alp, fx, fy];
+  [res.N, res.M, res.eps, res.dlt, res.sx, res.sy, res.px, res.py, res.lx, res.ly, res.rx, res.ry, res.alp, res.fx, res.fy] = 
+  [N, M, eps, dlt, sx, sy, px, py, lx, ly, rx, ry, alp, fx, fy];
   return res;
 }
 // textをOutputに変換する

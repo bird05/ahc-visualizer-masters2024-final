@@ -11,7 +11,7 @@ import styled from "@emotion/styled";
 // MUI
 import Slider from '@mui/material/Slider';
 // 型
-import type { Input_type, Output_type, Ope_type } from "../../types/typeFormat"
+// import type { Input_type, Output_type } from "../../types/typeFormat"
 
 export const SeekBar = () => {
   // Redux==============================

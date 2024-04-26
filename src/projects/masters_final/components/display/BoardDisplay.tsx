@@ -30,11 +30,10 @@ export function BoardDisplay(
   turn:number,               // ターン数
   cond:any,                  // 描画条件
   ){
-  const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
-  const [output_is_valid,ope,ax,ay]=[output_body.is_valid,output_body.ope,output_body.ax,output_body.ay];
-  const [showTra,showTail,showCross]=[cond.showTra,cond.showTail,cond.showCross];
-  const {tra,vis_turn} = res;
-  // let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
+  const {is_valid:input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy}=input_body;
+  const {is_valid:output_is_valid,ope,ax,ay}=output_body;
+  const {showTra,showTail,showCross}=cond;
+  const {tra_lx,tra_ly,tra_rx,tra_ry,is_col,col_x,col_y,mes_x,mes_y,vis_turn} = res;
   const canvas=document.createElement("canvas");
   canvas.width=canv_w;
   canvas.height=canv_h;
@@ -90,13 +89,14 @@ export function BoardDisplay(
         ctx.stroke();
       }
       */
+      
       if(showTra){
         ctx.beginPath();
         ctx.lineWidth = 1.0;
         ctx.strokeStyle = 'hsla(205,100%,20%,.5)';
-        for(let i=0; i<tra.length; ++i){
-          const [x1,y1] = conv_coord(tra[i].lx,tra[i].ly); // 座標変換
-          const [x2,y2] = conv_coord(tra[i].rx,tra[i].ry);
+        for(let i=0; i<tra_lx.length; ++i){
+          const [x1,y1] = conv_coord(tra_lx[i],tra_ly[i]); // 座標変換
+          const [x2,y2] = conv_coord(tra_rx[i],tra_ry[i]);
           ctx.moveTo(x1*LEN, y1*LEN);
           ctx.lineTo(x2*LEN, y2*LEN);
         }
@@ -109,7 +109,7 @@ export function BoardDisplay(
         ctx.lineWidth = 1.0;
         ctx.strokeStyle = 'hsla(60,100%,30%,.5)';
         const [x1,y1] = conv_coord(dro_x,dro_y); // 座標変換
-        const [x2,y2] = conv_coord(tra[turn].mx,tra[turn].my); // 座標変換
+        const [x2,y2] = conv_coord(mes_x[turn],mes_y[turn]); // 座標変換
         ctx.moveTo(x1*LEN, y1*LEN);
         ctx.lineTo(x2*LEN, y2*LEN);
         ctx.closePath();
@@ -117,11 +117,11 @@ export function BoardDisplay(
       }
       // しっぽ
       if(showTail){
-        if(tra.length>0){
+        if(tra_lx.length>0){
           for(let i=0; i<10; ++i){
             let t_turn=turn-i-1;
             if(t_turn<0) break;
-            if(t_turn>tra.length) continue;
+            if(t_turn>tra_lx.length) continue;
             ctx.beginPath();
             // 太さ変更
             ctx.lineWidth = 3*(10-i)/10;
@@ -129,8 +129,8 @@ export function BoardDisplay(
             // 透過度変更
             // ctx.lineWidth = 3.0;            
             // ctx.strokeStyle = `hsla(205,100%,20%,${(10-i)/10})`;
-            const [x1,y1] = conv_coord(tra[t_turn].lx,tra[t_turn].ly); // 座標変換
-            const [x2,y2] = conv_coord(tra[t_turn].rx,tra[t_turn].ry);
+            const [x1,y1] = conv_coord(tra_lx[t_turn],tra_ly[t_turn]); // 座標変換
+            const [x2,y2] = conv_coord(tra_rx[t_turn],tra_ry[t_turn]);
             ctx.moveTo(x1*LEN, y1*LEN);
             ctx.lineTo(x2*LEN, y2*LEN);
             ctx.closePath();
@@ -141,9 +141,9 @@ export function BoardDisplay(
       
       // ×印
       if(showCross){
-        for(let i=0; i<tra.length; ++i){
-          if(tra[i].is_col){
-            const [tx,ty] = conv_coord(tra[i].col_x,tra[i].col_y);
+        for(let i=0; i<tra_lx.length; ++i){
+          if(is_col[i]){
+            const [tx,ty] = conv_coord(col_x[i],col_y[i]);
             cross(ctx,tx*LEN,ty*LEN,3000*LEN,1.0);
           }
         }
@@ -151,13 +151,13 @@ export function BoardDisplay(
       }else{
         // d_turnだけ表示
         const d_turn:number = 35;
-        if(tra.length>0){
+        if(tra_lx.length>0){
           for(let i=0; i<d_turn; ++i){
             let t_turn=turn-i;
             if(t_turn<0) break;
-            if(t_turn>=tra.length) continue;
-            if(tra[t_turn].is_col){
-              const [tx,ty] = conv_coord(tra[t_turn].col_x,tra[t_turn].col_y);
+            if(t_turn>=tra_lx.length) continue;
+            if(is_col[t_turn]){
+              const [tx,ty] = conv_coord(col_x[t_turn],col_y[t_turn]);
               // 最後10ターンで1.0から0.1まで減少
               let alpha=Math.min(1.0,(d_turn-i)/10)
               cross(ctx,tx*LEN,ty*LEN,3000*LEN,alpha);

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // 型
-import type { Input_type, Output_type, Ope_type } from "../types/typeFormat"
+import type { Input_type } from "../types/typeFormat"
 // 関数インポート
 import { text_to_Input } from '../functions/CommonFunctions'
 

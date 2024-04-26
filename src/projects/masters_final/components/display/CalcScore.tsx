@@ -2,7 +2,7 @@
 // Redux
 import { useSelector } from '../../store/store';
 // 型
-import { Input_type, Output_type } from "../../types/typeFormat"
+import { Input_type, Output_type, Result_type } from "../../types/typeFormat"
 // 関数インポート
 import { is_outer_range } from '../../functions/CommonFunctions';
 
@@ -257,12 +257,13 @@ const calcDist2 = function (x1:number, y1:number, x2:number, y2:number){
   return dx*dx+dy*dy;
 }
 // ドローンの軌跡を求める関数
+/*
 export const getTrajectory = function(input_body:Input_type, output_body:Output_type){
   const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
   const [output_is_valid,ope,ax,ay]=[output_body.is_valid,output_body.ope,output_body.ax,output_body.ay];
 
   const tra = new Array();
-  let vis_turn = new Array();// 各目的地が何ターン目に訪問されるか
+  let vis_turn = new Array(); // 各目的地が何ターン目に訪問されるか
   for(let i=0; i<N; ++i) vis_turn.push(5005);
 
   if(!input_is_valid || ! output_is_valid) return { tra, vis_turn };
@@ -368,4 +369,136 @@ export const getTrajectory = function(input_body:Input_type, output_body:Output_
   }
   // console.log(vis_turn);
   return {tra,vis_turn};
+}
+*/
+// 結果を求める関数
+export const getResult = function(input_body:Input_type, output_body:Output_type){
+  const [input_is_valid,N,M,eps,dlt,sx,sy,px,py,lx,ly,rx,ry,alp,fx,fy]=[input_body.is_valid,input_body.N,input_body.M,input_body.eps,input_body.dlt,input_body.sx,input_body.sy,input_body.px,input_body.py,input_body.lx,input_body.ly,input_body.rx,input_body.ry,input_body.alp,input_body.fx,input_body.fy];
+  const [output_is_valid,ope,ax,ay]=[output_body.is_valid,output_body.ope,output_body.ax,output_body.ay];
+  const res:Result_type={
+    tra_lx: new Array(),       // 軌跡の始点
+    tra_ly: new Array(),       // 軌跡の始点
+    tra_rx: new Array(),       // 軌跡の終点
+    tra_ry: new Array(),       // 軌跡の終点
+    is_col: new Array(),   // 衝突判定
+    col_x: new Array(),    // 衝突座標
+    col_y: new Array(),    // 衝突座標
+    mes_x: new Array(),       // 計測線の到達位置
+    mes_y: new Array(),       // 計測線の到達位置
+    vis_turn: new Array(), // 各目的地が何ターン目に訪問されるか
+  };
+  let tra_lx: number[]=new Array();
+  let tra_ly: number[]=new Array();
+  let tra_rx: number[]=new Array();
+  let tra_ry: number[]=new Array();
+  let is_col: boolean[]=new Array();
+  let col_x: number[]=new Array();
+  let col_y: number[]=new Array();
+  let mes_x: number[]=new Array();
+  let mes_y: number[]=new Array();
+  let vis_turn: number[]=new Array();
+
+  for(let i=0; i<N; ++i) vis_turn.push(5005);
+
+  if(!input_is_valid || ! output_is_valid) return res;
+  let [x,y] = [sx,sy]; // 変更していくx,y
+  let [vx,vy] = [0,0]; // 変更していくx,y
+
+  // 外周を壁の集合に加える
+  let lx_add=[...lx];
+  let ly_add=[...ly];
+  let rx_add=[...rx];
+  let ry_add=[...ry];
+  const LIM=100000;
+  const out_wall_lx:number[]=[-LIM,-LIM,LIM,LIM];
+  const out_wall_ly:number[]=[-LIM,LIM,LIM,-LIM];
+  const out_wall_rx:number[]=[-LIM,LIM,LIM,-LIM];
+  const out_wall_ry:number[]=[LIM,LIM,-LIM,-LIM];
+  for(let i=0; i<4; ++i){
+    lx_add.push(out_wall_lx[i]);
+    ly_add.push(out_wall_ly[i]);
+    rx_add.push(out_wall_rx[i]);
+    ry_add.push(out_wall_ry[i]);
+  }
+
+  for(let turn=0; turn<output_body.ope.length; ++turn){ 
+    // 計測線
+    let mx:number=0, my:number=0; // 計測線
+
+    // 加速
+    if(ope[turn]==='A'){
+      vx+=ax[turn];
+      vy+=ay[turn];
+    // 計測
+    }else{
+      // mx,myを決める
+      let mx_len=3*100000;
+      let len=Math.sqrt(ax[turn]*ax[turn]+ay[turn]*ay[turn]);
+      let r=mx_len/len;
+      // 計測線の終点
+      let end_x=x+ax[turn]*r;
+      let end_y=y+ay[turn]*r;
+      let mn_len2=mx_len*mx_len;
+      // 壁、外周との交点を求める
+      for(let w_id=0; w_id<lx_add.length; ++w_id){
+        if(judgeIentersected(x,y,end_x,end_y,lx_add[w_id],ly_add[w_id],rx_add[w_id],ry_add[w_id])){
+          // 注目している壁にぶつかる点
+          const [mx_buf,my_buf]=getIntersection(x,y,end_x,end_y,lx_add[w_id],ly_add[w_id],rx_add[w_id],ry_add[w_id]);
+          let cu_len2=calcDist2(x,y,mx_buf,my_buf);
+          if(cu_len2<mn_len2){
+            mn_len2=cu_len2;
+            [mx,my]=[mx_buf,my_buf]
+          }
+        }
+      }
+    }
+
+    // 誤差
+    vx+=Number(fx[turn]);
+    vy+=Number(fy[turn]);
+    // 移動
+    let nx: number = x+vx;
+    let ny: number = y+vy;
+    
+    // 壁衝突判定
+    let is_collide: boolean = false;
+    let col_x_b:number=0, col_y_b:number=0;
+    // 壁、外周
+    for(let w_id=0; w_id<lx_add.length; ++w_id){
+      if(judgeIentersected(x,y,nx,ny,lx_add[w_id],ly_add[w_id],rx_add[w_id],ry_add[w_id])){
+        is_collide=true;
+        [col_x_b,col_y_b]=getIntersection(x,y,nx,ny,lx_add[w_id],ly_add[w_id],rx_add[w_id],ry_add[w_id]);
+      }
+    }
+    
+    // 目的地到達判定(衝突していない場合のみ)
+    for(let i=0; i<N; ++i){
+      if(vis_turn[i]!==5005) continue;
+      // 点と線分の距離の2乗
+      if(min_d2(px[i],py[i],x,y,nx,ny)<=1000000) vis_turn[i]=turn+1;
+    }
+
+    // 結果格納
+    tra_lx.push(x);
+    tra_ly.push(y);
+    tra_rx.push(nx);
+    tra_ry.push(ny);
+    is_col.push(is_collide);
+    col_x.push(col_x_b);
+    col_y.push(col_y_b);
+    mes_x.push(mx);
+    mes_y.push(my);
+
+    // 衝突時の処理
+    if(is_collide){
+      [vx,vy]=[0,0];
+    // 非衝突時の処理
+    }else{
+      [x,y]=[nx,ny]; // swap
+    }
+  }
+
+  [res.tra_lx, res.tra_ly, res.tra_rx, res.tra_ry, res.is_col, res.col_x, res.col_y, res.mes_x, res.mes_y, res.vis_turn] = 
+  [tra_lx,tra_ly,tra_rx,tra_ry,is_col, col_x, col_y, mes_x, mes_y, vis_turn]
+  return res;
 }

@@ -47,48 +47,6 @@ export const Main_InputSurvey = () => {
       <hr></hr>
       <InputTypeSelector/>
       <MultiBoard/>
-      {/* <SDivTopOuter>
-        <h3>Statistics</h3>
-        <FolderSelectorMulti/>
-        <CreateStatisticsButton/>
-      </SDivTopOuter>
-      <hr></hr>
-      <Stack direction="row">
-        <SDivLeft>
-          <ScoreTableFilterSort/>
-          <ScoreTable/>
-        </SDivLeft>
-        <SDivRight>
-          <Stack direction="row">
-            <InitialBoard/>
-            <LastBoard p_id={0}/>
-            <LastBoard p_id={1}/>
-            <LastBoard p_id={2}/>
-          </Stack>
-          <ScoreChartController chartNum={3}/>
-        </SDivRight>
-      </Stack> */}
-
-      {/* <SeedSelector/>
-      <br></br>
-      <InputTextarea/>
-      <br></br>
-      <OutputTextarea/>
-      <br></br>
-      <FolderSelector/>
-      <br></br>
-      <GenerateGIF/>
-      <SDiv>
-        <PlayStopButton/>
-        <SpeedBar/>
-        <TarTurnInput/>
-      </SDiv>
-      <SeekBar/>
-      <hr></hr>
-      <Stack direction="row">
-        <div><BoardController/></div>
-        <ScoreChartController chartNum={1}/>
-      </Stack> */}
     </>
   );
 };
