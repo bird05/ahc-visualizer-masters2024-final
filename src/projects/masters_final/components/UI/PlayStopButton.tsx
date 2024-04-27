@@ -19,6 +19,7 @@ export const PlayStopButton = () => {
   // const [intervalID,setIntervalID] = useState(null);
   // Redux==============================
   const playingFlag = useSelector((state) => state.playingFlag.playingFlag, shallowEqual);
+  const t_store = useSelector((state) => state.input.type);
   // const tarTurn = useSelector((state) => state.tarTurn.tarTurn);
   // const s = useSelector((state) => state.output.s);
   const dispatch = useDispatch();
@@ -27,6 +28,9 @@ export const PlayStopButton = () => {
   // useEffect(() => {
   //   refTarTurn.current = tarTurn;
   // },[tarTurn]);
+  useEffect(() => {
+    dispatch(setPlayingFlag(false));
+  },[t_store]);
   // Styled CSS==============================
   const InputPlayButton = styled.input`
   width: 32px;
