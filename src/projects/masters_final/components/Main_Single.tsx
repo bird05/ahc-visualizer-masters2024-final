@@ -9,10 +9,10 @@ import Stack from '@mui/material/Stack';
 import { useState, memo} from 'react';
 // 外部コンポーネント
 import { InputTypeSelector } from './UI/InputTypeSelector';
-import { FolderSelector } from './UI/FolderSelector';
 import { SeedSelector } from './UI/SeedSelector';
 import { InputTextarea } from './UI/InputTextarea';
 import { OutputTextarea } from './UI/OutputTextarea';
+import { FolderSelector } from './UI/FolderSelector';
 import { PlayStopButton } from './UI/PlayStopButton';
 import { SpeedBar } from './UI/SpeedBar';
 import { TarTurnInput } from './UI/TarTurnInput';

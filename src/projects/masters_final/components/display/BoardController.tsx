@@ -69,7 +69,7 @@ export const BoardController = () => {
   return(
     <>
       <SDivFlex>
-        <SDiv>Current Score:{res.score[tarTurn]}</SDiv>
+        <SDiv>CurrentScore:{res.score[tarTurn]}</SDiv>
         <SDiv>Score:{res.mx_score[tarTurn]}</SDiv>
       </SDivFlex>
       <div id="board"></div>

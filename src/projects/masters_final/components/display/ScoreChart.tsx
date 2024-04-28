@@ -30,6 +30,8 @@ const colors = ['255,99,132', '53,162,235', '75,192,192'];
 
 export const ScoreChart = (props) => {
   const { dataAll } = props;
+  console.log("dataAll");
+  console.log(dataAll);
   // useState==============================
   const [labels, setLabels] = useState<number[]>([]); // ラベル
   const [datasets, setDatasets] = useState<any[]>([]); // データセット

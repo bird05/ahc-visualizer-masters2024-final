@@ -14,15 +14,21 @@ import Stack from '@mui/material/Stack';
 // 関数インポート
 import { read_text_from_url } from '../../functions/CommonFunctions'
 
+// ダミーデータ
+const dummy:string="A -250 -433\nA -250 -433\nA -250 -433\nA -250 -433\nA -250 -433\nA -250 -233\nA -500 0\nA -500 0\nA -500 0\nA -500 0\nA -500 0\nA -129 482\nA -129 482\nA -129 482\nA -129 482\nA 0 500\nA 0 500\nA 0 500\nA 0 500\nA -433 0\nA -433 249\nA -433 249\nA -433 249\nA -433 249\nA -433 249\nA -433 249\nA -433 0\nA -433 0\nA -433 0\nA 250 -433\nA 250 -433\nA 250 -433\nA 250 -433\nA 250 -433\nA 250 433\nA -433 249\nA -433 249\nA -433 249\nA 0 -500\nA 0 -500\nA 500 0\nS 0 1\nA 129 -482\nA 129 -482\nA 129 -482\nA 129 -482\nA 129 -482\nA 130 -433\nA 250 -433\nA 250 -433\nA 129 -482\nA 0 0\nA 0 0\nA 0 0\nA 0 0\nA 0 0\nA 0 0\nA 129 -482\nA 0 500\nA 0 500\nS -1 0\nA -249 433\nA -249 433\nA -249 433\nA -249 433\nA 0 500\nA 0 500\nA 0 500\nA 0 0\nA 0 0\nA 433 -250\nA 433 -250\nA 433 -250\nA 433 -250\nA 433 -250\nA 433 0\nA 433 0\nA 0 0\nA -482 129\nA -482 129\nA -482 129\nA -482 129\nA -482 129\nA -482 129\nA -482 129\nA -482 129\nS -1 0\nS 0 1\nA -500 0\nA -433 -50\nA -433 -250\nA -433 -250\nA -433 -250\nA -433 -250\nA -433 -250\nA -433 -250\nA -433 -250\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 0 0\nA 0 0\nA 0 0\nA 0 0\nA 500 0\nA 353 0\nA 353 -353\nA 353 -353\nA 353 -353\nA 353 -353\nA 353 -353\nA 353 -353\nA 353 -353\nA 353 -353\nA 353 -353\nA 0 0\nA 0 0\nA 0 0\nA 0 0\nA 0 0\nA 0 0\nA -353 353\nA -353 353\nA -353 353\nA -353 353\nA -353 353\nA -353 353\nA -353 353\nS -1 0\nS 0 -1\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 433 249\nA 482 129\nA 482 129\nA 482 129\nA 0 0\nA 0 0\nA 0 0\nA 0 0\nA -433 -250\nA -433 -250\nA -482 -129\nA -482 -129\nA -482 -129\nA -482 -129\nA -482 -129\nA -482 -129\nA 0 0";
+
 export const OutputTextarea = () => {
   // useState==============================
-  const [outputText, setOutputText] = useState<string>(""); // 盤面
+  const [outputText, setOutputText] = useState<string>(dummy);
   // Redux==============================
   const output_body=useSelector((state) => state.output.b);
   const output_urls=useSelector((state) => state.output.urls);
   const seed=useSelector((state) => state.input.seed);
   const dispatch = useDispatch();
   // useEffect==============================
+  useEffect(() => {
+    readOutput();
+  },[])
   useEffect(() => {
     (async() => {
       if(output_urls.length!==0){
