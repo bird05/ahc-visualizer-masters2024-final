@@ -40,7 +40,8 @@ export const SeedSelector = () => {
       <div>
       <label>Seed: </label>
         {/* <SInput type="number" defaultValue={0} value={seed} min={0} max={99} onChange={(e) => dispatch(setSeed(e.target.value))}/> */}
-        <input type="number" value={seed} min={0} max={99} onChange={(e) => {dispatch(setIsCompleteSet(false)), dispatch(setSeed(e.target.value))}}/>
+        {/* <input type="number" value={seed} min={0} max={99} onChange={(e) => {dispatch(setIsCompleteSet(false)), dispatch(setSeed(e.target.value))}}/> */}
+        <input type="number" value={seed} min={0} max={99} onChange={(e) => { dispatch(setSeed(e.target.value)) }}/>
       </div>
     </>
   )

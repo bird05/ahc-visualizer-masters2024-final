@@ -55,7 +55,7 @@ export const Main_Single = () => {
       <hr></hr>
       <Stack direction="row">
         <div><BoardController/></div>
-        {/* <ScoreChartController chartNum={1}/> */}
+        <ScoreChartController chartNum={1}/>
       </Stack>
     </>
   );

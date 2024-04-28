@@ -16,6 +16,7 @@ export const ScoreChartController = (props) => {
   // Redux==============================
   const input_body=useSelector((state) => state.input.b);
   const output_body=useSelector((state) => state.output.b);
+  const input_type = useSelector((state) => state.input.type);
   const seed = useSelector((state) => state.input.seed);
   const is_input_complete = useSelector((state) => state.input.isCompleteSet);
   const is_output_complete = useSelector((state) => state.output.isCompleteSet);
@@ -27,18 +28,20 @@ export const ScoreChartController = (props) => {
 
   // useEffect==============================
   useEffect(() => {
+    console.log("Chart");
     // データを作る
     const dataAll_l = new Array();
     if(chartNum===1 && is_input_complete && is_output_complete){
-      dataAll_l[0]=CalcScoreSequence(input_body,output_body);
+      dataAll_l[0]=CalcScoreSequence(input_body,output_body).score;
       setDataAll(dataAll_l);
     }
-  },[is_input_complete,is_output_complete]);
+  },[is_input_complete,is_output_complete,seed]);
   useEffect(() => {
     (async() => {
       // データを作る
       const dataAll_l = new Array();
-      const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_qual/in/${zeroPadding(seed,4)}.txt`);
+      // const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_final/in${input_type}/${zeroPadding(seed,4)}.txt`);
+      const text = await read_text_from_url(`https://raw.githubusercontent.com/bird05/ahc-visualizer-input/main/masters_final/in${input_type}/${zeroPadding(selectedSeed,4)}.txt`);
       const input_body=text_to_Input(text);
       if(chartNum===2){
         dataAll_l[0]=data1;
@@ -55,7 +58,7 @@ export const ScoreChartController = (props) => {
           }else{
             const out_text = await read_text_from_url(urlsAll[p_id][selectedSeed]);
             const output_body=text_to_Output(out_text);
-            buf=CalcScoreSequence(input_body,output_body);
+            buf=CalcScoreSequence(input_body,output_body).score;
           }
           dataAll_l[p_id]=buf;
         }
