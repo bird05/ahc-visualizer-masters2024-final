@@ -36,4 +36,6 @@ export type Result_type = {
   mes_x: number[],    // 計測線の到達位置
   mes_y: number[],    // 計測線の到達位置
   vis_turn: number[], // 各目的地が何ターン目に訪問されるか
+  score: number[],
+  mx_score: number[],
 }

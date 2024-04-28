@@ -44,7 +44,7 @@ export function BoardDisplay(
       const LEN=CANV_SIZ/200000;
       
       // 目的地
-      ctx.fillStyle = 'hsla(205,100%,50%,1.0)';
+      ctx.fillStyle = 'hsla(100,100%,50%,1.0)';
       for(let i=0; i<px.length; ++i){
         if(vis_turn.length>0){
           if(vis_turn[i]<=turn) ctx.fillStyle = 'hsla(205,100%,50%,1.0)'; // 訪問済
@@ -69,27 +69,6 @@ export function BoardDisplay(
       ctx.stroke();
       ctx.strokeStyle = 'rgba(0,0,0,1.0)'; // 線の色を戻す
       // 軌跡
-      /*
-      for(let i=0; i<tra.length; ++i){
-        ctx.beginPath();
-        const [x1,y1] = conv_coord(tra[i].lx,tra[i].ly); // 座標変換
-        const [x2,y2] = conv_coord(tra[i].rx,tra[i].ry);
-        // 衝突あり
-        if(tra[i].is_col){
-          ctx.lineWidth = 13.0;
-          ctx.strokeStyle = 'hsla(205,100%,50%,.8)';
-        // 衝突なし
-        }else{
-          ctx.lineWidth = 1.5;
-          ctx.strokeStyle = 'hsla(100,100%,50%,.8)';
-        }
-        ctx.moveTo(x1*LEN, y1*LEN);
-        ctx.lineTo(x2*LEN, y2*LEN);
-        ctx.closePath();
-        ctx.stroke();
-      }
-      */
-      
       if(showTra){
         ctx.beginPath();
         ctx.lineWidth = 1.0;

@@ -10,6 +10,7 @@ import { useState, useEffect, memo} from 'react';
 // Redux
 import { useSelector } from '../../store/store';
 // 外部コンポーネント
+import { getResult } from '../display/CalcScore';
 import { BoardDisplay } from '../display/BoardDisplay';
 // 型
 // import type { Input_type, Output_type } from "../../types/typeFormat"
@@ -40,7 +41,8 @@ export const MultiBoard = () => {
         input_body,
         {is_valid:false,ope:[],ax:[],ay:[]},
         input_body.sx,input_body.sy,
-        {tra_lx:new Array(),tra_ly:new Array(),tra_rx:new Array(),tra_ry:new Array(),is_col:new Array(),col_x:new Array(),col_y:new Array(),mes_x:new Array(),mes_y:new Array(),vis_turn:new Array()},
+        // {tra_lx:new Array(),tra_ly:new Array(),tra_rx:new Array(),tra_ry:new Array(),is_col:new Array(),col_x:new Array(),col_y:new Array(),mes_x:new Array(),mes_y:new Array(),vis_turn:new Array()},
+        getResult(input_body,{is_valid:false,ope:new Array(),ax:new Array(),ay:new Array()}),
         0,
         {showTra:true,showTail:false,showCross:true} // 軌跡,しっぽ,×
       );

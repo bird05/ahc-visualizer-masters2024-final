@@ -1,4 +1,6 @@
 import React from "react";
+// CSS
+import styled from "@emotion/styled";
 // ビルトインフック
 import { useState,useEffect } from "react";
 // Redux関連
@@ -15,7 +17,7 @@ import { setT } from "../../store/statisticsInfoSlice";
 export const BoardController = () => {
   // useState==============================
   // const [res, setRes] = useState({ tra:new Array(), vis_turn:new Array() }); // 軌跡等
-  const [res, setRes] = useState<Result_type>({tra_lx:new Array(),tra_ly:new Array(),tra_rx:new Array(),tra_ry:new Array(),is_col:new Array(),col_x:new Array(),col_y:new Array(),mes_x:new Array(),mes_y:new Array(),vis_turn:new Array()}); // 軌跡等
+  const [res, setRes] = useState<Result_type>({tra_lx:new Array(),tra_ly:new Array(),tra_rx:new Array(),tra_ry:new Array(),is_col:new Array(),col_x:new Array(),col_y:new Array(),mes_x:new Array(),mes_y:new Array(),vis_turn:new Array(),score:new Array(),mx_score:new Array()}); // 軌跡等
   // const [turn, setTurn] = useState(0); // ターン
 
   // Redux==============================
@@ -66,8 +68,18 @@ export const BoardController = () => {
   // console.log("Board Controller");
   return(
     <>
-      {/* Score:{CalcScore(input_body.is_valid && output_body.is_valid,input_body.N,input_body.v,input_body.h,input_body.a,board)} */}
+      <SDivFlex>
+        <SDiv>Current Score:{res.score[tarTurn]}</SDiv>
+        <SDiv>Score:{res.mx_score[tarTurn]}</SDiv>
+      </SDivFlex>
       <div id="board"></div>
     </>
   )
 };
+const SDivFlex = styled.div`
+  display: flex;
+`
+const SDiv = styled.div`
+  min-width:150px;
+  display: flex;
+`

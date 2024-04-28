@@ -131,33 +131,10 @@ export const move_player_rev = function(dir:string, x:number, y:number){
 }
 // 各ターンのScoreを計算する関数
 export const CalcScoreSequence = function(input_body:Input_type, output_body:Output_type){
-  // let board: number[][] = JSON.parse(JSON.stringify(input_body.a)); // 多次元配列のディープコピー
-  // const [N,v,h,a]=[input_body.N,input_body.v,input_body.h,input_body.a];
-  // const [s,d,e]=[output_body.s,output_body.d,output_body.e]
-  // let [x1,y1,x2,y2]=[output_body.pi,output_body.pj,output_body.qi,output_body.qj];
-
-  // const D_d=calc_sum_of_squares(N,v,h,a);
-  // let D=D_d;
-  const res = new Array();
-
-  // for(let turn=0; turn<output_body.s.length; ++turn){
-  //   // 得点計算
-  //   // res[turn]=CalcScore(true,N,v,h,input_body.a,board);
-  //   D=CalcD_def(true,N,v,h,board,D,x1,y1,x2,y2,s[turn],d[turn],e[turn]);
-  //   res[turn]=Math.max(1,Math.round(1000000*getBaseLog(2,D_d/D)));
-  //   // 入替
-  //   if(s[turn]){
-  //     if(is_outer_range(x1,y1,board.length,board.length)) return res; // 範囲外swapの回避
-  //     if(is_outer_range(x2,y2,board.length,board.length)) return res;
-  //     [board[x1][y1],board[x2][y2]]=[board[x2][y2],board[x1][y1]]; // swap
-  //   }
-  //   // 移動
-  //   [x1,y1]=move_player(d[turn],x1,y1);
-  //   [x2,y2]=move_player(e[turn],x2,y2);
-  // }
-  // res[output_body.s.length]=CalcScore(true,N,v,h,input_body.a,board);
-
-  return res;
+  const res_buf:Result_type = getResult(input_body,output_body);
+  const score = res_buf.score;
+  const mx_score = res_buf.mx_score;
+  return {score,mx_score};
 }
 // 最終状態のScoreを計算する関数
 export const CalcEndScore = function(input_body:Input_type, output_body:Output_type){
@@ -386,6 +363,8 @@ export const getResult = function(input_body:Input_type, output_body:Output_type
     mes_x: new Array(),       // 計測線の到達位置
     mes_y: new Array(),       // 計測線の到達位置
     vis_turn: new Array(), // 各目的地が何ターン目に訪問されるか
+    score: new Array(),
+    mx_score: new Array(),
   };
   let tra_lx: number[]=new Array();
   let tra_ly: number[]=new Array();
@@ -397,6 +376,10 @@ export const getResult = function(input_body:Input_type, output_body:Output_type
   let mes_x: number[]=new Array();
   let mes_y: number[]=new Array();
   let vis_turn: number[]=new Array();
+  let score: number[]=new Array();
+  let mx_score: number[]=new Array();
+
+  let score_buf:number=0, mx_score_buf:number=0;
 
   for(let i=0; i<N; ++i) vis_turn.push(5005);
 
@@ -420,6 +403,10 @@ export const getResult = function(input_body:Input_type, output_body:Output_type
     rx_add.push(out_wall_rx[i]);
     ry_add.push(out_wall_ry[i]);
   }
+
+  // スコア記録
+  score.push(score_buf);
+  mx_score.push(mx_score_buf);
 
   for(let turn=0; turn<output_body.ope.length; ++turn){ 
     // 計測線
@@ -472,10 +459,15 @@ export const getResult = function(input_body:Input_type, output_body:Output_type
     }
     
     // 目的地到達判定(衝突していない場合のみ)
-    for(let i=0; i<N; ++i){
-      if(vis_turn[i]!==5005) continue;
-      // 点と線分の距離の2乗
-      if(min_d2(px[i],py[i],x,y,nx,ny)<=1000000) vis_turn[i]=turn+1;
+    if(!is_collide){
+      for(let i=0; i<N; ++i){
+        if(vis_turn[i]!==5005) continue;
+        // 点と線分の距離の2乗
+        if(min_d2(px[i],py[i],x,y,nx,ny)<=1000000){
+          vis_turn[i]=turn+1;
+          score_buf+=1000; // スコア
+        }
+      }
     }
 
     // 結果格納
@@ -496,9 +488,16 @@ export const getResult = function(input_body:Input_type, output_body:Output_type
     }else{
       [x,y]=[nx,ny]; // swap
     }
+    
+    // スコア計算
+    score_buf-=2;
+    if(is_collide) score_buf-=100;
+    if(score_buf>mx_score_buf) mx_score_buf=score_buf;
+    score.push(score_buf);
+    mx_score.push(mx_score_buf);
   }
 
-  [res.tra_lx, res.tra_ly, res.tra_rx, res.tra_ry, res.is_col, res.col_x, res.col_y, res.mes_x, res.mes_y, res.vis_turn] = 
-  [tra_lx,tra_ly,tra_rx,tra_ry,is_col, col_x, col_y, mes_x, mes_y, vis_turn]
+  [res.tra_lx, res.tra_ly, res.tra_rx, res.tra_ry, res.is_col, res.col_x, res.col_y, res.mes_x, res.mes_y, res.vis_turn, res.score, res.mx_score] = 
+  [tra_lx,tra_ly,tra_rx,tra_ry,is_col, col_x, col_y, mes_x, mes_y, vis_turn, score, mx_score]
   return res;
 }
