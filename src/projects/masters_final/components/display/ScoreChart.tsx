@@ -77,7 +77,10 @@ export const ScoreChart = (props) => {
       title: {
         display: true,
         text: 'Score Chart',
-      }
+      },
+    },
+    animation: {
+      duration: 0, // アニメーションを無効化する
     },
   };
 

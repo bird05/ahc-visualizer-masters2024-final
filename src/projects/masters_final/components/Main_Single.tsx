@@ -20,7 +20,8 @@ import { SeekBar } from './UI/SeekBar';
 // import { Board } from './Board';
 import { BoardController } from './display/BoardController';
 import { ScoreChartController } from './display/ScoreChartController';
-import GenerateGIF from '../functions/GenerateGIF';
+// import GenerateGIF from '../functions/GenerateGIF';
+
 // 型
 import type { Input_type, Output_type } from "../types/typeFormat"
 import { DisplayConditionSelector } from './UI/DisplayConditionSelector';
