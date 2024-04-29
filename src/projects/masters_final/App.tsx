@@ -58,6 +58,7 @@ const App = () => {
     box-sizing: border-box;
     background-color: #ffffff;//green;
     border-left: 1px solid #333;
+    overflow-y: scroll;
   `
 
   return(
