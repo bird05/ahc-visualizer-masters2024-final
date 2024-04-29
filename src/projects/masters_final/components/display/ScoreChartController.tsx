@@ -28,16 +28,11 @@ export const ScoreChartController = (props) => {
 
   // useEffect==============================
   useEffect(() => {
-    console.log("Chart");
-    console.log([is_input_complete,is_output_complete]);
     // データを作る
     const dataAll_l = new Array();
     if(chartNum===1 && is_input_complete && is_output_complete){
-      console.log("in Chart");
       dataAll_l[0]=CalcScoreSequence(input_body,output_body).score;
       setDataAll(dataAll_l);
-      console.log(222);
-      console.log(dataAll_l);
     }
   },[is_input_complete,is_output_complete,seed]);
   useEffect(() => {
@@ -83,7 +78,6 @@ export const ScoreChartController = (props) => {
   const data3 = [3,3,3,3,3,3,3];
 
   console.log("ScoreChartConroller");
-  console.log(dataAll);
   return(
     <ScoreChart dataAll={dataAll}/>
   );

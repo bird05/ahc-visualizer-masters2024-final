@@ -44,6 +44,10 @@ export const Main_InputSurvey = () => {
     <>
       <SH3>Input Survey</SH3>
       問題文は<SA href="https://atcoder.jp/contests/masters2024-final/tasks/masters2024_final_a">こちら</SA>。
+      <details>
+        <summary>使い方</summary>
+        <div>Typeを選択すると各Seedの初期状態を閲覧できます。</div>
+      </details>
       <hr></hr>
       <InputTypeSelector/>
       <MultiBoard/>

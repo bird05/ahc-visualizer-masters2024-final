@@ -33,6 +33,11 @@ export const Main_Single = () => {
     <>
       <SH3>Single</SH3>
       問題文は<SA href="https://atcoder.jp/contests/masters2024-final/tasks/masters2024_final_a">こちら</SA>。
+      <details>
+        <summary>使い方</summary>
+        <div>Input,Outputに値を入力し、▶ ボタンを押すと、アニメーションが開始されます。</div>
+        <div>※Type:A,Seed:0のみダミーデータが挿入されます。</div>
+      </details>
       <hr></hr>
       <Stack direction="row" spacing="14px">
         <InputTypeSelector/>
